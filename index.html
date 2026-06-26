@@ -7,5 +7,57 @@
 <style>
 *  margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #1a1a1a; color: #ddd; font-family: monospace; display: flex; flex-direction: column; align-items: center; min-height: 100vh; user-select: none; }
-
-
+#topBar  width: 100%; background: #111; padding: 6px 10px; display: flex; align-items: center; gap:10px; flex-wrap: wrap;border-bottom: 2px solid#333;
+#topBar span  font-size: 18px; font-weight: bold; color: #e8c87a; letter-spacing: 1px;
+#mainArea  {display: flex; gap: 0; width: 100%; flex: 1;}
+#leftPanel { width: 170px; min-width: 170px; background: #181818; border-right: 2px solid #2a2a2a; padding: 8px 6px; display: flex; flex-direction: column; gap: 5px; overflow-y: auto; max-height: calc(100vh - 50px); }
+#leftPanel h3  font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; border-bottom: 1px solid #333; padding-bottom: 3px; 
+.matBtn  width: 100%; padding: 5px 7px; border: 1px solid #333; background: #222; color: #ccc; font-size: 12px; font-family: monospace; cursor: pointer; text-align: left; border-radius: 3px; display: flex; align-items: center; gap: 6px; transition: background 0.1s;
+.matBtn:hover { background: #2e2e2e; }
+.matBtn.active { border-color: #e8c87a; background: #2e2e2e; color:#e8c87a;}
+.matColor { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.15); }
+#canvasWrap  {flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 8px; position relative;}
+canvas {display: block; cursor: crosshair; border: 1px solid #333; image-rendering: pixelated;}
+#rightPanel  {width: 200px; min-width: 200px; background: #181818; border-left: 2px solid #2a2a2a; padding: 8px 8px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: calc(100vh - 50px);}
+#rightPanel h3 { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; border-bottom: 1px solid #333; padding-bottom: 3px; }
+.sliderRow  {display: flex; flex-direction: column; gap: 2px;}
+.sliderRow label {font-size: 11px; color: #aaa; display: flex; justify-content: space-between;}
+.sliderRow label span {color: #e8c87a;}
+.sliderRow input[type=range]{width: 100%;accent-color:#e8c87a;} 
+.ctrlBtn { width: 100%; padding: 5px 7px; border: 1px solid #333; background: #222; color: #ccc; font-size: 12px; font-family: monospace; cursor: pointer; border-radius: 3px; transition: background 0.1s; }
+.ctrlBtn:hover { background: #2e2e2e; }
+.ctrlBtn.danger { border-color: #7a2222; color: #e87a7a; }
+.ctrlBtn.danger:hover{background:#2a1010;}
+#statsBox{background: #111; border: 1px solid #2a2a2a; border-radius: 3px; padding: 6px 8px;font-size:11px; color:#888;}
+#statsBox div {margin-bottom: 2px;} 
+#statsBox span { color: #bbb;}
+.sepLine{border: none;border-top:1px solid #2a2a2a; margin: 2px 0;} 
+</style>
+</head>
+</html>body>
+<div id=""topBar">
+<span>Particle Sandbox</span> 
+<div style=""font-size:11px;color:#666;">Click or drag on the canvas to place particles</div>
+</div>
+</div id="mainArea">
+<div id=""leftPanel">
+<h3>Materials</h3>
+<div id="matList"></div>
+</div>
+<div id="canvasWrap"> 
+<canvas id="gc"></canvas>
+</div>
+<div id="rightPanel">
+<h3>Canvas Controls</h3>
+<div class=""sliderRow"> 
+<label>Brush Size <span id="szVal">4</span></label>
+<input type="range"id="szSlider" min=""1" max="30" value="4"> 
+</div>
+<div class="sliderRow"> 
+<label>Gravity <span id="gVal">0.15</span></label> 
+<input type="range"id="gSlider"min="0" max="100"value="15"> 
+</div>
+<div class="sliderRow"> 
+<label>Wind X <span id="wxVal">0.00</span></label>
+<input type="range"id="wxSlider" min="-50" max="50" value="0">
+</div>
