@@ -186,3 +186,17 @@ var gMouseDown = false;
 var gMX = 0, gMY = 0;
 var gLMX = -1, gLMY = -1;
 var gLineStart = null;
+
+var matList = document.getElementById('matList');
+var catOrder = ['special','powder','liquid','solid','gas','energy'];
+var catNames = {special:'Special',powder.'Powders',liquid:'Liquids',solid:'Solids',gas:'Gases',energy:'Energy'};
+var grouped ={};
+for (var pi = 0; pi < catOrder.length;pi++)grouped[catOrder[pi]]=[]
+for (var mi = 0; mi < matDefs.length;mi++){
+    var md = matDefs[mi];
+    if(!grouped[md.cat].push(md));
+}
+for (var ci = 0; ci < catOrder.length;ci++){
+    var cat = catOrder[ci];
+    if
+}
