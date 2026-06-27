@@ -149,3 +149,18 @@ var matDefs = [
     {id:OBSIDIAN, nm: 'Obsidian', col: [30,20,40], cat: 'solid'},
     {id:MUD, nm: 'Mud', col: [90,65,30], cat: 'powder'},
 ];
+
+var gGrid = new Uint8Array(kW*kH);
+var gTemp = new Int16Array(kW*kH);
+var gLife = new Uint8Array(kW*kH);
+var gUpdated = new Uint8Array(kW*kH);
+
+function gldx(x,y){return y*kW+x;}
+function gGet(x,y){if(x<0||x>=kW||y<0||y>=kH)return WALL; return gGrid[y*kW+x];}
+function gSet(x,y,t){if(x<0||x>=kW||y<0||y>=kH)return; gGrid[y*kW+x]=t;}
+function gSwap(x1, y1, x2, y2) {
+    var i1=y1*kW+x1,i2=y2*kW+x2;
+    var tmp = gGrid[i1];gGrid[i1]=gGrid[i2];gGrid[i2]=tmp;
+    var tmpT = gTemp[i1]; gTemp[i1]=gTemp[i2];gTemp[i2]=tmpT;
+    var tmpL = gLife[i1]; gLife[i1]
+}
