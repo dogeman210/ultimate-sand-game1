@@ -121,21 +121,31 @@ var gPix = gImg.data;
 
 var EMPTY = 0, SAND = 1, WATER = 2, WALL = 3, FIRE = 4, SMOKE = 5, WOOD = 6, OIL = 7, GAS = 8, LAVA = 9, STONE = 10, ACID = 11, STEAM = 12, ASH = 13, GUNPOWDER = 14, ICE = 15, SALT = 16, GLASS = 17, VOID = 18, PLANT = 19, SNOW = 20, CLOUD = 21, METHANE = 22, COAL = 23, OBSIDIAN = 24, MUD = 25;
 
-var matDefs = {
+var matDefs = [
     {id:EMPTY, nm: 'Eraser', col: [0,0,0], cat: 'special'},
-    {id:SAND,  nm:'Sand', col: [194,154,74], cat:'powder'} 
-    {id:WATER, nm: 'Water', col: [30,100,200], cat: 'liquid'}
-    {id:WALL, nm: 'Wall', col: [90,90,90], cat: 'solid'}
-    {id:FIRE, nm: 'Fire', col: [230, 80, 10], cat: 'liquid'}
-    {id:SMOKE, nm: 'Smoke', col: [130,130,130], cat: 'gas'} 
-    {id:WOOD, nm: 'Wood', col:[110,70,30], cat: 'solid'}
-    {id:OIL, nm: 'Oil', col:[90,60,10], cat: 'liquid'}
-    {id:GAS, nm: 'Gas', col:[200,230,200], cat:'gas'}
-    {id:LAVA, nm: 'Lava', col: [220,60,0], cat: 'liquid'}
-    {id:STONE, nm: 'Stone', col: [120,120,110], cat:'solid'}
-    {id:ACID, nm: 'Acid', col: [80,220,40], cat:'liquid'}
-    {id:STEAM, nm: 'Steam', col: [190, 210, 230], cat: 'gas'}
-    {id:ASH, nm: 'Ash', col: [160,150,145], cat:'powder'} 
-    {id:GUNPOWDER, nm: 'Gunpowder', col: [50,50,50], cat:'powder'}
-    {id:ICE, nm: 'Ice', col: [170,220,255], cat: 'solid'}
-    
+    {id:SAND,  nm:'Sand', col: [194,154,74], cat:'powder'}, 
+    {id:WATER, nm: 'Water', col: [30,100,200], cat: 'liquid'},
+    {id:WALL, nm: 'Wall', col: [90,90,90], cat: 'solid'},
+    {id:FIRE, nm: 'Fire', col: [230, 80, 10], cat: 'liquid'},
+    {id:SMOKE, nm: 'Smoke', col: [130,130,130], cat: 'gas'}, 
+    {id:WOOD, nm: 'Wood', col:[110,70,30], cat: 'solid'},
+    {id:OIL, nm: 'Oil', col:[90,60,10], cat: 'liquid'},
+    {id:GAS, nm: 'Gas', col:[200,230,200], cat:'gas'},
+    {id:LAVA, nm: 'Lava', col: [220,60,0], cat: 'liquid'},
+    {id:STONE, nm: 'Stone', col: [120,120,110], cat:'solid'},
+    {id:ACID, nm: 'Acid', col: [80,220,40], cat:'liquid'},
+    {id:STEAM, nm: 'Steam', col: [190, 210, 230], cat: 'gas'},
+    {id:ASH, nm: 'Ash', col: [160,150,145], cat:'powder'},
+    {id:GUNPOWDER, nm: 'Gunpowder', col: [50,50,50], cat:'powder'},
+    {id:ICE, nm: 'Ice', col: [170,220,255], cat: 'solid'},
+    {id:SALT, nm: 'Salt', col: [230,230,230], cat: 'powder'},
+    {id:GLASS, nm: 'Glass', col: [180,220,240], cat: 'solid'},
+    {id:VOID, nm: 'Void', col: [20,0,40], cat: 'special'},
+    {id:PLANT, nm: 'Plant', col: [30,140,30], cat: 'solid'},
+    {id:SNOW, nm: 'Snow', col: [240,240,255], cat: 'powder'},
+    {id:CLOUD, nm: 'Cloud', col: [210,210,220], cat: 'gas'},
+    {id:METHANE, nm: 'Methane', col: [200,200,100], cat: 'gas'},
+    {id:COAL, nm: 'Coal', col: [30,30,30], cat: 'solid'},
+    {id:OBSIDIAN, nm: 'Obsidian', col: [30,20,40], cat: 'solid'},
+    {id:MUD, nm: 'Mud', col: [90,65,30], cat: 'powder'},
+];
