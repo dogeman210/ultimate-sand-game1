@@ -77,3 +77,27 @@ canvas {display: block; cursor: crosshair; border: 1px solid #333; image-renderi
 <label>Sim Speed <span id="ssVal">1x</span></label>
 <input type="range" id="ssSlider" min="1" max="8" value="1">
 </div> 
+<hr class ="sepLine"> 
+<h3>Actions</h3>
+<button class="ctrlBtn" id="pauseBtn">Pause</button>
+<button class="ctrlBtn" id="stepBtn">Step One Frame</button>
+<button class="ctrlBtn danger" id="clearBtn">Clear All</button>
+<button class="ctrlBtn" id="fillGravBtn">Flip Gravity</button>
+<button class="ctrlBtn" id="invertBtn">Invert Colors</button>
+<button class="ctrlBtn" id="saveBtn">Save as PNG</button>
+<hr class="sepLine">
+<h3>Stats</h3>
+<div id="statsBox">
+<div>Particles: <span id="stPart">0</span></div>
+<div>FPS: <span id="stFPS">0</span></div>
+<div>Selected: <span id="stSel">-</span></div>
+<div>Grid: <span id="stGrid">-</span></div> 
+</div> 
+<hr class="sepLine"> 
+<h3>Draw Mode</h3>
+<button class="ctrlBtn" id="modeCircle" style="border-color:#e8c87a;">Circle Brush</button>
+<button class="ctrlBtn" id="modeSquare">Square Brush</button>
+<button class="ctrlBtn" id="modeEraser">Eraser</button>
+<button class="ctrlBtn" id="modeLine">Line Mode</button>
+<hr class="sepLine">
+<h3>Presets</h3>
