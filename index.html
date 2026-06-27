@@ -101,3 +101,20 @@ canvas {display: block; cursor: crosshair; border: 1px solid #333; image-renderi
 <button class="ctrlBtn" id="modeLine">Line Mode</button>
 <hr class="sepLine">
 <h3>Presets</h3>
+<button class ="ctrlBtn" id="presetVolcano">Volcano</button>
+<button class ="ctrlBtn" id="presetOcean">Ocean Floor</button>
+<button class ="ctrlBtn" id="presetSandCastle">Sand Dunes</button>
+<button class ="ctrlBtn" id="presetOilFire">Oil Fire</button>
+</div>
+</div> 
+<script> 
+(function(){
+var KW = 300, kH = 220;
+var gCanvas = document.getElementById('gc');
+gCanvas.width = kW;
+gCanvas.height = kH;
+gCanvas.style.width = (kW * 2.5) + 'px';
+gCanvas.style.height = (kH * 2.5) + 'px';
+var gCtx = gCanvas.getContext('2d');
+var gImg = gCtx.createImageData(kW,kH); 
+var gPix = gImg.data; 
