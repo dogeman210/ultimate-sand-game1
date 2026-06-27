@@ -164,3 +164,25 @@ function gSwap(x1, y1, x2, y2) {
     var tmpT = gTemp[i1]; gTemp[i1]=gTemp[i2];gTemp[i2]=tmpT;
     var tmpL = gLife[i1]; gLife[i1]
 }
+
+var matColorMap = {};
+for(var qi = 0; qi < matDefs.length; qi++){
+    matColorMap[matDefs[qi].id]=matDefs[qi].col;
+}
+
+var selMat = SAND;
+var gGravity = 0.15;
+var gWindX = 0;
+var gWindY = 0;
+var gSpread = 1;
+var gBrushSz = 4;
+var gPaused = false;
+var gSimSpeed = 1;
+var gGravDir = 1;
+var gColorInvert = false;
+var gBrushMode = 'circle'
+var gDrawMode = 'draw'
+var gMouseDown = false;
+var gMX = 0, gMY = 0;
+var gLMX = -1, gLMY = -1;
+var gLineStart = null;
