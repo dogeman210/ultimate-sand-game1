@@ -198,5 +198,7 @@ for (var mi = 0; mi < matDefs.length;mi++){
 }
 for (var ci = 0; ci < catOrder.length;ci++){
     var cat = catOrder[ci];
-    if
+    if (!grouped[cat]||grouped[cat].length === 0)continue;
+    var hdr = document.createElement('div');
+    hdr.style.css.Text = 'font-size:10px'
 }
