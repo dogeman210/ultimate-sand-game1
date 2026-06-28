@@ -331,3 +331,25 @@ document.getElementById('presetOilFire').addEventListener('click',function(){
     for (var qx2 = 40; qx2<kW - 40; qx2++)gSet(qx2,Math.floor(kH*0.9),WALL);
     for (var fx = 60; fx < 80; fx++)gSet(fx,Math.floor(kH*0.6)-1,FIRE);
 });
+
+function canvasXY(e){
+    var rect = gCanvas.getBoundingClientRect();
+    var scx = kW/rect.width, scy = kH/rect.height;
+    var cx = (e.clientX - rect.left)*scx;
+    var cy = (e.clientY - rect.top)*scy;
+    return[Math.floor(cx),Math.floor(cy)];
+}
+gCanvas.addEventListener('mousedown',function(e){
+    e.preventDefault();
+    g.MouseDown = true;
+    var pos = canvasXY(e);
+    gMX = pos[0];gMY = pos[1];
+    if(gBrushMode === 'line'){
+        if(gLineStart === null){gLineStart = [gMX, gMY];}
+        else{
+            drawLine(gLineStart[0],gLineStart[1],gMX,gMY);
+            gLineStart = null;
+        }
+    }else{paintBrush(gMX,gMY);}
+    gLMX = gMX; gLMY = gMY;
+});
