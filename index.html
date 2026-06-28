@@ -231,4 +231,11 @@ var szSlider = document.getElementById('szSlider');
 var gSlider = document.getElementById('gSlider');
 var wxSlider = document.getElementById('wxSlider');
 var wySlider = document.getElementById('wySlider');
-var 
+var spSlider = document.getElementById('spSlider');
+var ssSlider = document.getElementById('ssSlider');
+szSlider.addEventListener('input',function(){gBrushSz = parseInt(this.value);document.getElementById('szVal').textContent = this.value;});
+gSlider.addEventListener('input',function(){gGravity = parseInt(this.value)/100; document.getElementId('gVal').textContent = gGravity.toFixed(2);});
+wxSlider.addEventListener('input',function(){gWindX = parseInt(this.value)/100; document.getElementById('wxVal').textContent = gWindX.toFixed(2);});
+wySlider.addEventListener('input',function(){gWindY = parseInt(this.value)/100; document.getElementById('wyVal').textContent=gWindY.toFixed(2);});
+spSlider.addEventListener('input,function(){gSpread = parseInt(this.value)/10;document.getElementById('spVal').textContent = gSpread.toFixed(1);});
+ssSlider.addEventListener('input',function(){gSimSpeed = parseInt(this.value);document.getElementById('ssVal').textContent = this.value + x 'x';});
