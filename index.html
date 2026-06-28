@@ -289,3 +289,16 @@ document.getElementById('modeLine').addEventListener('click',function(){
     });
     this.style.border.Color='#e8c87a';this.style.color='#e8c87a';
     });
+document.getElementById('presetVolcano').addEventListener('click',function(){
+    for(var ii = 0; ii < gGrid.length; ii++) gGrid[ii] = 0; gTemp[ii] = 0; gLife[ii]=0;}
+    var cx = Math.floor(kW/2);
+    for (var qy = kH - 1;qy >=kH-40;qy--){
+        if (qx >=0 && qx < kW)gSet(qx,qy,STONE);
+    }        
+}
+for (var ly = kH - 40; ly >=kH - 60;ly--){
+    var lw = Math.floor((kH - 40 - ly)*0.6 + 4);
+    for(var lx = cx - lw; lx <= cx + lw; lx++){
+        if (lx>=0&&lx<kW)gSet(lx,ly,STONE);
+    }
+}
