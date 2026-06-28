@@ -299,6 +299,27 @@ document.getElementById('presetVolcano').addEventListener('click',function(){
 for (var ly = kH - 40; ly >=kH - 60;ly--){
     var lw = Math.floor((kH - 40 - ly)*0.6 + 4);
     for(var lx = cx - lw; lx <= cx + lw; lx++){
-        if (lx>=0&&lx<kW)gSet(lx,ly,STONE);
+        if (lx >=0&&lx<kW)gSet(lx,ly,STONE);
     }
 }
+for (var vy = kH - 60; vy >=kH - 70; vy--){
+    for(var vx=cx-3;vx<= cx+3;vx++){
+        if(vx>=0&&vx<KW)gSet(vx,vy,LAVA);
+    }
+});
+document.getElementById('presetOcean').addEventListener('click',function(){
+    for(var ii = 0;ii<gGrid.length;ii++){gGrid[ii]=0;gLife[ii]=0}
+    var baseY = Math.floor(kH*0.7);
+    for(var qx = 0;qx < kW; qx++){
+        var hh = baseY + Math.floor(Math.sin(qx*0.1)*8 + Math.sin(qx*0.05)*12);
+        for(var qy = hh;qy<kH;qy++)gSet(qx,qy,SAND);
+        for(var wy = 0;wy<hh;wy++)gSet(qx,wy,WATER);
+    }
+});
+document.getElementByld('presetSandCastle').addEventListener('click',function(){
+    for (var ii = 0; ii <gGrid.length;ii++){gGrid[ii]=0;gTemp[ii]=0;gLife[ii]=0;}
+    for (var qx = 0;qx < kW; qx++){
+        var dh = kH - 20 - Math.floor(Math.abs(Math.sin(qx*0.04))* 30 + Math.sin(qx*0.1)*8);
+        for (var qy = dh; qy < kH;qy++)gSet(qx,qy,SAND);
+    }
+});
