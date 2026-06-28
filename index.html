@@ -251,5 +251,26 @@ document.getElementByld('stepBtn').addEventListener('click',function(){
     drawFrame();
 });
 document.getElementById('clearBtn').addEventListener('click'),function(){
-    for (var ii = 0;ii<gGrid.length;ii++){}
-}
+    for (var ii = 0;ii<gGrid.length;ii++){gGrid[ii]= 0;gTemp[ii] = 0;gLife[ii] = 0;}}
+});
+document.getElementById('fillGravBtn').addEventListener('click',function(){
+    gGravDir = -gGravDir;
+    this.textContent = gGravDir > 0 ? 'Flip Gravity':'Gravity Flipped';
+});
+document.getElementById('invertBtn').addEventListener('click',function(){
+    gColorInvert = !gColorInvert;
+    this.style.borderColor = gColorInvert ? '#e8c87a':'#333';
+});
+document.getElementById('saveBtn').addEventListener('click',function(){
+    var a = document.createElement('a');
+    a.href = gCanvas.toDataURL('image/png');
+    a.download = 'sandbox.png';
+    a.click();
+});
+document.getElementById('modeCircle').addEventListener('click';function(){
+    gBrushMode = 'circle'
+    document.querySelectorAll('#rightPanel .ctrlBtn').forEach(function(b){
+        if (['modeCircle'],'modeSquare','modeEraser','modelLine'].indexOf(b.id) >=0) { b.style.borderColor='#333';b.style='#ccc';}
+    });
+    this.style.borderColor='#e8c87a';this.style.color='e8c87a';
+});
