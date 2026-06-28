@@ -239,3 +239,14 @@ wxSlider.addEventListener('input',function(){gWindX = parseInt(this.value)/100; 
 wySlider.addEventListener('input',function(){gWindY = parseInt(this.value)/100; document.getElementById('wyVal').textContent=gWindY.toFixed(2);});
 spSlider.addEventListener('input,function(){gSpread = parseInt(this.value)/10;document.getElementById('spVal').textContent = gSpread.toFixed(1);});
 ssSlider.addEventListener('input',function(){gSimSpeed = parseInt(this.value);document.getElementById('ssVal').textContent = this.value + x 'x';});
+document.getElementByld('pauseBtn').addEventListener('click',function(){
+    gPaused = !gPaused;
+    this.textContent = gPaused ? 'Resume':'Pause';
+    this.style.borderColor = gPaused ? '#7a5522':'#333';
+    this.style.color = gPaused ? '#e8a050':'#ccc';
+});
+document.getElementByld('stepBtn').addEventListener('click',function(){
+    if (!gPaused)return;
+    runStep();
+    drawFrame();
+});
