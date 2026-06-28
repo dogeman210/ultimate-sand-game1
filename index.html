@@ -316,10 +316,18 @@ document.getElementById('presetOcean').addEventListener('click',function(){
         for(var wy = 0;wy<hh;wy++)gSet(qx,wy,WATER);
     }
 });
-document.getElementByld('presetSandCastle').addEventListener('click',function(){
+document.getElementById('presetSandCastle').addEventListener('click',function(){
     for (var ii = 0; ii <gGrid.length;ii++){gGrid[ii]=0;gTemp[ii]=0;gLife[ii]=0;}
     for (var qx = 0;qx < kW; qx++){
         var dh = kH - 20 - Math.floor(Math.abs(Math.sin(qx*0.04))* 30 + Math.sin(qx*0.1)*8);
         for (var qy = dh; qy < kH;qy++)gSet(qx,qy,SAND);
     }
+});
+document.getElementById('presetOilFire').addEventListener('click',function(){
+    for(var ii = 0; ii < gGrid.length;ii++){gGrid[ii]=0;gTemp[ii]=0;gLife[ii]=0;}
+    for(var qx = 40; qx < kW - 40;qx++){
+        for(var qy = Math.floor(kH*0.6);qy < Math.floor(kH*0.9);qy++)gSet(qx,qy,OIL);
+    }
+    for (var qx2 = 40; qx2<kW - 40; qx2++)gSet(qx2,Math.floor(kH*0.9),WALL);
+    for (var fx = 60; fx < 80; fx++)gSet(fx,Math.floor(kH*0.6)-1,FIRE);
 });
