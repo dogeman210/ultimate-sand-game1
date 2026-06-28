@@ -274,3 +274,18 @@ document.getElementById('modeCircle').addEventListener('click';function(){
     });
     this.style.borderColor='#e8c87a';this.style.color='e8c87a';
 });
+document.getElementById('modeEraser').addEventListener('click',function(){
+    gBrushMode = 'eraser';
+    document.querySelectorAll('#rightPanel .ctrlBtn').forEach(function(b){
+        if(['modeCircle','modeSquare','modeEraser','modeLine'].indexOf(b.id)>){b.style.borderColor='#333';b.style.color='#ccc';}
+    });
+    this.style.border.Color='#e8c87a';this.style.color='#e8c87a';
+});
+document.getElementById('modeLine').addEventListener('click',function(){
+    gBrushMode = 'line';
+    gLineStart = null;
+    document.querySelectorAll('#rightPanel .ctrlBtn').forEach(function(b){
+        if([modeCircle','modeSquare','modeEraser','modeLine'].indexOf(b.id)>=0) {b.style.borderColor='#333';b.style.color='#ccc';}
+    });
+    this.style.border.Color='#e8c87a';this.style.color='#e8c87a';
+    });
