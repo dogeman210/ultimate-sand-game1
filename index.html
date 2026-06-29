@@ -536,12 +536,34 @@ function runStep(){
                         if (slnx < 0||slnx >=kW||slny<0||slny >=kH)continue;
                         if (gGrid[slny * kW + slnx]===EMPTY){
                             gGrid[slny*kW+slnx]=tcell;
-                            
+                            gLife[slny*kW+slny]=gLife[tidx]
+                            gGrid[tidx] = EMPTY;
+                            gUpdated[slny*kW+slnx]=1;
+                            gUpdated[tidx] = 1;
+                            moved = true;
                         }
                     }
                 }
+                continue;
 
             }
-        }
-    }
-}
+            if (tcell === GAS || tcell === METHANE){
+                gLife[tidx]--;
+                if(gLife[tidx]<=0){gGrid[tidx] = EMPTY; gUpdated[tidx]= 1; continue;}
+                var gnb = [[tx,ty-dir],[tx-1,ty],[tx+1,ty]];
+                var gmoved = false;
+                for (var gi2 = 0;gi2 < gnb.length && !gmoved; gi2++){
+                   var gnx = gnb[gi2][0], gny = gnb[gi2][1];
+                   if(gnx<0||gnx>=kW||gny<0||gny>=kH)continue;
+                   if(gGrid[gny*kW+gnx]===EMPTY && qRand()<0.5){
+                    gGrid[gny*kW+gnx]=tcell;
+                    gLife[gny*kW+gnx]=gLife[tidx];
+                    gGrid[tidx]=EMPTY;
+                    gUpdated[gny*kW+gnx] = 1;
+                    gUpdated[tidx] = 1;
+                    gmoved = true;
+                   } 
+                }
+                var gfadj = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+
+            }
