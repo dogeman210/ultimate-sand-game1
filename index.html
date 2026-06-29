@@ -353,3 +353,31 @@ gCanvas.addEventListener('mousedown',function(e){
     }else{paintBrush(gMX,gMY);}
     gLMX = gMX; gLMY = gMY;
 });
+gCanvas,addEventListener('mousemove',function(e){
+    e.preventDefault();
+    var pos = canvasXY(e);
+    gMX = pos[0];gMY = pos[1];
+    if(!gMouseDown)return;
+    if(gBrushMode === 'line')return;
+    if(gLMX<0){paintBrush(gMX,gMY);}
+    else {paintBrushLine(gLMX,gLMY,gMX,gMY);}
+    gLMX = gMX;gLMY = gMY;
+});
+gCanvas.addEventListener('mouseup',function(e){gMouseDown = false;gLMX = -1;gLMY = -1;});
+gCanvas.addEventListener('mouseleave',function(e){gMouseDown = false;gLMX = -1;gLMY = -1;});
+gCanvas.addEventListener('touchstart',function(e){
+    e.preventDefault();
+    gMouseDown = true;
+    var pos = canvasXY(e.touches[0]);
+    gMX = pos[0];gMY = pos[1];
+    paintBrush(gMX,gMY);
+    gLMX = gMX; gLMY = gMY;
+},{passive:false});
+gCanvas.addEventListener('touchmove',function(e){
+    e.preventDefault();
+    var pos = canvasXY(e.touches[0]);
+    gMX = pos[0]; gMY = pos[1];
+    paintBrushLine(gLMX,gLMY,gMX,gMY);
+    gLMX = gMX; gLMY = gMY;
+}, { passive: false});
+gCanvas.addEventListener('touchend',function(){gMouseDown = false;gLMX = -1;gLMY = -1;});
