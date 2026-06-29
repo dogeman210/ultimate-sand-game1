@@ -462,6 +462,31 @@ function runStep(){
                 }
                 continue;
             }
+            if (tcell===FIRE){
+                gLife[tidx]--;
+                if(gLife[tidx]<=0){gGrid[tidx]=qRand()<0.6 ? ASH : EMPTY;gUpdated[tidx]=1;continue;}
+                var fCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+                for (var fi = 0; fi < fCol.length;fi++){
+                    var fx2 = fCol[fi][0],fy2 = fCol[fi][1];
+                    if (fx2 < 0||fx2 >= kW||fy2 < 0||fy2 >=kH) continue;
+                    var fnb = gGrid[fy2*kW + fx2];
+                    if(isBurnable(fnb)){
+                        if(qRand()<0.08{
+                            gGrid[fy2*kW+fx2]}
+                            gLife[fy2*kW+fx2] = 60 + qRandInt(80);
+                            gUpdated[fy2*kW+fx2]=1;
+
+                        }
+                    }else if (fnb===EMPTY && qRand()<0.04){
+                        var smokeY = fy2 - dir;
+                        if(smokeY>=0 && smokeY<kH && gGrid[smokeY*kW+fx2]===EMPTY){
+                            gGrid[smokeY * kW+fx2]=SMOKE;
+                            gLife[smokeY * kW + fx2]= 80 + qRandInt(60);
+                        }
+
+                    }
+                }
+            }
         }
     }
 }
