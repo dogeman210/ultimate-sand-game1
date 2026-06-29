@@ -585,4 +585,15 @@ function runStep(){
                 }
                 continue;
             }
-                
+            if (tcell === CLOUD){
+                gLife[tidx]--;
+                if (gLife[tidx]<=0){gGrid[tidx]=EMPTY;gUpdated[tidx]= 1; continue;}
+                if (qRand()<0.01){
+                    var clry = ty + dir;
+                    if (clry >=0 && clry < kH && gGrid[clry*kW+tx]===EMPTY){
+                        gGrid[clry*kW+tx]=WATER;
+                        gUpdated[clry*kW+tx]=1;
+                    }
+                }
+                var cldx = qRand()<0.5 ? -1 : 1;
+            }    
