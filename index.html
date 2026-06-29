@@ -484,8 +484,29 @@ function runStep(){
                             gLife[smokeY * kW + fx2]= 80 + qRandInt(60);
                         }
 
+                    }else if (fnb === ICE){
+                        if(qRand()<0.1){gGrid[fy2*kW+fx2]= WATER; gUpdated[fy2*kW+fx2]=1;}
+
+                    }else if (fnb===WATER){
+                        if (qRand()<0.05){gGrid[fy2*kW+fx2]= STEAM; gLife[fy2*kW+fx2]= 120 + qRandInt(80);gUpdated[fy2*kW+fx2]=1;}
+                        
                     }
                 }
+                if(qRand()<gGravity * 0.5){
+                    var fny = ty - dir;
+                    if (fny >= 0 && fny < kH && gGrid [fny*kW+tx]===EMPTY){
+                        gGrid[fny * kW + tx]=FIRE;
+                        gLife[fny * kW + tx] = gLife[tidx];
+                        gGrid[tidx]=EMPTY;
+                        gUpdated[fny*kW + tx] = 1;
+                        gUpdated[tidx] = 1;
+                    }
+                }
+                gUpdated[tidx]=1;
+                continue;
+            }
+            if (tcell === SMOKE||tcell === STEAM){
+                
             }
         }
     }
