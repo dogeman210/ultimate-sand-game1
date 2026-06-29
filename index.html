@@ -506,7 +506,21 @@ function runStep(){
                 continue;
             }
             if (tcell === SMOKE||tcell === STEAM){
-                
+                gLife[tidx]--;
+                if(gLife[tidx]<=0){
+                    if (tcell === STEAM && qRand() < 0.3) {gGrid[tidx]=WATER;} else {gGrid[tidx]=EMPTY;}
+                    gUpdated[tidx] = 1;continue;
+                }
+                var sUp = ty - dir;
+                var moved = false;
+                var sdirs = [0,(qRand()<0.5?-1:1)];
+                for (var si2 = 0; si2 < sdirs.length && !moved; si2++){
+                    var snx = tx + sdris[si2], sny = sUp;
+                    if(snx < 0||snx > = kW||sny<0||sny >= kH)continue;
+                    var snb = gGrid[sny*kW+snx];
+
+                }
+
             }
         }
     }
