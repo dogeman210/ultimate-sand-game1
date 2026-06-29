@@ -623,8 +623,22 @@ function runStep() {
                         }
                     }
                 }
-                if (tcell === ICE) {
-                    var icCol = 
+                if (tcell === ACID) {
+                    var acCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty,+1]];
+                    for (var aci = 0; aci<acCol.length;aci++){
+                        var acx = acCol[aci][0],acy = acCol[act][1];
+                        if (acx < 0||acx >= kW||acy < 0||acy >=kH)continue;
+                        var acnb = gGrid[acy*kW*acx];
+                        if(isDissolvedByAcid(acnb)&&qRand()<0.04){
+                            gGrid[acy*kW+acx] = EMPTY;
+                            gUpdated[acy*kW+acx] = 1;
+                            if(qRand()<0.3){gGrid[tidx] = EMPTY;gUpdated[tidx] = 1;}
+                            if(qRand()<0.1){gGrid[tidx] = GAS;gLife[tidx] = 80 + qRandInt(60);}
+                        }
+                    }
+                }
+                if (tcell === ICE){
+                    
                 }
 
             }  
