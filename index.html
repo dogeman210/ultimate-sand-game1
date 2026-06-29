@@ -5,18 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Particle Sandbox</title>
 <style>
-*  margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
 body { background: #1a1a1a; color: #ddd; font-family: monospace; display: flex; flex-direction: column; align-items: center; min-height: 100vh; user-select: none; }
-#topBar  width: 100%; background: #111; padding: 6px 10px; display: flex; align-items: center; gap:10px; flex-wrap: wrap;border-bottom: 2px solid#333;
-#topBar span  font-size: 18px; font-weight: bold; color: #e8c87a; letter-spacing: 1px;
+#topBar { width: 100%; background: #111; padding: 6px 10px; display: flex; align-items: center; gap:10px; flex-wrap: wrap; border-bottom: 2px solid #333; }
+#topBar span { font-size: 18px; font-weight: bold; color: #e8c87a; letter-spacing: 1px; }
 #mainArea  {display: flex; gap: 0; width: 100%; flex: 1;}
 #leftPanel { width: 170px; min-width: 170px; background: #181818; border-right: 2px solid #2a2a2a; padding: 8px 6px; display: flex; flex-direction: column; gap: 5px; overflow-y: auto; max-height: calc(100vh - 50px); }
-#leftPanel h3  font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; border-bottom: 1px solid #333; padding-bottom: 3px; 
-.matBtn  width: 100%; padding: 5px 7px; border: 1px solid #333; background: #222; color: #ccc; font-size: 12px; font-family: monospace; cursor: pointer; text-align: left; border-radius: 3px; display: flex; align-items: center; gap: 6px; transition: background 0.1s;
+#leftPanel h3 { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; border-bottom: 1px solid #333; padding-bottom: 3px; }
+.matBtn { width: 100%; padding: 5px 7px; border: 1px solid #333; background: #222; color: #ccc; font-size: 12px; font-family: monospace; cursor: pointer; text-align: left; border-radius: 3px; display: flex; align-items: center; gap: 6px; transition: background 0.1s; }
 .matBtn:hover { background: #2e2e2e; }
 .matBtn.active { border-color: #e8c87a; background: #2e2e2e; color:#e8c87a;}
 .matColor { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; border: 1px solid rgba(255,255,255,0.15); }
-#canvasWrap  {flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 8px; position relative;}
+#canvasWrap  {flex: 1; display: flex; justify-content: center; align-items: flex-start; padding: 8px; position: relative;}
 canvas {display: block; cursor: crosshair; border: 1px solid #333; image-rendering: pixelated;}
 #rightPanel  {width: 200px; min-width: 200px; background: #181818; border-left: 2px solid #2a2a2a; padding: 8px 8px; display: flex; flex-direction: column; gap: 8px; overflow-y: auto; max-height: calc(100vh - 50px);}
 #rightPanel h3 { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; border-bottom: 1px solid #333; padding-bottom: 3px; }
@@ -34,13 +34,13 @@ canvas {display: block; cursor: crosshair; border: 1px solid #333; image-renderi
 .sepLine{border: none;border-top:1px solid #2a2a2a; margin: 2px 0;} 
 </style>
 </head>
-</html>body>
-<div id=""topBar">
-<span>Particle Sandbox</span> 
-<div style=""font-size:11px;color:#666;">Click or drag on the canvas to place particles</div>
+<body>
+<div id="topBar">
+<span>Particle Sandbox</span>
+<div style="font-size:11px;color:#666;">Click or drag on the canvas to place particles</div>
 </div>
-</div id="mainArea">
-<div id=""leftPanel">
+<div id="mainArea">
+<div id="leftPanel">
 <h3>Materials</h3>
 <div id="matList"></div>
 </div>
@@ -189,7 +189,7 @@ var gLineStart = null;
 
 var matList = document.getElementById('matList');
 var catOrder = ['special','powder','liquid','solid','gas','energy'];
-var catNames = {special:'Special',powder.'Powders',liquid:'Liquids',solid:'Solids',gas:'Gases',energy:'Energy'};
+var catNames = {special:'Special',powder:'Powders',liquid:'Liquids',solid:'Solids',gas:'Gases',energy:'Energy'};
 var grouped ={};
 for (var pi = 0; pi < catOrder.length;pi++)grouped[catOrder[pi]]=[]
 for (var mi = 0; mi < matDefs.length;mi++){
@@ -233,103 +233,168 @@ var wxSlider = document.getElementById('wxSlider');
 var wySlider = document.getElementById('wySlider');
 var spSlider = document.getElementById('spSlider');
 var ssSlider = document.getElementById('ssSlider');
-szSlider.addEventListener('input',function(){gBrushSz = parseInt(this.value);document.getElementById('szVal').textContent = this.value;});
-gSlider.addEventListener('input',function(){gGravity = parseInt(this.value)/100; document.getElementId('gVal').textContent = gGravity.toFixed(2);});
-wxSlider.addEventListener('input',function(){gWindX = parseInt(this.value)/100; document.getElementById('wxVal').textContent = gWindX.toFixed(2);});
-wySlider.addEventListener('input',function(){gWindY = parseInt(this.value)/100; document.getElementById('wyVal').textContent=gWindY.toFixed(2);});
-spSlider.addEventListener('input,function(){gSpread = parseInt(this.value)/10;document.getElementById('spVal').textContent = gSpread.toFixed(1);});
-ssSlider.addEventListener('input',function(){gSimSpeed = parseInt(this.value);document.getElementById('ssVal').textContent = this.value + x 'x';});
-document.getElementByld('pauseBtn').addEventListener('click',function(){
-    gPaused = !gPaused;
-    this.textContent = gPaused ? 'Resume':'Pause';
-    this.style.borderColor = gPaused ? '#7a5522':'#333';
-    this.style.color = gPaused ? '#e8a050':'#ccc';
+
+szSlider.addEventListener('input', function () {
+    gBrushSz = parseInt(this.value, 10);
+    document.getElementById('szVal').textContent = this.value;
 });
-document.getElementByld('stepBtn').addEventListener('click',function(){
-    if (!gPaused)return;
+gSlider.addEventListener('input', function () {
+    gGravity = parseInt(this.value, 10) / 100;
+    document.getElementById('gVal').textContent = gGravity.toFixed(2);
+});
+wxSlider.addEventListener('input', function () {
+    gWindX = parseInt(this.value, 10) / 100;
+    document.getElementById('wxVal').textContent = gWindX.toFixed(2);
+});
+wySlider.addEventListener('input', function () {
+    gWindY = parseInt(this.value, 10) / 100;
+    document.getElementById('wyVal').textContent = gWindY.toFixed(2);
+});
+spSlider.addEventListener('input', function () {
+    gSpread = parseInt(this.value, 10) / 10;
+    document.getElementById('spVal').textContent = gSpread.toFixed(1);
+});
+ssSlider.addEventListener('input', function () {
+    gSimSpeed = parseInt(this.value, 10);
+    document.getElementById('ssVal').textContent = this.value + 'x';
+});
+
+document.getElementById('pauseBtn').addEventListener('click', function () {
+    gPaused = !gPaused;
+    this.textContent = gPaused ? 'Resume' : 'Pause';
+    this.style.borderColor = gPaused ? '#7a5522' : '#333';
+    this.style.color = gPaused ? '#e8a050' : '#ccc';
+});
+
+document.getElementById('stepBtn').addEventListener('click', function () {
+    if (!gPaused) return;
     runStep();
     drawFrame();
 });
-document.getElementById('clearBtn').addEventListener('click'),function(){
-    for (var ii = 0;ii<gGrid.length;ii++){gGrid[ii]= 0;gTemp[ii] = 0;gLife[ii] = 0;}}
+
+document.getElementById('clearBtn').addEventListener('click', function () {
+    for (var ii = 0; ii < gGrid.length; ii++) {
+        gGrid[ii] = 0;
+        gTemp[ii] = 0;
+        gLife[ii] = 0;
+    }
 });
-document.getElementById('fillGravBtn').addEventListener('click',function(){
+
+document.getElementById('fillGravBtn').addEventListener('click', function () {
     gGravDir = -gGravDir;
-    this.textContent = gGravDir > 0 ? 'Flip Gravity':'Gravity Flipped';
+    this.textContent = gGravDir > 0 ? 'Flip Gravity' : 'Gravity Flipped';
 });
-document.getElementById('invertBtn').addEventListener('click',function(){
+
+document.getElementById('invertBtn').addEventListener('click', function () {
     gColorInvert = !gColorInvert;
-    this.style.borderColor = gColorInvert ? '#e8c87a':'#333';
+    this.style.borderColor = gColorInvert ? '#e8c87a' : '#333';
 });
-document.getElementById('saveBtn').addEventListener('click',function(){
+
+document.getElementById('saveBtn').addEventListener('click', function () {
     var a = document.createElement('a');
     a.href = gCanvas.toDataURL('image/png');
     a.download = 'sandbox.png';
     a.click();
 });
-document.getElementById('modeCircle').addEventListener('click';function(){
-    gBrushMode = 'circle'
-    document.querySelectorAll('#rightPanel .ctrlBtn').forEach(function(b){
-        if (['modeCircle'],'modeSquare','modeEraser','modelLine'].indexOf(b.id) >=0) { b.style.borderColor='#333';b.style='#ccc';}
+
+document.getElementById('modeCircle').addEventListener('click', function () {
+    gBrushMode = 'circle';
+    document.querySelectorAll('#rightPanel .ctrlBtn').forEach(function (b) {
+        if (['modeCircle', 'modeSquare', 'modeEraser', 'modeLine'].indexOf(b.id) >= 0) {
+            b.style.borderColor = '#333';
+            b.style.color = '#ccc';
+        }
     });
-    this.style.borderColor='#e8c87a';this.style.color='e8c87a';
+    this.style.borderColor = '#e8c87a';
+    this.style.color = '#e8c87a';
 });
-document.getElementById('modeEraser').addEventListener('click',function(){
+
+document.getElementById('modeEraser').addEventListener('click', function () {
     gBrushMode = 'eraser';
-    document.querySelectorAll('#rightPanel .ctrlBtn').forEach(function(b){
-        if(['modeCircle','modeSquare','modeEraser','modeLine'].indexOf(b.id)>){b.style.borderColor='#333';b.style.color='#ccc';}
+    document.querySelectorAll('#rightPanel .ctrlBtn').forEach(function (b) {
+        if (['modeCircle', 'modeSquare', 'modeEraser', 'modeLine'].indexOf(b.id) >= 0) {
+            b.style.borderColor = '#333';
+            b.style.color = '#ccc';
+        }
     });
-    this.style.border.Color='#e8c87a';this.style.color='#e8c87a';
+    this.style.borderColor = '#e8c87a';
+    this.style.color = '#e8c87a';
 });
-document.getElementById('modeLine').addEventListener('click',function(){
+
+document.getElementById('modeLine').addEventListener('click', function () {
     gBrushMode = 'line';
     gLineStart = null;
-    document.querySelectorAll('#rightPanel .ctrlBtn').forEach(function(b){
-        if([modeCircle','modeSquare','modeEraser','modeLine'].indexOf(b.id)>=0) {b.style.borderColor='#333';b.style.color='#ccc';}
+    document.querySelectorAll('#rightPanel .ctrlBtn').forEach(function (b) {
+        if (['modeCircle', 'modeSquare', 'modeEraser', 'modeLine'].indexOf(b.id) >= 0) {
+            b.style.borderColor = '#333';
+            b.style.color = '#ccc';
+        }
     });
-    this.style.border.Color='#e8c87a';this.style.color='#e8c87a';
-    });
-document.getElementById('presetVolcano').addEventListener('click',function(){
-    for(var ii = 0; ii < gGrid.length; ii++) gGrid[ii] = 0; gTemp[ii] = 0; gLife[ii]=0;}
-    var cx = Math.floor(kW/2);
-    for (var qy = kH - 1;qy >=kH-40;qy--){
-        if (qx >=0 && qx < kW)gSet(qx,qy,STONE);
-    }        
+    this.style.borderColor = '#e8c87a';
+    this.style.color = '#e8c87a';
+});
 
-for (var ly = kH - 40; ly >=kH - 60;ly--){
-    var lw = Math.floor((kH - 40 - ly)*0.6 + 4);
-    for(var lx = cx - lw; lx <= cx + lw; lx++){
-        if (lx >=0&&lx<kW)gSet(lx,ly,STONE);
+document.getElementById('presetVolcano').addEventListener('click', function () {
+    for (var ii = 0; ii < gGrid.length; ii++) {
+        gGrid[ii] = 0;
+        gTemp[ii] = 0;
+        gLife[ii] = 0;
     }
-}
-for (var vy = kH - 60; vy >=kH - 70; vy--){
-    for(var vx=cx-3;vx<= cx+3;vx++){
-        if(vx>=0&&vx<KW)gSet(vx,vy,LAVA);
+    var cx = Math.floor(kW / 2);
+    for (var qy = kH - 1; qy >= kH - 40; qy--) {
+        if (cx >= 0 && cx < kW) gSet(cx, qy, STONE);
     }
-});
-document.getElementById('presetOcean').addEventListener('click',function(){
-    for(var ii = 0;ii<gGrid.length;ii++){gGrid[ii]=0;gLife[ii]=0}
-    var baseY = Math.floor(kH*0.7);
-    for(var qx = 0;qx < kW; qx++){
-        var hh = baseY + Math.floor(Math.sin(qx*0.1)*8 + Math.sin(qx*0.05)*12);
-        for(var qy = hh;qy<kH;qy++)gSet(qx,qy,SAND);
-        for(var wy = 0;wy<hh;wy++)gSet(qx,wy,WATER);
+
+    for (var ly = kH - 40; ly >= kH - 60; ly--) {
+        var lw = Math.floor((kH - 40 - ly) * 0.6 + 4);
+        for (var lx = cx - lw; lx <= cx + lw; lx++) {
+            if (lx >= 0 && lx < kW) gSet(lx, ly, STONE);
+        }
     }
-});
-document.getElementById('presetSandCastle').addEventListener('click',function(){
-    for (var ii = 0; ii <gGrid.length;ii++){gGrid[ii]=0;gTemp[ii]=0;gLife[ii]=0;}
-    for (var qx = 0;qx < kW; qx++){
-        var dh = kH - 20 - Math.floor(Math.abs(Math.sin(qx*0.04))* 30 + Math.sin(qx*0.1)*8);
-        for (var qy = dh; qy < kH;qy++)gSet(qx,qy,SAND);
+    for (var vy = kH - 60; vy >= kH - 70; vy--) {
+        for (var vx = cx - 3; vx <= cx + 3; vx++) {
+            if (vx >= 0 && vx < kW) gSet(vx, vy, LAVA);
+        }
     }
 });
-document.getElementById('presetOilFire').addEventListener('click',function(){
-    for(var ii = 0; ii < gGrid.length;ii++){gGrid[ii]=0;gTemp[ii]=0;gLife[ii]=0;}
-    for(var qx = 40; qx < kW - 40;qx++){
-        for(var qy = Math.floor(kH*0.6);qy < Math.floor(kH*0.9);qy++)gSet(qx,qy,OIL);
+
+document.getElementById('presetOcean').addEventListener('click', function () {
+    for (var ii = 0; ii < gGrid.length; ii++) {
+        gGrid[ii] = 0;
+        gTemp[ii] = 0;
+        gLife[ii] = 0;
     }
-    for (var qx2 = 40; qx2<kW - 40; qx2++)gSet(qx2,Math.floor(kH*0.9),WALL);
-    for (var fx = 60; fx < 80; fx++)gSet(fx,Math.floor(kH*0.6)-1,FIRE);
+    var baseY = Math.floor(kH * 0.7);
+    for (var qx = 0; qx < kW; qx++) {
+        var hh = baseY + Math.floor(Math.sin(qx * 0.1) * 8 + Math.sin(qx * 0.05) * 12);
+        for (var qy = hh; qy < kH; qy++) gSet(qx, qy, SAND);
+        for (var wy = 0; wy < hh; wy++) gSet(qx, wy, WATER);
+    }
+});
+
+document.getElementById('presetSandCastle').addEventListener('click', function () {
+    for (var ii = 0; ii < gGrid.length; ii++) {
+        gGrid[ii] = 0;
+        gTemp[ii] = 0;
+        gLife[ii] = 0;
+    }
+    for (var qx = 0; qx < kW; qx++) {
+        var dh = kH - 20 - Math.floor(Math.abs(Math.sin(qx * 0.04)) * 30 + Math.sin(qx * 0.1) * 8);
+        for (var qy = dh; qy < kH; qy++) gSet(qx, qy, SAND);
+    }
+});
+
+document.getElementById('presetOilFire').addEventListener('click', function () {
+    for (var ii = 0; ii < gGrid.length; ii++) {
+        gGrid[ii] = 0;
+        gTemp[ii] = 0;
+        gLife[ii] = 0;
+    }
+    for (var qx = 40; qx < kW - 40; qx++) {
+        for (var qy = Math.floor(kH * 0.6); qy < Math.floor(kH * 0.9); qy++) gSet(qx, qy, OIL);
+    }
+    for (var qx2 = 40; qx2 < kW - 40; qx2++) gSet(qx2, Math.floor(kH * 0.9), WALL);
+    for (var fx = 60; fx < 80; fx++) gSet(fx, Math.floor(kH * 0.6) - 1, FIRE);
 });
 
 function canvasXY(e){
@@ -383,22 +448,22 @@ gCanvas.addEventListener('touchmove',function(e){
 gCanvas.addEventListener('touchend',function(){gMouseDown = false;gLMX = -1;gLMY = -1;});
 
 function putParticle(x,y,t){
-    if(x<0||x>kW||y<0||y>=kH)return;
-    if(gBrushMode === 'eraser'||gDrawMode ===='erase'){gSet(x,y,EMPTY);return;}
+    if(x<0||x>=kW||y<0||y>=kH)return;
+    if(gBrushMode === 'eraser'||gDrawMode ==='erase'){gSet(x,y,EMPTY);return;}
     if(t===VOID){gSet(x,y,VOID);return}
     if(gGrid[y*kW+x]===WALL||gGrid[y*kW+x]===STONE)return;
     if(t===FIRE){gLife[y*kW+x]=80+Math.floor(Math.random()*60);}
-    else if (t===SMOKE){gLife[y*kW*x]=100 + Math.floor(Math.random()*80);}
-    else if (t===GAS||t===METHANE){gLife[y*kW+x]=150+Math.floor(Math.floor(Math.random()*100);}
+    else if (t===SMOKE){gLife[y*kW+x]=100 + Math.floor(Math.random()*80);}
+    else if (t===GAS||t===METHANE){gLife[y*kW+x]=150+Math.floor(Math.random()*100);}
     else if (t===STEAM){gLife[y*kW+x]= 120 + Math.floor(Math.random()*80);}
-    else if (t===CLOUD){gLife[y*kW*x]= 200 + Math.floor(Math.random()*100);}
+    else if (t===CLOUD){gLife[y*kW+x]= 200 + Math.floor(Math.random()*100);}
     else{gLife[y*kW+x]=0;}
     gSet(x,y,t);
 }
 function paintBrush(cx,cy){
     var t = (gBrushMode === 'eraser')? EMPTY : selMat;
     var r = gBrushSz;
-    if(gBrushMode ==== 'square'){
+    if(gBrushMode === 'square'){
         for(var dy = -r;dy<=r;dy++)for(var dx = -r;dx <=r;dx++)putParticle(cx + dx, cy + dy,t);
     } else {
         for (var dy = -r; dy<=r;dy++)for(var dx= -r; dx <=r;dx++){
@@ -471,8 +536,8 @@ function runStep() {
                     if (fx2 < 0||fx2 >= kW||fy2 < 0||fy2 >=kH) continue;
                     var fnb = gGrid[fy2*kW + fx2];
                     if(isBurnable(fnb)){
-                        if(qRand()<0.08{
-                            gGrid[fy2*kW+fx2]}
+                        if(qRand()<0.08){
+                            gGrid[fy2*kW+fx2]=FIRE;
                             gLife[fy2*kW+fx2] = 60 + qRandInt(80);
                             gUpdated[fy2*kW+fx2]=1;
 
@@ -513,11 +578,11 @@ function runStep() {
                 }
                 var sUp = ty - dir;
                 var moved = false;
-                var sdirs = [0,(qRand()<0.5?-1:1)];
+                var sdirs = [0, (qRand() < 0.5 ? -1 : 1)];
                 for (var si2 = 0; si2 < sdirs.length && !moved; si2++){
-                    var snx = tx + sdris[si2], sny = sUp;
-                    if(snx < 0||snx > = kW||sny<0||sny >= kH)continue;
-                    var snb = gGrid[sny*kW+snx];
+                    var snx = tx + sdirs[si2], sny = sUp;
+                    if (snx < 0 || snx >= kW || sny < 0 || sny >= kH) continue;
+                    var snb = gGrid[sny * kW + snx];
                     if(snb === EMPTY||(isLiquid(snb)&&qRand()<0.1)){
                         if (snb !==EMPTY){gGrid[tidx] = snb; gLife[tidx] = 0;}
                         else { gGrid[tidx] = EMPTY;}
@@ -530,15 +595,15 @@ function runStep() {
 
                 }
                 if (!moved) {
-                    var slat = qRand()<0.5 ? -1 : 1
-                    for (val sli = 0; < 2 && !moved;sli++,slat = -slat) {
+                    var slat = qRand() < 0.5 ? -1 : 1;
+                    for (var sli = 0; sli < 2 && !moved; sli++, slat = -slat) {
                         var slnx = tx + slat, slny = ty;
-                        if (slnx < 0||slnx >=kW||slny<0||slny >=kH)continue;
-                        if (gGrid[slny * kW + slnx]===EMPTY){
-                            gGrid[slny*kW+slnx]=tcell;
-                            gLife[slny*kW+slny]=gLife[tidx]
+                        if (slnx < 0 || slnx >= kW || slny < 0 || slny >= kH) continue;
+                        if (gGrid[slny * kW + slnx] === EMPTY) {
+                            gGrid[slny * kW + slnx] = tcell;
+                            gLife[slny * kW + slnx] = gLife[tidx];
                             gGrid[tidx] = EMPTY;
-                            gUpdated[slny*kW+slnx]=1;
+                            gUpdated[slny * kW + slnx] = 1;
                             gUpdated[tidx] = 1;
                             moved = true;
                         }
@@ -596,7 +661,7 @@ function runStep() {
                     }
                 }
                 var cldx = qRand()<0.5 ? -1 : 1;
-                if (tx + cldx >=0 && tx + cldx < kW && gGrid[ty*kW*tx]===EMPTY && qRand()<0.1){
+                if (tx + cldx >=0 && tx + cldx < kW && gGrid[ty*kW+tx]===EMPTY && qRand()<0.1){
                     gGrid[ty*kW+tx+cldx] = CLOUD;
                     gLife[ty*kW+tx+cldx] = gLife[tidx];
                     gGrid[tidx] = EMPTY;
@@ -607,38 +672,48 @@ function runStep() {
             }  
             if (tcell === LAVA) {
                 var lvCol = [[tx-1, ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
-                for (var lvi = 0; lvi < lvCol.length;lvi++){
-                    var lvx = lvCol[lvi][0], lvi = lvCol[lvi][1];
-                    if (lvx < 0||lvx >=kW||lvy<0||lvy >=kH)continue;
+                for (var lvi = 0; lvi < lvCol.length; lvi++){
+                    var lvx = lvCol[lvi][0], lvy = lvCol[lvi][1];
+                    if (lvx < 0 || lvx >= kW || lvy < 0 || lvy >= kH) continue;
                     var lvnb = gGrid[lvy*kW+lvx];
-                    if (Burnable(lvnb)&&qRand()<0.06){
-                        gGrid[lvy*kW+lvx]=FIRE;
-                        gLife[lvy*kW+lvx]= 80 + qRandInt(60) {
-                            gUpdated[lvy*kW*lvx] = 1;
-                        } else if (lvnb === WATER && qRand() < 0.05){
-                            gGrid[lvy*kW+lvx] = STONE;
-                            gGrid[tidx] = STONE;
-                            gUpdated[tidx] = 1;
-                            gUpdated[lvy*kW+lvx] = 1;
-                        }
+                    if (Burnable(lvnb) && qRand() < 0.06){
+                        gGrid[lvy*kW+lvx] = FIRE;
+                        gLife[lvy*kW+lvx] = 80 + qRandInt(60);
+                        gUpdated[lvy*kW+lvx] = 1;
+                    } else if (lvnb === WATER && qRand() < 0.05){
+                        gGrid[lvy*kW+lvx] = STONE;
+                        gGrid[tidx] = STONE;
+                        gUpdated[tidx] = 1;
+                        gUpdated[lvy*kW+lvx] = 1;
                     }
                 }
                 if (tcell === ACID) {
-                    var acCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty,+1]];
-                    for (var aci = 0; aci<acCol.length;aci++){
-                        var acx = acCol[aci][0],acy = acCol[act][1];
-                        if (acx < 0||acx >= kW||acy < 0||acy >=kH)continue;
-                        var acnb = gGrid[acy*kW*acx];
-                        if(isDissolvedByAcid(acnb)&&qRand()<0.04){
+                    var acCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+                    for (var aci = 0; aci < acCol.length; aci++){
+                        var acx = acCol[aci][0], acy = acCol[aci][1];
+                        if (acx < 0 || acx >= kW || acy < 0 || acy >= kH) continue;
+                        var acnb = gGrid[acy*kW+acx];
+                        if (isDissolvedByAcid(acnb) && qRand() < 0.04){
                             gGrid[acy*kW+acx] = EMPTY;
                             gUpdated[acy*kW+acx] = 1;
-                            if(qRand()<0.3){gGrid[tidx] = EMPTY;gUpdated[tidx] = 1;}
-                            if(qRand()<0.1){gGrid[tidx] = GAS;gLife[tidx] = 80 + qRandInt(60);}
+                            if (qRand() < 0.3){ gGrid[tidx] = EMPTY; gUpdated[tidx] = 1; }
+                            if (qRand() < 0.1){ gGrid[tidx] = GAS; gLife[tidx] = 80 + qRandInt(60); }
                         }
                     }
                 }
                 if (tcell === ICE){
-                    
+                   var icCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+                   for (var ici = 0; ici < icCol.length;ici++){
+                    var icx = icCol[ici][0], icy = icCol[ici][1];
+                    if (icx < 0||icx >=kW||icy<0||icy>=kH)continue;
+                    var icnb = gGrid[icy*kW+icx];
+                    if(icnb===WATER && qRand()<0.005){
+                        gGrid[icy*kW+icx] = ICE;
+                        gUpdated[icy*kW+icx] = 1;
+                    }
+
+                   }
+
                 }
 
             }  
