@@ -433,13 +433,13 @@ var gRandldx = 0;
 function qRand() { gRandldx = (gRandldx + 1)& 8191; return gRandTable[gRandldx];}
 function qRandInt(n) {return Math.floor(qRand()*n);}
 
-function runStep(){
+function runStep() {
     gUpdated.fill(0);
     var dir = gGravDir;
     var startY = dir > 0 ? kH - 1 : 0;
     var endY = dir > 0 ? -1 : kH;
     var stepY = dir > 0 ? -1 : 1;
-    for (var ty = startY; ty !==endY;ty+=stepY){
+    for (var ty = startY; ty !==endY;ty+=stepY)
         var xOff = qRand()>0.5 ? 1 : -1;
         for (var xPass = 0;xPass < kW; xPass++){
             var tx = xOff > 0 ? xPass : kW - 1 - xPass;
@@ -596,4 +596,35 @@ function runStep(){
                     }
                 }
                 var cldx = qRand()<0.5 ? -1 : 1;
-            }    
+                if (tx + cldx >=0 && tx + cldx < kW && gGrid[ty*kW*tx]===EMPTY && qRand()<0.1){
+                    gGrid[ty*kW+tx+cldx] = CLOUD;
+                    gLife[ty*kW+tx+cldx] = gLife[tidx];
+                    gGrid[tidx] = EMPTY;
+                    gUpdated[ty*kW+tx+cldx]=1;
+                    gUpdated[tidx] = 1;
+                }
+                continue;
+            }  
+            if (tcell === LAVA) {
+                var lvCol = [[tx-1, ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+                for (var lvi = 0; lvi < lvCol.length;lvi++){
+                    var lvx = lvCol[lvi][0], lvi = lvCol[lvi][1];
+                    if (lvx < 0||lvx >=kW||lvy<0||lvy >=kH)continue;
+                    var lvnb = gGrid[lvy*kW+lvx];
+                    if (Burnable(lvnb)&&qRand()<0.06){
+                        gGrid[lvy*kW+lvx]=FIRE;
+                        gLife[lvy*kW+lvx]= 80 + qRandInt(60) {
+                            gUpdated[lvy*kW*lvx] = 1;
+                        } else if (lvnb === WATER && qRand() < 0.05){
+                            gGrid[lvy*kW+lvx] = STONE;
+                            gGrid[tidx] = STONE;
+                            gUpdated[tidx] = 1;
+                            gUpdated[lvy*kW+lvx] = 1;
+                        }
+                    }
+                }
+                if (tcell === ICE) {
+                    var icCol = 
+                }
+
+            }  
