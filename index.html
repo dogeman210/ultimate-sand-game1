@@ -713,7 +713,32 @@ function runStep() {
                     }
 
                    }
+                   if(icnb===WATER && qRand()<0.05){
+                    gGrid[icy*kW+icx] = ICE;
+                    gUpdated[icy*kW+icx] = 1;
+                   }
 
                 }
+                continue;
 
             }  
+            if(tcell === PLANT){
+                var plCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+                for (var pli = 0; pli < plCol.length;pli++){
+                    var plx = plCol[pli][0],ply = plCol[pli][1];
+                    if(plx < 0||plx>=kW||ply<0||ply>kH)continue;
+                    var plnb = gGrid[ply*kW+plx];
+                    if(plnb === WATER && qRand()<0.005){
+                        gGrid[ply*kW+ply]=PLANT;
+                        gUpdated[ply*kW+plx] = 1;
+                    }
+                    if(icnb === LAVA && qRand()<0.05){
+                        gGrid[tidx]=WATER;
+                        gUpdated[tidx]=1;
+                    }
+                }
+                continue;
+            }
+            if(tcell === PLANT){
+                
+            }
