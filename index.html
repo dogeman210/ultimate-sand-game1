@@ -772,27 +772,49 @@ function runStep() {
                 }
             }
             if (tcell === SAND) {
-                var snbCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[[tx,ty+1]];
-                for (var gpi = 0; gpi < gpCol.length;gpi++){
-                    var gpx = gpCol[gpi][0],gpy = gpCol[gpi][1];
+                var snbCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+                for (var gpi = 0; gpi < snbCol.length; gpi++){
+                    var gpx = snbCol[gpi][0], gpy = snbCol[gpi][1];
                     if(gpx < 0||gpx>=kW||gpy<0||gpy>=kH)continue;
                     var gpnb = gGrid[gpy*kW+gpx];
                     if(gpnb === FIRE && qRand()<0.5){
-                        var ed = (ex-tx)*(ex-tx)+(ey-ty)*(ey-ty);
+                        var ed = (gpx-tx)*(gpx-tx)+(gpy-ty)*(gpy-ty);
                         if(ed <= 9 && qRand()<0.7) {
-                            gGrid[ey*kW+ex] = FIRE;
-                            gLife[ey*kW+ex] = 30 + qRandInt(40);
-                            gUpdated[ey*kW+ex] = 1;
+                            gGrid[gpy*kW+gpx] = FIRE;
+                            gLife[gpy*kW+gpx] = 30 + qRandInt(40);
+                            gUpdated[gpy*kW+gpx] = 1;
                         }
                     }
                 }
                 gGrid[tidx] = FIRE;
                 gLife[tidx] = 40 + qRandInt(40);
-                gUpdate[ey*kW+ex] = 1;
+                gUpdated[tidx] = 1;
             }
         }
 }
 if(gUpdated[tidx])continue;
 if(isPowder(tcell)){
-    
-}    
+    var bny = ty + dir;
+    var pmoved = false;
+    if(bny >=0 && bny < kH) {
+        var bbot = gGrid[bny*kW+tx];
+        if (bbot === EMPTY || isLiquid(bbot)){
+            if(isLiquid(bbot)){
+                gGrid[bny*kW+tx]=tcell;
+                gGrid[tidx] = bbot;
+                var tmpL2 = gLife[bny*kW+tx];gLife[bny*kW+tx]=gLife[tidx] = tmpL2;
+            } else {
+                gGrid[bny*kW+tx]=tcell;
+                gLife[bny*kW+tx]=gLife[tidx];
+                gGrid[tidx]=EMPTY;
+            }
+            gUpdated[bny*kW+tx] = 1;
+            gUpdated[tidx] = 1;
+            pmoved = true;
+
+        }
+    }
+    if (!pmoved){
+        var pslant = qRand()< 0.5 ? -1 : 1;
+    }
+}
