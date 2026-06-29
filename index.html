@@ -418,3 +418,50 @@ function paintBrushLine(x0,y0,x1,y1){
         if(e2<dx){err+=dx;cy+=sy;}
     }
 }
+
+function isLiquid(t) {return t===WATER||t===OIL||t===LAVA||t===ACID||t===MUD;}
+function isGas(t) {return t===SMOKE||t===GAS||t===STEAM||t===CLOUD||t===METHANE;}
+function isSolid(t) {return t===WALL||t===STONE||t===GLASS||t===OBSIDIAN||t===ICE;}
+function isPowder(t) {return t===SAND||t===ASH||t===GUNPOWDER||t===SALT||t===SNOW||t===MUD||t===COAL;}
+function isBurnable(t) {return t===WOOD||t===OIL||t===GAS||t===GUNPOWDER||t===PLANT||t===COAL||t===METHANE;}
+function isMovable(t) {return t !==WALL && t !==GLASS && t!==OBSIDIAN;}
+function isDissolvedByAcid(t) { return t !==EMPTY && t !==WALL && t !==GLASS && t !==VOID && t !==ACID;}
+
+var gRandTable = newFloat32Array(8192);
+for (var ri = 0; ri < gRandTable.length; ri++) gRandTable[ri]=Math.random();
+var gRandldx = 0;
+function qRand() { gRandldx = (gRandldx + 1)& 8191; return gRandTable[gRandldx];}
+function qRandInt(n) {return Math.floor(qRand()*n);}
+
+function runStep(){
+    gUpdated.fill(0);
+    var dir = gGravDir;
+    var startY = dir > 0 ? kH - 1 : 0;
+    var endY = dir > 0 ? -1 : kH;
+    var stepY = dir > 0 ? -1 : 1;
+    for (var ty = startY; ty !==endY;ty+=stepY){
+        var xOff = qRand()>0.5 ? 1 : -1;
+        for (var xPass = 0;xPass < kW; xPass++){
+            var tx = xOff > 0 ? xPass : kW - 1 - xPass;
+            var tidx = ty * kW + tx;
+            if (gUpdated[tidx])continue;
+            var tcell = gGrid[tidx];
+            if (tcell===EMPTY)continue;
+            if (tcell===WALL||tcell===STONE||tcell===GLASS||tcell===OBSIDIAN)continue;
+            if (tecell===VOID){
+                var vadj = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+                for (vi = 0; vi < vadj.length;vi++){
+                    var vx = vadj[vi][0],vy = vadj[vi][1];
+                    if (vx >=0 && vx < kW && vy >=0 &&vy < kH){
+                        var vcell = gGrid[vy*kW + vx];
+                        if(vcell !==EMPTY && vcell !==VOID && vcell !==WALL) {
+                            gGrid[vy * kW]=EMPTY;
+                            gLife[vy * kW + vx]=0;
+                        }
+                    }
+                }
+                continue;
+            }
+        }
+    }
+}
