@@ -565,5 +565,24 @@ function runStep(){
                    } 
                 }
                 var gfadj = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
-
+                for (var gfi = 0; gfi < gfadj.length; gfi++){
+                    var gfx = gfadj[gfi][0],gfy = gfadj[gfi][1];
+                    if(gfx<0||gfx>kW||gfy<0||gfy>=kH)continue;
+                    if(gGrid[gfy*kW+gfx]===FIRE){
+                        gGrid[tidx]=FIRE;
+                        gLife[tidx]= 60 + qRandInt(60);
+                        if (tcell === METHANE){
+                            for(var mx2 = tx-3; mx2 <= tx+3; mx2++)for(var my2=ty-3;my2<=ty+3;my2++){
+                                if(mx2 >=0 && mx2 < kW && my2 >=0 && my2<kH && qRand()<0.5){
+                                    gGrid[my2*kW+mx2]=FIRE;
+                                    gLife[my2*kW+mx2]= 40 + qRandInt(40);
+                                }
+                            }
+                        }
+                        gUpdated[tidx] = 1;
+                        break;
+                    }
+                }
+                continue;
             }
+                
