@@ -757,5 +757,20 @@ function runStep() {
                 continue;
             }
             if (tcell === WATER){
+                var wnbCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+                for (var wni = 0; wni < wnbCol.length;ni++){
+                    var wnx = wnbCol[wni][0],wny = wnbCol[wni][1];
+                    if(wnx < 0||wnx>=kW||wny<0||wny>=kH)continue;
+                    var wnnb = gGrid[wny*kW+wnx];
+                    if(wnnb === SALT && qRand()<0.03){
+                        gGrid[wny*kW+wnx]=EMPTY;
+                        gUpdated[wny*kW+wnx]=1;
+                    }else if (wnnb === SNOW && qRand() < 0.05){
+                        gGrid[wny*kW+wnx] = EMPTY;
+                        gUpdated[wny*kW+wnx] = 1;
+                    }
+                }
+            }
+            if (tcell === SAND) {
                 
             }
