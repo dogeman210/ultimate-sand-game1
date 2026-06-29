@@ -395,3 +395,14 @@ function putParticle(x,y,t){
     else{gLife[y*kW+x]=0;}
     gSet(x,y,t);
 }
+function paintBrush(cx,cy){
+    var t = (gBrushMode === 'eraser')? EMPTY : selMat;
+    var r = gBrushSz;
+    if(gBrushMode ==== 'square'){
+        for(var dy = -r;dy<=r;dy++)for(var dx = -r;dx <=r;dx++)putParticle(cx + dx, cy + dy,t);
+    }else{
+        for (var dy = -r; dy<=r;dy++)for(var dx= -r; dx <=r;dx++){
+            if (dx*dx + dy*dy <=r*r)putParticle(cx+dx,cy+dy,t);
+        }
+    }
+}
