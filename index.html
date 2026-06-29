@@ -740,5 +740,22 @@ function runStep() {
                 continue;
             }
             if(tcell === PLANT){
+                var plCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
+                for (var pli = 0; pli < plCol.length;pli++){
+                    var plx = plCol[pli][0],ply = plCol[pli][1];
+                    if (plx<0||plx>=kW||ply<0||ply>=kH)continue;
+                    var plnb = gGrid[ply*kW+plx];
+                    if(plnb === WATER && qRand()<0.005){
+                        gGrid[ply*kW+plx] = PLANT;
+                        gUpdated[ply*kW+plx] = 1;
+                    }else if (plnb === FIRE && qRand()<0.2){
+                        gGrid[tidx] = FIRE;
+                        gLife[tidx] = 60 + qRandInt(60);
+                        gUpdated[tidx] = 1;
+                    }
+                }
+                continue;
+            }
+            if (tcell === WATER){
                 
             }
