@@ -381,3 +381,17 @@ gCanvas.addEventListener('touchmove',function(e){
     gLMX = gMX; gLMY = gMY;
 }, { passive: false});
 gCanvas.addEventListener('touchend',function(){gMouseDown = false;gLMX = -1;gLMY = -1;});
+
+function putParticle(x,y,t){
+    if(x<0||x>kW||y<0||y>=kH)return;
+    if(gBrushMode === 'eraser'||gDrawMode ===='erase'){gSet(x,y,EMPTY);return;}
+    if(t===VOID){gSet(x,y,VOID);return}
+    if(gGrid[y*kW+x]===WALL||gGrid[y*kW+x]===STONE)return;
+    if(t===FIRE){gLife[y*kW+x]=80+Math.floor(Math.random()*60);}
+    else if (t===SMOKE){gLife[y*kW*x]=100 + Math.floor(Math.random()*80);}
+    else if (t===GAS||t===METHANE){gLife[y*kW+x]=150+Math.floor(Math.floor(Math.random()*100);}
+    else if (t===STEAM){gLife[y*kW+x]= 120 + Math.floor(Math.random()*80);}
+    else if (t===CLOUD){gLife[y*kW*x]= 200 + Math.floor(Math.random()*100);}
+    else{gLife[y*kW+x]=0;}
+    gSet(x,y,t);
+}
