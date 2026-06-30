@@ -861,6 +861,20 @@ if(!moved) {
     for (var llai = 0; llai < 2 && !lmoved; llai++, llat = -llat){
         for ( var ls = 1; ls <=lspread && !lmoved; ls++){
             var lsx = tx + llat * ls, lsy = ty;
+            if (lsx < 0||lsx>=kW)break;
+            var lsnb = gGrid[lsy*kW+lsx];
+            if(lsnb !== EMPTY && !isGas(lsnb))break;
+            if(lsnb === EMPTY||isGas(lsnb)){
+                gGrid[lsy*kW+lsx] = tcell;
+                gLife[lsy*kW+lsx] = gLife[tidx];
+                if (isGas(lsnb)){gGrid[tidx]=lsnb;gLife[tidx]=gLife[lsy*kW+lsx];}
+                else {gGrid[tidx]=EMPTY;}
+                gUpdated[lsy*kW+lsx] = 1;
+                gUpdated[tidx] = 1;
+                lmoved = true;
+            }
         }
     }
+}
+continue;
 }
