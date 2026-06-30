@@ -816,18 +816,51 @@ if(isPowder(tcell)){
     }
     if (!pmoved){
         var pslant = qRand()< 0.5 ? -1 : 1;
-        for (var psi = 0; psi < 2 && !pmoved; psi++, pslant = -pslant){
-            var psi = tx + pslant, psy = bny;
-            if (psx<0||psx>=kW||psy<0||psy>=kH)continue;
+        for (var psi_i = 0; psi_i < 2 && !pmoved; psi_i++, pslant = -pslant){
+            var psx = tx + pslant, psy = bny;
+            if (psx<0||psx>=kW||psy<0||psy>=kH) continue;
             var psbot = gGrid[psy*kW + psx];
-            if(psbot === EMPTY||isLiquid(psbot)){
+            if(psbot === EMPTY || isLiquid(psbot)){
                 if(isLiquid(psbot)){
                     gGrid[psy*kW+psx]=tcell;
                     gGrid[tidx]=psbot;
-                    var tmpL3 = gLife[psy*kW+psx];gLife[psy*kW+psx]=<gLife[tidx];gLife[tidx]=tmpL3;
+                    var tmpL3 = gLife[psy*kW+psx]; gLife[psy*kW+psx]=gLife[tidx]; gLife[tidx]=tmpL3;
                 } else {
-                    
+                    gGrid[psy*kW+psx]=tcell;
+                    gLife[psy*kW+psx] = gLife[tidx];
+                    gGrid[tidx] = EMPTY;
+                }
+                gUpdated[psy*kW+psx] = 1;
+                gUpdated[tidx] = 1;
+                pmoved = true;
             }
+        }
+}
+continue;
+
+}
+if (isLiquid(tcell)){
+    var ldy = ty + dir;
+    var lmoved = false;
+    if (ldy >= 0 && ldy < kH){
+        var lbot = gGrid[ldy*kW+tx];
+        if (lbot === EMPTY||(isGas(lbot))){
+            gGrid[ldy*kW+tx] = tcell;
+            gLife[ldy*KW+tx] = gLife[tidx];
+        } else {
+            gGrid[tidx] = EMPTY;
+    }
+    gUpdated[ldy*kW+tx] = 1;
+    gUpdated[tidx] = 1;
+    lmoved = true;
+    }
+}
+if(!moved) {
+    var lspread = Math.floor(g.Spread * 3 + 1);
+    var llat = qRand() < 0.5 ? -1 : 1;
+    for (var llai = 0; llai < 2 && !lmoved; llai++, llat = -llat){
+        for ( var ls = 1; ls <=lspread && !lmoved; ls++){
+            var lsx = tx + llat * ls, lsy = ty;
         }
     }
 }
