@@ -816,5 +816,18 @@ if(isPowder(tcell)){
     }
     if (!pmoved){
         var pslant = qRand()< 0.5 ? -1 : 1;
+        for (var psi = 0; psi < 2 && !pmoved; psi++, pslant = -pslant){
+            var psi = tx + pslant, psy = bny;
+            if (psx<0||psx>=kW||psy<0||psy>=kH)continue;
+            var psbot = gGrid[psy*kW + psx];
+            if(psbot === EMPTY||isLiquid(psbot)){
+                if(isLiquid(psbot)){
+                    gGrid[psy*kW+psx]=tcell;
+                    gGrid[tidx]=psbot;
+                    var tmpL3 = gLife[psy*kW+psx];gLife[psy*kW+psx]=<gLife[tidx];gLife[tidx]=tmpL3;
+                } else {
+                    
+            }
+        }
     }
 }
