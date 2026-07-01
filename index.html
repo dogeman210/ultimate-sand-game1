@@ -789,11 +789,29 @@ function runStep() {
                     }
                 }
                 if (tcell === GUNPOWDER){
-                    var gpCol
+                    var gpCol = [[tx-1,ty], [tx+1,ty], [tx,ty-1], [tx,ty+1]];
+                    for (var gpi = 0; gpi < gpCol.length; gpi++) {
+                        var gpx = gpCol[gpi][0], gpy = gpCol[gpi][1];
+                        if ( gpx < 0 || gpx >= kW || gpy < 0 || gpy >= kH) continue;
+                        var gpnb = gGrid[gpy * kW + gpx];
+                        if (gpnb === FIRE && qRand()<0.5) {
+                            for (var ex = tx - 3; ex <= tx + 3; ex++) for (var ey = ty - 3; ey <= ty+3; ey++) {
+                                if (ex >= 0 && ex < kW && ey >= && ey < kH) {
+                                    var ed = (ex - tx) * (ex - tx) + (ey - ty) * (ey - ty);
+                                    if (ed <= 9 && qRand() < 0.5) {
+                                        gGrid[ey * kW + ex] = FIRE;
+                                        gLife[ey * kW + ex] = 30 + qRandInt(40);
+                                        gUpdated[ey * kW + ex] = 1;
+                                    }
+                                }
+                            }
+                            gGrid[tidx] = FIRE;
+                            gLife[tidx] = 30 + qRandInt(40);
+                            gUpdated[ey * kW + ex] = 1;
+                            break;
+                        }
+                    }
                 }
-                gGrid[tidx] = FIRE;
-                gLife[tidx] = 40 + qRandInt(40);
-                gUpdated[tidx] = 1;
             }
         }
 }
