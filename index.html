@@ -759,7 +759,7 @@ function runStep() {
             }
             if (tcell === WATER){
                 var wnbCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
-                for (var wni = 0; wni < wnbCol.length;ni++){
+                for (var wni = 0; wni < wnbCol.length; wni++){
                     var wnx = wnbCol[wni][0],wny = wnbCol[wni][1];
                     if(wnx < 0||wnx>=kW||wny<0||wny>=kH)continue;
                     var wnnb = gGrid[wny*kW+wnx];
@@ -775,41 +775,39 @@ function runStep() {
             if (tcell === SAND) {
                 var snbCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
                 for (var gpi = 0; gpi < snbCol.length; gpi++){
-                    var snbi = snbCol[snbi][0], snby = snbCol[snbi][1];
+                    var snbi = snbCol[gpi][0], snby = snbCol[gpi][1];
                     if (snbi < 0 || snbi >= kW || snby < 0 || snby >= kH) continue;
                     var snbnb = gGrid[snby * kW + snbi];
                     if (snbnb === WATER && qRand() < 0.001) {
                         gGrid[snby * kW + snbi] = MUD;
-                        gGrid[tidx] = MUD
+                        gGrid[tidx] = MUD;
                         gUpdated[snby * kW + snbi] = 1;
                         gUpdated[tidx] = 1;
                         break;
-                
-                        }
                     }
                 }
-                if (tcell === GUNPOWDER){
-                    var gpCol = [[tx-1,ty], [tx+1,ty], [tx,ty-1], [tx,ty+1]];
-                    for (var gpi = 0; gpi < gpCol.length; gpi++) {
-                        var gpx = gpCol[gpi][0], gpy = gpCol[gpi][1];
-                        if ( gpx < 0 || gpx >= kW || gpy < 0 || gpy >= kH) continue;
-                        var gpnb = gGrid[gpy * kW + gpx];
-                        if (gpnb === FIRE && qRand()<0.5) {
-                            for (var ex = tx - 3; ex <= tx + 3; ex++) for (var ey = ty - 3; ey <= ty+3; ey++) {
-                                if (ex >= 0 && ex < kW && ey >= && ey < kH) {
-                                    var ed = (ex - tx) * (ex - tx) + (ey - ty) * (ey - ty);
-                                    if (ed <= 9 && qRand() < 0.5) {
-                                        gGrid[ey * kW + ex] = FIRE;
-                                        gLife[ey * kW + ex] = 30 + qRandInt(40);
-                                        gUpdated[ey * kW + ex] = 1;
-                                    }
+            }
+            if (tcell === GUNPOWDER){
+                var gpCol = [[tx-1,ty], [tx+1,ty], [tx,ty-1], [tx,ty+1]];
+                for (var gpi = 0; gpi < gpCol.length; gpi++) {
+                    var gpx = gpCol[gpi][0], gpy = gpCol[gpi][1];
+                    if ( gpx < 0 || gpx >= kW || gpy < 0 || gpy >= kH) continue;
+                    var gpnb = gGrid[gpy * kW + gpx];
+                    if (gpnb === FIRE && qRand()<0.5) {
+                        for (var ex = tx - 3; ex <= tx + 3; ex++) for (var ey = ty - 3; ey <= ty+3; ey++) {
+                            if (ex >= 0 && ex < kW && ey >= 0 && ey < kH) {
+                                var ed = (ex - tx) * (ex - tx) + (ey - ty) * (ey - ty);
+                                if (ed <= 9 && qRand() < 0.5) {
+                                    gGrid[ey * kW + ex] = FIRE;
+                                    gLife[ey * kW + ex] = 30 + qRandInt(40);
+                                    gUpdated[ey * kW + ex] = 1;
                                 }
                             }
-                            gGrid[tidx] = FIRE;
-                            gLife[tidx] = 30 + qRandInt(40);
-                            gUpdated[ey * kW + ex] = 1;
-                            break;
                         }
+                        gGrid[tidx] = FIRE;
+                        gLife[tidx] = 30 + qRandInt(40);
+                        gUpdated[tidx] = 1;
+                        break;
                     }
                 }
             }
@@ -897,8 +895,7 @@ if (isLiquid(tcell)){
             }
         }
     }
-     continue;
-    }
+    continue;
 }
 
 if (Math.abs(gWindX)>0.01||Math.abs(gWindY)>0.01){
@@ -917,4 +914,75 @@ if (Math.abs(gWindX)>0.01||Math.abs(gWindY)>0.01){
     }
 }
 
+ var gColorVar = new Uint8Array(kW * kH * 3);
+ for (var cvi = 0; cvi < kW * kH; cvi++){
+    gColorVar[cvi * 3] = Math.floor(Math.random() * 20) - 10;
+    gColorVar[cvi * 3 + 1] = Math.floor(Math.random() * 20) - 10;
+    gColorVar[cvi * 3 + 2] = Math.floor(Math.random() * 20) - 10;
+ }   
+
+
+ function clamp255(v) { return v < 0 ? 0 : v > 255 ? 255 : v;}
+
+ function drawFrame() {
+    var p = 0
+for(var fy = 0; fy < kH; fy++){
+    for (var fx = 0; fx < kW; fx++){
+        var fidx = fy * kW + fx;
+        var fcell = gGrid[fidx];
+        var r, g, b;
+        if (fcell === EMPTY) { r = 18; g = 18; b = 18;}
+        else {
+            var fc = matColorMap[fcell];
+            if(!fc) { r = 200; g = 0; b = 200;}
+            else {
+                r = fc[0]; g = fc[1]; b = fc[2];
+                var vr = gColorVar[fidx * 3], vg = gColorVar[fidx * 3 + 1], vb = gColorVar[fidx * 3 + 2];
+                if(fcell === FIRE){
+                    var flife = gLife[fidx];
+                    var fheat = flife/140;
+                    r = clamp255(Math.floor(220 + vr * 0.2));
+                    g = clamp255(Math.floor(fheat * 140 + vg * 0.3));
+                    b = clamp255(Math.floor(fheat * 60 + vb * 0.3));
+                } else if (fcell === LAVA) {
+                    var lheat = 0.5 + 0.5 * Math.sin(Date.now() * 0.003 + fx * 0.5 + fy * 0.3);
+                    r = clamp255(Math.floor(220 + vr * 0.2));
+                    g = clamp255(Math.floor(50 + lheat * 80 + vg * 0.2));
+                    b = clamp255(Math.floor(vb<0 ? 0 : vb));
+                } else if (fcell === WATER) {
+                    r = clamp255(fc[0] + vr);
+                    g = clamp255(fc[1] + vg);
+                    b = clamp255(fc[2] + vb);
+                } else if (fcell === GAS||fcell === METHANE) {
+                    var gfade = gLife[fidx]/250;
+                    r = clamp255(Math.floor(fc[0] * gfade));
+                    g = clamp255(Math.floor(fc[1] * gfade));
+                    b = clamp255(Math.floor(fc[2] * gfade));
+                }else if (fcell === SMOKE || fcell === STEAM) {
+                    var sfade = gLife[fidx]/200;
+                    r = clamp255(Math.floor(fc[0] * sfade + vr));
+                    g = clamp255(Math.floor(fc[1] * sfade + vg));
+                    b = clamp255(Math.floor(fc[2] * sfade + vb));
+                } else {
+                    r = clamp255(fc[0] + vr); g = clamp255(fc[1] + vg); b = clamp255(fc[2] + vb);
+        
+                }
+            }
+        }
+        if(gColorInvert) { r = 255 - r; g = 255 - g; b = 255 - b;}
+        gPix[p]    =r;
+        gPix[p + 1] = g;
+        gPix[p + 2] = b;
+        gPix[p + 3] = 255;
+        p += 4;
+    }
+}
+gCtx.putImageData(gImgData,0,0);
+ }
+
+
+ var gFpsArr = [], gLastT = 0, gFrameCount = 0, gFPSTimer = 0;
+ var gPartCount = 0, gPartTimer = 0;
+ function updateStats(now){
     
+ }
