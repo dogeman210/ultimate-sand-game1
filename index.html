@@ -984,5 +984,50 @@ gCtx.putImageData(gImgData,0,0);
  var gFpsArr = [], gLastT = 0, gFrameCount = 0, gFPSTimer = 0;
  var gPartCount = 0, gPartTimer = 0;
  function updateStats(now){
-    
+    gFrameCount++;
+    var dt = now - gLastT;
+    gLastT = now;
+    gFpsTimer += dt;
+    if(gFpsTimer >= 500){
+        var fps = Math.round(gFrameCount / gFpsTimer * 1000);
+        document.getElementById('stFps').textContent = fps;
+        gFrameCount = 0;
+        gFpsTimer = 0;
+    }
+ gPartTimer += dt;
+ if(gPartTimer >= 400) {
+    var cnt = 0;
+    for (var pi2 = 0; pi2 < gGrid.length; pi2++) if (gGrid[pi2] !== EMPTY) cnt++;
+    document.getElementById('stPart').textContent = cnt;
+    document.getElementById('stPart').textContent = kW + 'x' + kH;
+    gPartTimer = 0;
+  }
  }
+
+
+function mainLoop(now) {
+    if (!gPaused) {
+        for (var si = 0; si < gSimSpeed; si++) runStep();
+    }
+    drawFrame();
+    updateStats(now);
+    requestAnimationFrame(mainLoop);
+}
+requestAnimationFrame(mainLoop);
+
+var xNEWMAT_START = 26;
+var HONEY = 26;
+var CEMENT = 27;
+var WAX = 28;
+var VIRUS = 29;
+var MAGNET = 30;
+var DRAIN = 31;
+var CRYSTAL = 32;
+var RUST = 33;
+var SLIME = 34;
+var EMBER = 35;
+var FUNGUS = 36;
+var
+var
+var
+var
