@@ -835,46 +835,49 @@ if(isPowder(tcell)){
                 pmoved = true;
             }
         }
-}
-continue;
-
+    }
+    continue;
 }
 if (isLiquid(tcell)){
     var ldy = ty + dir;
     var lmoved = false;
     if (ldy >= 0 && ldy < kH){
         var lbot = gGrid[ldy*kW+tx];
-        if (lbot === EMPTY||(isGas(lbot))){
+        if (lbot === EMPTY || isGas(lbot)){
             gGrid[ldy*kW+tx] = tcell;
-            gLife[ldy*KW+tx] = gLife[tidx];
+            gLife[ldy*kW+tx] = gLife[tidx];
+            gUpdated[ldy*kW+tx] = 1;
+            gUpdated[tidx] = 1;
+            lmoved = true;
         } else {
             gGrid[tidx] = EMPTY;
+        }
     }
-    gUpdated[ldy*kW+tx] = 1;
-    gUpdated[tidx] = 1;
-    lmoved = true;
-    }
-}
-if(!moved) {
-    var lspread = Math.floor(g.Spread * 3 + 1);
-    var llat = qRand() < 0.5 ? -1 : 1;
-    for (var llai = 0; llai < 2 && !lmoved; llai++, llat = -llat){
-        for ( var ls = 1; ls <=lspread && !lmoved; ls++){
-            var lsx = tx + llat * ls, lsy = ty;
-            if (lsx < 0||lsx>=kW)break;
-            var lsnb = gGrid[lsy*kW+lsx];
-            if(lsnb !== EMPTY && !isGas(lsnb))break;
-            if(lsnb === EMPTY||isGas(lsnb)){
-                gGrid[lsy*kW+lsx] = tcell;
-                gLife[lsy*kW+lsx] = gLife[tidx];
-                if (isGas(lsnb)){gGrid[tidx]=lsnb;gLife[tidx]=gLife[lsy*kW+lsx];}
-                else {gGrid[tidx]=EMPTY;}
-                gUpdated[lsy*kW+lsx] = 1;
-                gUpdated[tidx] = 1;
-                lmoved = true;
+    if(!lmoved) {
+        var lspread = Math.floor(g.Spread * 3 + 1);
+        var llat = qRand() < 0.5 ? -1 : 1;
+        for (var llai = 0; llai < 2 && !lmoved; llai++, llat = -llat){
+            for ( var ls = 1; ls <=lspread && !lmoved; ls++){
+                var lsx = tx + llat * ls, lsy = ty;
+                if (lsx < 0||lsx>=kW)break;
+                var lsnb = gGrid[lsy*kW+lsx];
+                if(lsnb !== EMPTY && !isGas(lsnb))break;
+                if(lsnb === EMPTY||isGas(lsnb)){
+                    gGrid[lsy*kW+lsx] = tcell;
+                    gLife[lsy*kW+lsx] = gLife[tidx];
+                    if (isGas(lsnb)){gGrid[tidx]=lsnb;gLife[tidx]=gLife[lsy*kW+lsx];}
+                    else {gGrid[tidx]=EMPTY;}
+                    gUpdated[lsy*kW+lsx] = 1;
+                    gUpdated[tidx] = 1;
+                    lmoved = true;
+                }
             }
         }
     }
+     continue;
+    }
 }
-continue;
-}
+
+if (Math.abs(gWindX)>0.01||Math.abs(gWindY)>0.01) 
+
+    
