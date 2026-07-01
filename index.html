@@ -504,7 +504,7 @@ function runStep() {
     var startY = dir > 0 ? kH - 1 : 0;
     var endY = dir > 0 ? -1 : kH;
     var stepY = dir > 0 ? -1 : 1;
-    for (var ty = startY; ty !==endY;ty+=stepY)
+    for (var ty = startY; ty !==endY;ty+=stepY) {
         var xOff = qRand()>0.5 ? 1 : -1;
         for (var xPass = 0;xPass < kW; xPass++){
             var tx = xOff > 0 ? xPass : kW - 1 - xPass;
@@ -687,6 +687,7 @@ function runStep() {
                         gUpdated[lvy*kW+lvx] = 1;
                     }
                 }
+            }
                 if (tcell === ACID) {
                     var acCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
                     for (var aci = 0; aci < acCol.length; aci++){
@@ -774,17 +775,21 @@ function runStep() {
             if (tcell === SAND) {
                 var snbCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
                 for (var gpi = 0; gpi < snbCol.length; gpi++){
-                    var gpx = snbCol[gpi][0], gpy = snbCol[gpi][1];
-                    if(gpx < 0||gpx>=kW||gpy<0||gpy>=kH)continue;
-                    var gpnb = gGrid[gpy*kW+gpx];
-                    if(gpnb === FIRE && qRand()<0.5){
-                        var ed = (gpx-tx)*(gpx-tx)+(gpy-ty)*(gpy-ty);
-                        if(ed <= 9 && qRand()<0.7) {
-                            gGrid[gpy*kW+gpx] = FIRE;
-                            gLife[gpy*kW+gpx] = 30 + qRandInt(40);
-                            gUpdated[gpy*kW+gpx] = 1;
+                    var snbi = snbCol[snbi][0], snby = snbCol[snbi][1];
+                    if (snbi < 0 || snbi >= kW || snby < 0 || snby >= kH) continue;
+                    var snbnb = gGrid[snby * kW + snbi];
+                    if (snbnb === WATER && qRand() < 0.001) {
+                        gGrid[snby * kW + snbi] = MUD;
+                        gGrid[tidx] = MUD
+                        gUpdated[snby * kW + snbi] = 1;
+                        gUpdated[tidx] = 1;
+                        break;
+                
                         }
                     }
+                }
+                if (tcell === GUNPOWDER){
+                    var gpCol
                 }
                 gGrid[tidx] = FIRE;
                 gLife[tidx] = 40 + qRandInt(40);
@@ -854,7 +859,7 @@ if (isLiquid(tcell)){
         }
     }
     if(!lmoved) {
-        var lspread = Math.floor(g.Spread * 3 + 1);
+        var lspread = Math.floor(gSpread * 3 + 1);
         var llat = qRand() < 0.5 ? -1 : 1;
         for (var llai = 0; llai < 2 && !lmoved; llai++, llat = -llat){
             for ( var ls = 1; ls <=lspread && !lmoved; ls++){
@@ -878,6 +883,20 @@ if (isLiquid(tcell)){
     }
 }
 
-if (Math.abs(gWindX)>0.01||Math.abs(gWindY)>0.01) 
+if (Math.abs(gWindX)>0.01||Math.abs(gWindY)>0.01){
+    for (var wi = 0; wi < Math.ceil(Math.abs(gWindX)*kW*kH*0.0001 + 1);wi++){
+        var wx2 = qRandInt(kW - 1),wy2 = qRandInt(kH - 1);
+        var wt = gGrid[wy2*kW+wx2];
+        if (wt === EMPTY || wt === WALL) continue;
+        var wnx2 = wx2 + (gWindX > 0 ? 1 : -1), wny2 = wy2 + (gWindY > 0 ? 1 : -1);
+        if (wnx2 < 0 || wnx2 >= kW || wny2 < 0 || wny2 >= kH) continue;
+        if (gGrid[wny2*kW+wnx2] === EMPTY){
+            gGrid[wny2*kW+wnx2] = wt;
+            gLife[wny2*kW+wnx2] = gLife[wy2*kW+wx2];
+            gGrid[wy2*kW+wx2] = EMPTY;
+        }
+
+    }
+}
 
     
