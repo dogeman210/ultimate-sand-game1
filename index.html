@@ -1034,5 +1034,32 @@ var RUBBER = 39;
 var xNewMatDefs = [
     {id: HONEY, nm: 'Honey', col: [210,140,20], cat: 'liquid'},
     {id: CEMENT, nm: 'Cement', col: [160, 155, 140], cat: 'powder'},
-    
-]
+    {id: WAX, nm: 'Wax', col: [240,220,170], cat: 'solid'},
+    {id: VIRUS, nm: 'Virus', col: [60, 200, 60], cat: 'special'},
+    {id: MAGNET, nm: 'Magnet', col: [160, 30, 180], cat: 'solid'},
+    {id: DRAIN, nm: 'Drain', col: [40, 40, 60], cat: 'special'},
+    {id: CRYSTAL, nm: 'Crystal', col: [100,220,255], cat: 'solid'},
+    {id: RUST, nm: 'Rust', col: [160, 70, 20], cat: 'solid'},
+    {id: SLIME, nm: 'Slime', col: [50, 180, 80], cat: 'liquid'},
+    {id: EMBER, nm: 'Ember', col: [255, 120, 10], cat: 'energy'},
+    {id: FUNGUS, nm: 'Fungus', col: [130, 100, 40], cat: 'solid'},
+    {id: MIRROR, nm: 'Mirror', col: [200, 200, 220], cat: 'solid'},
+    {id: SPORE, nm: 'Spore', col: [180, 160, 60], cat: 'gas'},
+    {id: RUBBER, nm: 'Rubber', col: [40, 40, 40,], cat: 'solid'},
+
+];
+
+for (var xni = 0; xni < xNewMatDefs.length; xni++){
+    matColorMap[xNewMatDefs[xni].id] = xNewMatDefs[xni].col;
+}
+
+
+var xNewGrid = new Uint8Array(kW * kH);
+var xCementSet = new Uint8Array(kW * kH);
+var xMagPulse = 0;
+
+var xOldRunStep = runStep;
+
+function xIsNewLiquid(t)  {return t === HONEY || t === SLIME;}
+function xlsNewGas(t) {return t === SPORE;} 
+function xlsNewSolid(t) {return t === WAX || t === MAGNET || t === CRYSTAL || t === FUNGUS|| t === MIRROR || t === RUBBER || t === CEMENT && xCementSet;}
