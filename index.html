@@ -1123,7 +1123,41 @@ function xRunNewMaterials() {
                 var xeAdj = [[xtx-1, xty],[xtx+1,xty],[xtx,xty-1],[xtx+1]];
                 for (var xei = 0; xei < xeAdj.length; xei++){
                     var xex = xeAdj[xei][0], xey = xeAdj[xei][1];
+                    if(xex < 0 || xex >= kW ||xey < 0||xey >= kH) continue;
+                    var xenb = gGrid[xey*kW+xex];
+                    if(isBurnable(xenb)&&qRand()<0.12){
+                        gGrid[xey*kW+xex] = SMOKE;
+                        gLife[xey*kW+xex] = 60 + qRandInt(40);
+                        qUpdated[xey*kW+xex] = 1;
+                    }
                 }
+                if (qRand()<0.25){
+                    var xeup = xty - gGravDir;
+                    if (xeup >=0 && xeup < kH && gGrid[xeup*kW+xtx]=== EMPTY){
+                        gGrid[xeup*kW+xtx] = EMBER;
+                        gLife[xeup*kW+xtx] = gLife[xtidx];
+                        gGrid[xtidx] = EMPTY;
+                        gUpdated[xeup*kW+xtx] = 1;
+                        gUpdated[xtidx] = 1;
+                    }
+                }
+                gUpdated[xtidx] = 1;
+                continue;
+            }
+            if(xtcell === SPORE){
+                gLife[xtidx]
+                if(gLife[xtidx]<=0){
+                    if(qRand()<0.4{
+                        gGrid[xtidx] = FUNGUS;
+                    } else {
+                        gGrid[xtidx] = EMPTY;
+                    }
+                    gUpdated[xtidx] = 1;
+                    continue;
+                }
+                var xspup = xty - gGravDir;
+                var xspmoved = false;
+                
             }
         }
     }
