@@ -1063,3 +1063,43 @@ var xOldRunStep = runStep;
 function xIsNewLiquid(t)  {return t === HONEY || t === SLIME;}
 function xlsNewGas(t) {return t === SPORE;} 
 function xlsNewSolid(t) {return t === WAX || t === MAGNET || t === CRYSTAL || t === FUNGUS|| t === MIRROR || t === RUBBER || t === CEMENT && xCementSet;}
+
+
+function xRunNewMaterials() {
+    xMagPulse = (xMagPulse + 1) % 60;
+    for (var xty = kH - 1; xty >= 0; xty--){
+        var xxOff = qRand() > 0.5 ? 1 : -1;
+        for (var xPass = 0; xPass < kW; xPass++){
+            var xtx = xxOff > 0 ? xPass: kW - 1 - xPass;
+            var xtidx = xty * kW + xtx;
+            if (gUpdated[xtidx]) continue;
+            var xtcell = gGrid[xtidx];
+            if (xtcell === xNEWMAT_START) continue;
+
+            if (xtcell === DRAIN){
+                var xdAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx, xty + 1]];
+                for (var xdi = 0; xdi < xdAdj.length; xdi++){
+                    var xdx = xdAdj[xdi][0], xdy = xdAdj[xdi][1];
+                    if (xdx < 0 || xdx >= kW || xdy < 0 || xdy >= kH) continue;
+                    var xdnb = gGrid[xdy*kW+xdx];
+                    if(xdnb !== EMPTY && xdnb !== WALL && xdnb !== DRAIN && xdnb !==VOID){
+                        gGrid[xdy*kW + xdx] = EMPTY;
+                        gLife[xdy*kW + xdx] = 0;
+                        gUpdated[xdy*kW + xdx] = 1;
+                    }
+                
+                }
+                gUpdated[xtidx] = 1;
+                continue;
+            }
+
+            if (xtcell === VIRUS){
+                var xdAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+                for (var xdi = 0; xdi < xdAdj.length; xdi++){
+                    var vxv = xvAdj[xdi][0], xvy = xvAdj[xdi][1];
+                    
+                }
+            }
+        }
+    }
+}
