@@ -1120,6 +1120,10 @@ function xRunNewMaterials() {
                     gUpdated[xtidx] = 1;
                     continue;
                 }
+                var xeAdj = [[xtx-1, xty],[xtx+1,xty],[xtx,xty-1],[xtx+1]];
+                for (var xei = 0; xei < xeAdj.length; xei++){
+                    var xex = xeAdj[xei][0], xey = xeAdj[xei][1];
+                }
             }
         }
     }
