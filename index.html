@@ -1255,7 +1255,19 @@ function xRunNewMaterials() {
                 }
 
                 if (xtcell === CRYSTAL) {
-                    
+                    var xcAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+                    for(var xci2 = 0; xci2 < xcAdj.length; xci2++){
+                        var xcx = xcAdj[xci2][0], xcy = xcAdj[xci2][1];
+                        if(xcx < 0 || xcx >= kW || xcy < 0 || xcy >= kH) continue;
+                        var xcnb = gGrid[xcy*kW + xcx];
+                        if(xcnb === WATER && qRand()< 0.0004){
+                            gGrid[xcy*kW + xcx] = CRYSTAL;
+                            gUpdated[xcy*kW+xcx] = 1;
+                        }else if (xcnb === SALT && qRand() < 0.01){
+                            
+                        }
+                        
+                    }
                 }
             }
         }
