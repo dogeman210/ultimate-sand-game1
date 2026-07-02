@@ -1192,7 +1192,28 @@ function xRunNewMaterials() {
             if (xtcell === FUNGUS) {
                 var xfAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
                 for (var xfi2 = 0; xfi2 < xfAdj.length; xfi2++){
-                    
+                  var xfx = xfAdj[xfi2][0],xfy = xfAdj[xfi2][1];
+                  if(xfx < 0 || xfx >= kW || xfy < 0 || xfy >= kH)continue;
+                    var xfnb = gGrid[xfy * kW + xfx];
+                    if (xfnb === WATER && qRand()<0.008){
+                       gGrid[xfy * kW + xfx] = FUNGUS
+                       gUpdated[xfy*kW + xfx] = 1; 
+                    } else if(xfnb === SAND && qRand()< 0.002) {
+                        gGrid[xfy*kW+xfx] = FUNGUS;
+                        gUpdated[xfy*kW+xfk] = 1;
+                    } else if (xfnb === EMPTY && qRand()<0.0008){
+                        gGrid[xfy * kW + xfx] = SPORE;
+                        gLife[xfy * kW + xfx] = 100 + qRandInt(80);
+                        gUpdated[xfy*kW + xfx] = 1;
+                    } else if (xfnb === FIRE && qRand () < 0.3){
+                        gGrid[xtidx] = FIRE;
+                        gLife[xtidx] = 40 + qRand() < 0.3)
+                            gGrid[xtidx] = FIRE;
+                            gLife[xtidx] = 40 + qRandInt(40);
+                            gUpdated[xtidx] = 1;
+                        }
+                    }
+                    continue;
                 }
             }
         }
