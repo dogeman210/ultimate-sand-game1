@@ -1097,7 +1097,28 @@ function xRunNewMaterials() {
                 var xdAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
                 for (var xdi = 0; xdi < xdAdj.length; xdi++){
                     var vxv = xvAdj[xdi][0], xvy = xvAdj[xdi][1];
-                    
+                    if (xvx < 0 || xvx >= kW || xvy < 0 || xvy >= kH) continue;
+                    var xvnb = gGrid[xvy*kW + xvx];
+                    if (xvnb !== EMPTY && xvnb !== WALL && xvnb !== VOID && xvnb !== VIRUS && qRand() <0.015){
+                        gGrid[xvy*kW + xvx] = VIRUS;
+                        gLife[xvy*kW + xvx] = 0;
+                        gUpdated[xvy*kW + xvx] = 1;
+                    }
+
+                }
+                if(qRand() < 0.0005){
+                    gGrid[xtidx] = EMPTY;
+                    gUpdated[xtidx] = 1;
+                }
+                continue;
+            }
+
+            if (xtcell === EMBER){
+                gLife[xtidx]--;
+                if (gLife[xtidx] <= 0) {
+                    gGrid[xtidx] = EMPTY;
+                    gUpdated[xtidx] = 1;
+                    continue;
                 }
             }
         }
