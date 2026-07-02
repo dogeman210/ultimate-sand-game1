@@ -1157,7 +1157,43 @@ function xRunNewMaterials() {
                 }
                 var xspup = xty - gGravDir;
                 var xspmoved = false;
-                
+                var xspdirs = [0, (qRand() < 0.5 ? -1: 1)];
+                for (var xspsi = 0; xspsi < xspdirs.length && !xspmoved;xspsi++){
+                    var xspnx = xtx + xspdirs[xspsi],xspny = xspup;
+                    if (xspnx < 0 || xspnx >= kW || xspny < 0||xspny >= kH)continue;
+                    if(gGrid[xspny*kW+xspnx]===EMPTY && qRand()<0.6){
+                        gGrid[xspny*kW+xspnx]===SPORE;
+                        gLife[xspny*kW+xspnx] = gLife[xtidx];
+                        gGrid[xtidx] = EMPTY
+                        gUpdated[xspny*kW+xspnx] = 1;
+                        gUpdated[xtidx] = 1;
+                        xspmoved = true;
+                    }
+                }
+                if(!xspmoved){
+                    var xsplat = qRand() < 0.5 ? -1 : 1;
+                    for (var xspli = 0; xpli < 2 && !xspmoved; xspli++,xsplat = -xsplat){
+                        var xspin = xtx + xsplat;
+                        if (xspln < 0 || xspln >= kW) continue;
+                        if(gGrid[xty*kW + xspln]===EMPTY){
+                            gGrid[xty*kW+xspln] = SPORE;
+                            gLife[xty*kW + xspln] = gLife[xtidx];
+                            gGrid[xtidx] = EMPTY
+                            gUpdated[xty*kW+xspln] = 1;
+                            gUpdated[xtidx] = 1;
+                            xspmoved = true;
+                        }
+
+                    }
+                }
+                continue;
+            }
+
+            if (xtcell === FUNGUS) {
+                var xfAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+                for (var xfi2 = 0; xfi2 < xfAdj.length; xfi2++){
+                    
+                }
             }
         }
     }
