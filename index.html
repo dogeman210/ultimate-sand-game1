@@ -1264,10 +1264,22 @@ function xRunNewMaterials() {
                             gGrid[xcy*kW + xcx] = CRYSTAL;
                             gUpdated[xcy*kW+xcx] = 1;
                         }else if (xcnb === SALT && qRand() < 0.01){
-                            
+                            gGrid[xcy*kW + xcx] = CRYSTAL;
+                            gUpdated[xcy*kW + xcx] = 1;
+                        }else if (xcnb ===ACID){
+                            gGrid[xtidx] = EMPTY;
+                            gUpdated[xtidx] = 1;
+                        }else if (xcnb === FIRE && qRand()<0.002){
+                            gGrid[xtidx] = EMPTY;
+                            gUpdated[xtidx] = 1;
                         }
                         
                     }
+                    continue;
+                }
+
+                if (xtcell === WAX){
+                    
                 }
             }
         }
