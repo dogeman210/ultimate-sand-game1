@@ -1147,7 +1147,7 @@ function xRunNewMaterials() {
             if(xtcell === SPORE){
                 gLife[xtidx]
                 if(gLife[xtidx]<=0){
-                    if(qRand()<0.4{
+                    if(qRand()<0.4){
                         gGrid[xtidx] = FUNGUS;
                     } else {
                         gGrid[xtidx] = EMPTY;
@@ -1207,13 +1207,55 @@ function xRunNewMaterials() {
                         gUpdated[xfy*kW + xfx] = 1;
                     } else if (xfnb === FIRE && qRand () < 0.3){
                         gGrid[xtidx] = FIRE;
-                        gLife[xtidx] = 40 + qRand() < 0.3)
+                        gLife[xtidx] = 40 + qRand() < 0.3
                             gGrid[xtidx] = FIRE;
                             gLife[xtidx] = 40 + qRandInt(40);
                             gUpdated[xtidx] = 1;
                         }
                     }
                     continue;
+                }
+
+                if (xtcell === MAGNET){
+                    if(xMagPulse % 20 === 0){
+                        for (var xmr = 1; xmr <= 6; xmr++){
+                            var xmDirs = [[xtx-xmr,xty],[xtx+xmr,xty],[xtx,xty-xmr],[xtx,xty+xmr]];
+                            for (var xmdi = 0; xmdi < xmDirs.length; xmdi++){
+                                var xmx = xmDirs[xmdi][0], xmy = xmDirs[xmdi][1];
+                                if(xmx < 0||xmx >= kW||xmy < 0||xmy >= kH) continue;
+                                var xmcell = gGrid[xmy * kW + xmx];
+                                if (xmcell === RUST){
+                                    var xmtx = xtx - xmx, xmty = xty - xmy;
+                                    var xmnx = xmx + (xmtx > 0 ? 1 : xmtx < 0 ? -1 : 0);
+                                    var xmny = xmy + (xmty > 0 ? 1 : xmty < 0 ? -1 : 0);
+                                    if (xmnx >=0 && xmnx < kW && xmny >=0 && xmny < kH && gGrid[xmny*kW + xmnx]===EMPTY){
+                                        gGrid[xmny*kW + xmnx] = xmcell;
+                                        gLife[xmny*kW + xmnx] = gLife[xmy*kW + xmx];
+                                        gGrid[xmy*kW + xmx] = EMPTY
+                                        gUpdated[xmny*kW + xmnx] = 1;
+                                        gUpdated[xmy*kW + xmx] = 1;
+                                    }
+                                } else if (isPowder(xmcell)&& qRand()<0.05){
+                                    var xmpnx2 = xmx + (xtx - xmx > 0 ? 1 : xtx - xmx < 0 ? -1 : 0);
+                                    var xmpnx2 = xmy + (xty - xmy > 0 ? 1 : xty - xmy < 0 ? -1 : 0);
+                                    if (xmpnx2 >=0 && xmpnx2 < kW && xmpny2 >=0 && xmpny2 < kH && gGrid[xmpny2 * kW + xmpx2]===EMPTY) {
+                                        gGrid[xmpny2*kW + xmpnx2] = xmcell;
+                                        gLife[xmpny2*kW + xmpnx2] = gLife[xmy*kW + xmx];
+                                        gGrid[xmy*kW + xmx] = EMPTY;
+                                        gUpdated[xmpny2*kW + xmpnx2] = 1;
+                                        gUpdated[xmy*kW + xmx] = 1;
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+                    gUpdated[xtidx] = 1;
+                    continue;
+                }
+
+                if (xtcell === CRYSTAL) {
+                    
                 }
             }
         }
