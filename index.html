@@ -1345,7 +1345,35 @@ function xRunNewMaterials() {
             var xcmAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
             for (var xcmi = 0; xcmi < xcmAdj.length; xcmi++){
                 var xcmx = xcmAdj[xcmi][0], xcmy = xcmAdj[xcmi][1];
+                if(xcmx < 0 || xcmx >= kW || xcmy < 0 || xcmy >= kH) continue;
+                var xcmnb = gGrid[xcmy*kW + xcmx];
+                if(xcmnb === WATER && qRand() < 0.01){
+                    xCementSet[xtidx]=1;
+                    gUpdated[xtidx]=1;
+                    break;
+                }
             }
+            if(xCementSet[xtidx])continue;
+            var xcmby = xty + gGravDir;
+            if(xcnby >= 0 && xcmby < kH){
+                var xcmbot = gGrid[xcmby*kW + xtx];
+                if(xcmbot === EMPTY||isLiquid(xcmbot)){
+                    if(isLiquid(xcmbot)){
+                        gGrid[xcmby*kW+xtx] = CEMENT;
+                        gGrid[xtidx] = xcmbot;
+                        var xcmtmpL = gLife[xcmby*kW+xtx]
+                        gLife[xcmby*kW+xtx] = gLife[xtidx];
+                        gLife[xtidx] = xcmtmpL;
+                        xCementSet[xcmby*kW + xtx] = 0;
+                    } else {
+                        gGrid[xcmby*kW + xtx] = CEMENT;
+                        gLife[xcmby*kW + xtx] = gLife[xtidx];
+                        gGrid[xtidx] = EMPTY;
+                }
+                gUpdated[xcmby*kW + xtx] = 1;
+                gUpdated[xtidx] = 1;
+            }else{
+                
         }
     }
 }
