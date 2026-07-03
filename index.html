@@ -1373,7 +1373,40 @@ function xRunNewMaterials() {
                 gUpdated[xcmby*kW + xtx] = 1;
                 gUpdated[xtidx] = 1;
             }else{
-                
+                var xcmslant = qRand() < 0.5 ? -1 : 1;
+                for (var xcmsi = 0; xcmsi < 2; xcmsi++, xcmslant = -xcmslant){
+                    var xcmsx = xtx + xcmslant, xcmsy = xcmby;
+                    if(xcmsx < 0 ||xcmsx >= kW|| xcmsy < 0 || xcmsy >= kH)continue;
+                    if(gGrid[xcmsy*kW + xcmsx] === EMPTY){
+                        gGrid[xcmsy*kW + xcmsx] = CEMENT;
+                        gLife[xcmsy*kW + xcmsx] = gLife[xtidx];
+                        gGrid[xtidx] = EMPTY;
+                        gUpdated[xcmsy*kW + xcmsx] = 1;
+                        gUpdated[xtidx] = 1;
+                        break;
+                    }
+                }
         }
+    }
+    continue;
+}
+
+if(xtcell === HONEY){
+    var xhby = xty + gGravDir;
+    var xhmoved = false;
+    if(xhby >=0 && xhby < kH){
+        var xhbot = gGrid[xhby*kW + xtx];
+        if(xhbot === EMPTY||isGas(xhbot)){
+            gGrid[xhby*kW + xtx] = HONEY;
+            gLife[xhby*kW + xtx] = gLife[xtidx];
+            if(isGas(xhbot)){gGrid[xtidx] = xhbot;gLife[xtidx] = gLife[xhby*kW + xtx];}
+            else {gGrid[xtidx]=EMPTY;}
+            gUpdated[xhby*kW+xtx] = 1;
+            gUpdated[xtidx] = 1;
+            xhmoved = true;
+        }
+    }
+    if(!xhmoved && qRand()<0.08){
+        
     }
 }
