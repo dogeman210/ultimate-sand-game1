@@ -1485,7 +1485,24 @@ if (xtcell === SLIME){
         var xmjAdj = [[xtx-1,xty],[xtx+1,xty],[xtx, xty-1],[xtx, xty+1]];
         for (var xmii = 0; xmii < xmiAdj.length; xmii++){
             var xmix = xmiAdj[xmii][0], xmiy = xmiAdj[xmii][1];
-            
+            if(xmix < 0||xmix>=kW||xmiy<0||xmiy>=kH)continue;
+            var xminb = gGrid[xmiy*kW + xmix];
+            if(xminb === FIRE && qRand() < 0.005) {
+                var xmiox = 2 * xtx - xmix, xmioy = 2 *xty - xmiy;
+                if(xmiox >= 0 && xmiox < kW && xmioy >= 0 && xmioy < kH && gGrid[xmioy*kW + xmiox]===EMPTY){
+                    gGrid[xmioy*kW + xmiox] = FIRE;
+                    gLife[xmioy*kW + xmioy] = 40 + qRandInt(40);
+                    gUpdated[xmioy*kW+xmiox] = 1;
+                }
+            } else if (xminb === ACID){
+                gGrid[xtidx] = EMPTY;
+                gUpdated[xtidx] = 1;
+            }
         }
+        continue;
+    }
+
+    if(xtcell === RUBBER){
+        var xrbAdj = 
     }
 }
