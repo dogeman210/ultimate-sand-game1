@@ -1324,9 +1324,27 @@ function xRunNewMaterials() {
                 var xrbot = gGrid[xrby*kW + xtx];
                 if (xrbot === EMPTY|| isLiquid(xrbot)){
                     if (isLiquid(xrbot)){
-                        
+                        gGrid[xrby*kW + xtx] = RUST;
+                        gGrid[xtidx] = xrbot;
+                        var xrtmpL = gLife[xrby*kW + xtx];
+                        gLife[xtidx] = xrtmpL;
+                    }else{
+                        gGrid[xrby*kW + xtx] = RUST;
+                        gLife[xrby*kW + xtx] = gLife[xtidx];
+                        gGrid[xtidx] = EMPTY;
                     }
+                    gUpdated[xrby*kW + xtx] = 1;
+                    gUpdated[xtidx] = 1;
                 }
+            }
+            continue;
+        }
+
+        if (xtcell === CEMENT){
+            if(xCementSet[xtidx])continue;
+            var xcmAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+            for (var xcmi = 0; xcmi < xcmAdj.length; xcmi++){
+                var xcmx = xcmAdj[xcmi][0], xcmy = xcmAdj[xcmi][1];
             }
         }
     }
