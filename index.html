@@ -1279,18 +1279,18 @@ function xRunNewMaterials() {
                 }
 
                 if (xtcell === WAX){
-                    var xwAdj = [[xtx-1,xty],[[xtx+1,xty],[xtx, xty-1],[xtx,xty+1]];
-                    for (var xri = 0; xri < xrAdj.length; xri++){
-                        var xwx = xwAdj[xwi][0],xwy = xwAdj[xwi][1];
-                        if (xwmb < 0 || xwx >= kW||xwy<0||xwy>=kW)continue;
+                    var xwAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+                    for (var xwi = 0; xwi < xwAdj.length; xwi++){
+                        var xwx = xwAdj[xwi][0], xwy = xwAdj[xwi][1];
+                        if (xwx < 0 || xwx >= kW || xwy < 0 || xwy >= kH) continue;
                         var xwnb = gGrid[xwy*kW + xwx];
-                        if(xwnb === FIRE && qRand()<0.06){
+                        if (xwnb === FIRE && qRand() < 0.06){
                             gGrid[xtidx] = OIL;
                             gLife[xtidx] = 0;
                             gUpdated[xtidx] = 1;
-                        } else if (xwnb === LAVA && qRand()<0.1){
+                        } else if (xwnb === LAVA && qRand() < 0.1){
                             gGrid[xtidx] = FIRE;
-                            gLife[xtidx] =  60 + qRandInt(60);
+                            gLife[xtidx] = 60 + qRandInt(60);
                             gUpdated[xtidx] = 1;
                         }
                     }
@@ -1443,8 +1443,8 @@ if (xtcell === SLIME){
         if(xslbot === EMPTY || isGas(xslbot)){
             gGrid[xslby*kW + xtx] = SLIME;
             gLife[xslby*kW + xtx] = gLife[xtidx];
-            if(isGas(xslbot)){gGrid[xtidx]=xslbot;}else {gGrid[xtidx] = EMPTY;}
-            gUpdated[xslby*lW + xtx] = 1;
+            if(isGas(xslbot)){gGrid[xtidx]=xslbot;} else {gGrid[xtidx] = EMPTY;}
+            gUpdated[xslby*kW + xtx] = 1;
             gUpdated[xtidx] = 1;
             xslmoved = true;
         }
@@ -1453,56 +1453,109 @@ if (xtcell === SLIME){
         var xsllat = qRand() < 0.5 ? -1 : 1;
         for (var xslli = 0; xslli < 2 && !xslmoved; xslli++, xsllat = -xsllat){
             var xsllx = xtx + xsllat;
-            if(xsllx < 0||xsllx>=kW)continue;
-            if(gGrid[xty*kW+xsllx] === EMPTY){
-                gGrid[xty*kW + xsllx] === SLIME;
+            if(xsllx < 0 || xsllx >= kW) continue;
+            if(gGrid[xty*kW + xsllx] === EMPTY){
+                gGrid[xty*kW + xsllx] = SLIME;
                 gLife[xty*kW + xsllx] = gLife[xtidx];
                 gGrid[xtidx] = EMPTY;
                 gUpdated[xty*kW + xsllx] = 1;
                 gUpdated[xtidx] = 1;
                 xslmoved = true;
-                }
             }
         }
-        var xslAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
-        for (var xslni = 0; xslni < xslAdj.length; xslni++){
-            var xslnx = xslAdj[xslni][0], xslny = xslAdj[xslni][1];
-            if(xslnx < 0 || xslnx >= kW|| xslny < 0 ||xslny>=kH)continue;
-            var xslnnb = gGrid[xslny*kW + xslnx];
-            if(xslnnb === SAND && qRand()< 0.005){
-                gGrid[xslny*kW + xslnx] = SLIME;
-                gUpdated[xslny*kW + xslnx] = 1;
-            }else if (xslnnb === ACID){
-                gGrid[xtidx] = EMPTY;
-                gUpdated[xtidx] = 1;
-            }
-
-        }
-        continue;
     }
+    var xslAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+    for (var xslni = 0; xslni < xslAdj.length; xslni++){
+        var xslnx = xslAdj[xslni][0], xslny = xslAdj[xslni][1];
+        if(xslnx < 0 || xslnx >= kW || xslny < 0 || xslny >= kH) continue;
+        var xslnnb = gGrid[xslny*kW + xslnx];
+        if(xslnnb === SAND && qRand()< 0.005){
+            gGrid[xslny*kW + xslnx] = SLIME;
+            gUpdated[xslny*kW + xslnx] = 1;
+        } else if (xslnnb === ACID){
+            gGrid[xtidx] = EMPTY;
+            gUpdated[xtidx] = 1;
+        }
+    }
+    continue;
+}
 
-    if(txcell === MIRROR){
-        var xmjAdj = [[xtx-1,xty],[xtx+1,xty],[xtx, xty-1],[xtx, xty+1]];
-        for (var xmii = 0; xmii < xmiAdj.length; xmii++){
-            var xmix = xmiAdj[xmii][0], xmiy = xmiAdj[xmii][1];
-            if(xmix < 0||xmix>=kW||xmiy<0||xmiy>=kH)continue;
-            var xminb = gGrid[xmiy*kW + xmix];
-            if(xminb === FIRE && qRand() < 0.005) {
-                var xmiox = 2 * xtx - xmix, xmioy = 2 *xty - xmiy;
-                if(xmiox >= 0 && xmiox < kW && xmioy >= 0 && xmioy < kH && gGrid[xmioy*kW + xmiox]===EMPTY){
-                    gGrid[xmioy*kW + xmiox] = FIRE;
-                    gLife[xmioy*kW + xmioy] = 40 + qRandInt(40);
-                    gUpdated[xmioy*kW+xmiox] = 1;
-                }
-            } else if (xminb === ACID){
-                gGrid[xtidx] = EMPTY;
-                gUpdated[xtidx] = 1;
+if(xtcell === MIRROR){
+    var xmiAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+    for (var xmii = 0; xmii < xmiAdj.length; xmii++){
+        var xmix = xmiAdj[xmii][0], xmiy = xmiAdj[xmii][1];
+        if(xmix < 0 || xmix >= kW || xmiy < 0 || xmiy >= kH) continue;
+        var xminb = gGrid[xmiy*kW + xmix];
+        if(xminb === FIRE && qRand() < 0.005) {
+            var xmiox = 2 * xtx - xmix, xmioy = 2 * xty - xmiy;
+            if(xmiox >= 0 && xmiox < kW && xmioy >= 0 && xmioy < kH && gGrid[xmioy*kW + xmiox]===EMPTY){
+                gGrid[xmioy*kW + xmiox] = FIRE;
+                gLife[xmioy*kW + xmioy] = 40 + qRandInt(40);
+                gUpdated[xmioy*kW+xmiox] = 1;
+            }
+        } else if (xminb === ACID){
+            gGrid[xtidx] = EMPTY;
+            gUpdated[xtidx] = 1;
+        }
+    }
+    continue;
+}
+
+if(xtcell === RUBBER){
+    var xrbAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+    for (var xrbi = 0; xrbi < xrbAdj.length; xrbi++){
+        var xrbx = xrbAdj[xrbi][0], xrby2 = xrbAdj[xrbi][1];
+        if (xrbx < 0 || xrbx >= kW || xrby2 < 0 || xrby2 >= kH) continue;
+        var xrbnb = gGrid[xrby2 * kW + xrbx];
+        if(xrbnb === FIRE && qRand() < 0.004){
+            gGrid[xtidx] = FIRE;
+            gLife[xtidx] = 80 + qRandInt(80);
+            gUpdated[xtidx] = 1;
+        } else if (xrbnb === ACID && qRand() < 0.03){
+            gGrid[xtidx] = EMPTY;
+            gUpdated[xtidx] = 1;
+        } else if (isPowder(xrbnb) && qRand() < 0.1){
+            var xrbpox = 2 * xtx - xrbx, xrbpoy = 2 * xty - xrby2;
+            if(xrbpox >= 0 && xrbpox < kW && xrbpoy >= 0 && xrbpoy < kH && gGrid[xrbpoy*kW + xrbpox]===EMPTY){
+                gGrid[xrbpoy*kW + xrbpox] = xrbnb;
+                gLife[xrbpoy*kW + xrbpox] = gLife[xrby2*kW + xrbx];
+                gGrid[xrby2*kW + xrbx] = EMPTY;
+                gUpdated[xrbpoy*kW + xrbpox] = 1;
+                gUpdated[xrby2*kW + xrbx] = 1;
             }
         }
-        continue;
     }
+    continue;
+}
 
-    if(xtcell === RUBBER){
-        var xrbAdj = 
+}
+
+}
+
+}
+
+var xOldRunStepRef = runStep;
+runStep = function() {
+    xOldRunStepRef();
+    xRunNewMaterials();
+
+};
+
+var xOldDrawFrame = drawFrame;
+drawFrame = function() {
+    xOldDrawFrame();
+    for (var xfy = 0; xfy * kW; xfy++){
+        for (var xfx = 0; xfx < kW; xfx++){
+            var xflidx = xfy * kW + xfx;
+            var xfcell = gGrid[xfidx];
+            if(xfcell < xNEWMAT_START)continue;
+            var xfc = matColorMap[xfcell];
+            if(!xfc)continue;
+            var xr = xfc[0], xg = xfc[1], xb = xfc[2];
+            var xvr = gColorVar[xfidx*3], xvg = gColorVar[xfidx*3 + 1], xvb = gColorVar[xfidx*3 + 2];
+            if (xfcell === HONEY){
+                
+            }
+        }
     }
 }
