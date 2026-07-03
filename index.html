@@ -1407,6 +1407,9 @@ if(xtcell === HONEY){
         }
     }
     if(!xhmoved && qRand()<0.08){
-        
+        var xhlat = qRand() < 0.5 ? -1 : 1;
+        for (var xhli = 0; xhli < 2 && !xhmoved; xhli++,xhlat = -xhlat) {
+            var xhlx = xtx + xhlat;
+        }
     }
 }
