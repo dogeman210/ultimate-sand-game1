@@ -1410,6 +1410,61 @@ if(xtcell === HONEY){
         var xhlat = qRand() < 0.5 ? -1 : 1;
         for (var xhli = 0; xhli < 2 && !xhmoved; xhli++,xhlat = -xhlat) {
             var xhlx = xtx + xhlat;
+            if(xhlx<0||xhlx>=kW)continue;
+            if(gGrid[xty*kW + xhlx]===EMPTY){
+                gGrid[xty*kW+xhlx] = HONEY;
+                gLife[xty*kW + xhlx] = gLife[xtidx]
+                gGrid[xtidx] = EMPTY;
+                gUpdated[xty*kW + xhlx] = 1;
+                gUpdated[xtidx] = 1;
+                xhmoved = true;
+            }
         }
+    }
+    var xhAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+    for (xhni = 0; xhni < xhAdj.length; xhni++){
+        var xhnx = xhAdj[xhni][0], xhny = xhAdj[xhni][1];
+        if (xhnx < 0 || xhnx >= kW||xhny<0||xhny >=kH)continue;
+        var xhnnb = gGrid [xhny*kW + xhnx];
+        if (xhnnb == FIRE && qRand()< 0.04){
+            gGrid[xtidx] = FIRE;
+            gLife[xtidx] = 50 + RandInt(50);
+            gUpdated[xtidx] = 1;
+        }
+    }
+    continue;
+}
+
+if (xtcell === SLIME){
+    var xslby = xty + gGravDir;
+    var xslmoved = false;
+    if(xslby >=0 && xslby < kH){
+        var xslbot = gGrid[xslby*kW+xtx];
+        if(xslbot === EMPTY || isGas(xslbot)){
+            gGrid[xslby*kW + xtx] = SLIME;
+            gLife[xslby*kW + xtx] = gLife[xtidx];
+            if(isGas(xslbot)){gGrid[xtidx]=xslbot;}else {gGrid[xtidx] = EMPTY;}
+            gUpdated[xslby*lW + xtx] = 1;
+            gUpdated[xtidx] = 1;
+            xslmoved = true;
+        }
+    }
+    if(!xslmoved && qRand() < 0.2){
+        var xsllat = qRand() < 0.5 ? -1 : 1;
+        for (var xslli = 0; xslli < 2 && !xslmoved; xslli++, xsllat = -xsllat){
+            var xsllx = xtx + xsllat;
+            if(xsllx < 0||xsllx>=kW)continue;
+            if(gGrid[xty*kW+xsllx] === EMPTY){
+                gGrid[xty*kW + xsllx] === SLIME;
+                gLife[xty*kW + xsllx] = gLife[xtidx];
+                gGrid[xtidx] = EMPTY;
+                gUpdated[xty*kW + xsllx] = 1;
+                gUpdated[xtidx] = 1;
+                xslmoved = true;
+                }
+            }
+        }
+        var xslAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
+        
     }
 }
