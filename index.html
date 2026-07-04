@@ -1594,8 +1594,28 @@ drawFrame = function() {
                 xg = clamp255(Math.floor(20+xvg));
                 xb = clamp255(Math.floor(160 + 60 * xmpulse + xvb));
             } else if (xfcell === FUNGUS) {
-                
+                xr = clamp255(xfc[0] + xvr);
+                xg = clamp255(xfc[1] + xvg);
+                xb = clamp255(xfc[2] + xvb);
+            }else {
+                xr = clamp255(xfc[0]+xvr);
+                xg = clamp255(xfc[1]+xvg);
+                xb = clamp255(xfc[2] + xvb);
             }
+            if(gColorInvert){ xr = 255 - xr; xg = 255 - xg; xb = 255 - xb;}
+            var xfp = (xfy * kW + xfx) * 4;
+            gPix[xfp]   =xr;
+            gPix[xfp + 1] = xg;
+            gPix[xfp + 2] = xb;
+            gPix[xfp + 3] = 255;
         }
     }
+    gCtx.putImageData(glmg,0,0);
+};
+
+var xOldPutParticle = putParticle;
+putParticle = function(x,y,t) {
+    if (x < 0 ||x >=kW || y<0||y>=kH)return;
+    if(gBrushMode === 'eraser'||gDrawMode === 'eraser'){gSet(x,y,EMPTY);return;}
+    
 }
