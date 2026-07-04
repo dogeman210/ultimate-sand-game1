@@ -1654,3 +1654,33 @@ for (var xnci2 = 0; xnci2 < xNewCatOrder.length; xnci2++){
         xnhdr.textContent = xNewCatNames[xncat];
         xMatListEl.appendChild(xnhdr);
     }
+    for (var xnbi = 0; xnbi < xNewGrouped[xncat].length;xnbi++){
+        var xnmdef = xNewGrouped[xncat][xnbi];
+        (function(xnmdef2){
+            var xnbtn = document.createElement('button');
+            xnbtn.className = 'matBtn';
+            xnbtn.dataset.matid = xnmdef2.id;
+            var xnswatch = document.createElement('div')
+            xnswatch.className = 'matColor';
+            xnswatch.style.background = 'rgb('+xnmdef2.col[0]+','+xnmdef2.col[1]+','+xndef2.col[2]+')';
+            xnbtn.appendChild(xnswatch);
+            xnbtn.appendChild(document.createTextNode(xnmdef2.nm));
+            xnbtn.addEventListener('click',function(){
+                selMat = xnmdef2.id;
+                gDrawMode = 'draw';
+                document.querySelectorAll('.matBtn').forEach(function(b){b.classList.remove('active')});
+                xnbtn.classList.add('active');
+                document.getElementById('stSel').textContent = xnmdef2.nm;
+            });
+            xMatListEl.appendChild(xnbtn);
+        })(xnmdef);
+    }
+}
+
+var xRightPanel = document.getElementById('rightPanel')
+
+var xPresetsHdr = document.createElement('h3');
+xPresetsHdr.text.Content = 'More Presets';
+xRightPanel.appendChild(xPresetsHdr);
+
+var xPresetCrystalCave = document.createElement('button');
