@@ -1771,5 +1771,31 @@ var xPresetVirusLab = document.createElement('button');
 xPresetVirusLab.className = 'ctrlBtn';
 xPresetVirusLab.textContent = 'Virus Lab';
 xPresetVirusLab.addEventListener('click',function(){
-    
+    for (var xii = 0; xii < gGrid.length; xii++) {gGrid[xii]=0;gTemp[xii]=0;gLife[xii] = 0; xCementSet[xii] = 0;}
+    for (var xwy5 = 0; xwy5 < kH; xwy5++){
+        gSet(0,xwy5,WALL);
+        gSet(kW-1,xwy5,WALL);
+    }
+    for (var xqxb = 0; xqxb < kW; xqxb++){
+        gSet(xqxb,0,WALL);
+        gSet(xqxb,kH-1,WALL);
+    }
+    var xmid = Math.floor(kW/2);
+    for(var xvy2 = 20;xvy2 < kH - 20;xvy2++)gSet(xmid,xvy2,GLASS);
+    for(var xsx4 = 1; xsx4 < xmid; xsx4++){
+        for (var xsy2 = 10; xsy2 < 40; xsy2++){
+            if(Math.random()<0.25)getSet(xsx4,xsy2,SAND);
+        }
+    }
+    for (var xv2 = xmid + 1; xvx2 < kW - 1; xvx2++){
+        for (var xvy3 = kH - 30; xvy3 < kH - 1;xvy3++)
+        if(Math.random()<0.4)gSet(xvx2,xvy3,VIRUS);
+    }
 }
+for (var xmx2 = xmid + 10; xwx2 < xmid + 30; xwx2++){
+    gSet(xwx2,Math.floor(kH*0.5),WATER);
+}
+gSet(xmid - 5, kH - 2, DRAIN);
+});
+xRightPanel.appendChild(xPresetVirusLab);
+
