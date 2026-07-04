@@ -1684,3 +1684,75 @@ xPresetsHdr.text.Content = 'More Presets';
 xRightPanel.appendChild(xPresetsHdr);
 
 var xPresetCrystalCave = document.createElement('button');
+xPresetSlimePit.className = 'ctrlBtn';
+xPresetSlimePit.textContent = 'Slime Pit';
+xPresetSlimePit.addEventListener('click',function(){
+    for (var xii = 0; xii < gGrid.length;xii++){gGrid[xii] = 0;gTemp[xii] = 0;gTemp[xii] = 0; xCementSet[xii] = 0;}
+    var xcx = Math.floor(kW/2);
+    for (var xqy = kH - 1; xqy >= kH - 30; xqy--){
+        for(var xqx = 0; xqx < kW; xqx++)gSet(xqx,xqy,STONE);
+    }
+    for(var xqy2 = kH - 30; xqy2 >= kH - 55; xqy2--){
+        var xfloor = Math.floor(Math.sin(xqy2*0.3)*10 + 20);
+        for(var xqx2 = xfloor; xqx2 < kW - xfloor; xqx2++){
+            if(gGrid[xqy2*kW+xqx2] === EMPTY){
+                if(Math.random()<0.03)gSet(xqx2,xqy2,CRYSTAL);
+            }
+        }
+    }
+    for (var xcy2 = 0;xcy2 < kH - 55; xcy2++){
+        for (var xcx2 = 0;xcx2 < kW; xcx2++){
+            if(Math.random()<0.002)gSet(xcx2,xcy2,CRYSTAL);
+        }
+    }
+    for (var xwy2 = kH - 55; xwy2 >=0;xwy2--){
+        gSet(0,xwy2,WALL);
+        gSet(kW - 1, xwy2,WALL);
+    }
+    for(var xry = 0; xry < 5; xry++){
+        var xrx = Math.floor(Math.random()*(kW - 40)) + 20;
+        gSet(xrx,0,WATER);
+    }
+});
+xRightPanel.appendChild(xPresetCrystalCave);
+
+var xPresetSlimePit = document.createElement('buttonn');
+xPresetSlimePit.className = 'ctrlBtn';
+xPresetSlimePit.textContent = 'Slime Pit';
+xPresetSlimePit.addEventListener('click',function(){
+    for (var xii = 0; xii < gGrid.length;xii++){gGrid[xii] = 0;gTemp[xii] = 0;gLife[xii] = 0;xCementSet[xii] = 0;}
+    for (var xqx = 0; xqx < kW; xqx++){
+        for(var xqy = Math.floor(kH*0.65);xqy<kH;xqy++)gSet(xqx,xqy,SLIME);
+        gSet(xqx,Math.floor(kH*0.65) - 1, WALL);
+    }
+    gSet(0,0,WALL);
+    gSet(kW - 1, 0, WALL);
+    for (var xwy3 = 0; xwy3 < kH; xwy3++){
+        gSet(0,xwy3,WALL);
+        gSet(kW - 1, xwy3, WALL);
+    }
+    for (var xsx = 40; xsx < kW - 40; xsx++){
+        for (var sxy = 5;xsy < 20; xsy++){
+            if(Math.random()<0.3)gSet(xsx,xsy,SAND);
+        }
+    }
+    for (var xfgx = 30; xfgx < 80; xfgx++){
+        if(Math.random()<0.2)gSet(xfgx, Math.floor(kH*0.65) - 2, FUNGUS);
+    }
+});
+xRightPanel.appendChild(xPresetSlimePit);
+
+var xPresetHoneyFarm = document.createElement('button');
+xPresetHoneyFarm.className = 'ctrlBtn';
+xPresetHoneyFarm.textContent = 'Honey Farm';
+xPresetHoneyFarm.addEventListener('click',function(){
+    for (var xii = 0; xii < gGrid.length; xii++){gGrid[xii]=0;gTemp[xii]=0;gLife[xii]=0;xCementSet[xii]=0;}
+    for(var xwy4 = 0; xwy4 < kH; xwy4++){
+        gSet(0,xwy4,WALL);
+        gSet(kW - 1, xwy4, WALL);
+    }
+    for (var xqx2 = 0; xqx2 < kW; xqx2++)gSet(xqx2,kH-1, WALL);
+    var xshelf1 = Math.floor(kH*0.3);
+    var xshelf2 = Math.floor(kH*0.55);
+    for(var xsx2 = 1; xsx2 < kW)
+}
