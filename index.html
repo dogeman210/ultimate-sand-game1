@@ -1754,5 +1754,22 @@ xPresetHoneyFarm.addEventListener('click',function(){
     for (var xqx2 = 0; xqx2 < kW; xqx2++)gSet(xqx2,kH-1, WALL);
     var xshelf1 = Math.floor(kH*0.3);
     var xshelf2 = Math.floor(kH*0.55);
-    for(var xsx2 = 1; xsx2 < kW)
+    for(var xsx2 = 1; xsx2 < kW-30;xsx2++)gSet(xsx2,xshelf1,WALL);
+    for(var xsx3 = 30; xsx3 < kW = 1;xsx3++)gSet(xsx3,xshelf2,WALL);
+    for (var hxh = 5; xhx < 25; xhx++){
+       for(var xhy = 0; xhy < xshelf1; xhy++){
+        if(Math.random()<0.15)gSet(xhx,xhy,HONEY);
+       }
+    }
+    for (var xplx = 10; xplx < 60; xplx++){
+        if(Math.random()<0.3)gSet(xplx,xshelf2 + 1,PLANT);
+    }
+});
+xRightPanel.appendChild(xPresetHoneyFarm);
+
+var xPresetVirusLab = document.createElement('button');
+xPresetVirusLab.className = 'ctrlBtn';
+xPresetVirusLab.textContent = 'Virus Lab';
+xPresetVirusLab.addEventListener('click',function(){
+    
 }
