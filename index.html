@@ -1949,3 +1949,71 @@ xDensitySlider.addEventListener('input',function(){
     xSpawnMult = parseInt(this.value);
     document.getElementById('xSpawnVal').textContent = xSpawnMult + 'x';
 });
+
+var xOldPaintBrush = paintBrush;
+paintBrush = function(cx,cy){
+    for (var xspmi = 0; xspmi < xSpawnMult; xspmi++){
+        var xjx = cx + Math.floor((Math.random()-0.5)*gBrushSz*0.5);
+        var xjy = cy + Math.floor((Math.random()-0.5)*gBrushSz*0.5);
+        xOldPaintBrush(xjx,xjy);
+    }
+};
+
+var xRainBtn = document.createElement('button');
+xRainBtn.className = 'ctrlBtn';
+xRainBtn.id = 'xRainBrn';
+xRainBrn.textContent = 'Toggle Rain';
+var xRaining = false;
+var xRainInterval = null;
+xRainBtn.addEventListener('click',function(){
+    xRaining = !xRaining;
+    this.style.borderColor = xRaining ? '#4488cc' : '#333';
+    this.style.color = xRaining ? '#88ccff' : '#ccc';
+    if(xRaining){
+        xRainInterval = setInterval(function(){
+            var xrncount = 4 + Math.floor(Math.random()*4);
+            for (var xmi = 0; xrni < xrncount; xrni++){
+                var xrnx = Math.floor(Math.random()*kW);
+                if (fGrid[0*kW + xrnx]=== EMPTY){
+                    gGrid[0*kW + xrnx]=WATER;
+                    gLife[0*kW + xnx] = 0;
+                }
+            }
+        },80);
+    }else{
+        if(xRainInterval)clearInterval(xRainInterval);
+        xRainInterval = null;
+    }
+});
+xRightPanel.appendChild(xRainBtn);
+
+var xSnowBtn = document.createElement('button');
+xSnowBtn.className = 'ctrlBtn';
+xSnowBtn.id = 'xSnowBtn';
+xSnowBtn.textContent = 'Toggle Snow';
+var xSnowing = false;
+var xSnowInterval = null;
+xSnowBtn.addEventListener('click',function(){
+    xSnowing = !xSnowing;
+    this.style.borderColor = xSnowing ? '#aaddff' : '#333';
+    this.style.color = xSnowing ? '#ddeeff' : '#ccc';
+    if(xSnowing){
+        xSnowInterval = setInterval(function(){
+            var xsncnt = 3 + Math.floor(Math.random()*3);
+            for (var xsni = 0; xsni < xsncnt; xsni++){
+                var xsnx2 = Math.floor(Math.random()*kW);
+                if(gGrid[0*kW+xsnx2]===EMPTY){
+                    gGrid[0*kW+xsnx2] = SNOW;
+                    gLife[0*kW + xsnx2] = 0;
+                }
+
+            }
+        },100);
+    }else{
+        if(xSnowInterval)clearInterval(xSnowInterval);
+        xSnowInterval = null;
+    }
+});
+xRightPanel.appendChild(xSnowBtn);
+
+var xSandRainBtn = document.createElement('button');
