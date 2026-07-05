@@ -1806,10 +1806,41 @@ xPresetFungalForest.addEventListener('click', function(){
     for (var xii = 0; xii < gGrid.length; xii++){gGrid[xii]=0;gTemp[xii]=0;gLife[xii]=0;xCementSet[xii]=0;}
     for (var xqx3 = 0; xqx3 < kW; xqx3++){
         var xdh2 = kH - 15 - Math.floor(Math.abs(Math.sin(xqx3*0.05))*10);
-        for (var xqy3 = xdh2; xqy3 < kH; xqy3++)
+        for (var xqy3 = xdh2; xqy3 < kH; xqy3++) gSet(xqx3,xqy3,MUD);
     }
-    for (var xfx2 = 10; xfx2 < kW - 10; xfx2 +=15){
+    for (var xfx2 = 10; xfx2 < kW - 10; xfx2 += 15){
         var xfbase = kH - 15;
-    }
+        for (var xffy = xfbase - 1; xffy >= xfbase - 8 - Math.floor(Math.random()*8);xffy--){
+            gSet(xfx2,xffy,FUNGUS);
+            if(xffy < xfbase - 3){
+                if(Math.random()<0.5)gSet(xfx2 - 1, xffy, FUNGUS);
+                if(Math.random()<0.5)gSet(xfx2 + 1, xffy, FUNGUS);
+            }
+        }
 
-})
+    }
+    for (var xrx2 = 0; xrx2 < 3; xrx2++){
+        gSet(xsx5,2,CLOUD);
+        gLife[2*kW + xsx5] = 200 + Math.floor(Math.random() * 100);
+    }
+});
+xRightPanel.appendChild(xPresetFungalForest);
+
+
+var xPresetMagnetField = document.createElement('button');
+xPresetMagnetField.className = 'ctrlBtn';
+xPresetMagentField.textContent = 'Magnet Field';
+xPresetMagentField.addEventListener('click',function(){
+    for(var xii = 0; xii < gGrid.length; xii++) {gGrid[xii] = 0;gTemp[xii] = 0;gLife[xii] = 0;xCementSet[xii]=0;}
+var xmcx = Math.floor(kW/2);
+var xmcy = Math.floor(kH/2);
+for (var xmmy = xmcy - 4; xmmy <= xmcy + 4; xmmy++){
+    for (var xmmx = xmcx - 4; xmmx <= xmcx + 4; xmmx++){
+        gSet(xmmx,xmmy, MAGNET);
+    }
+}
+for(var xsn = 0; xsn < 60; xsn++){
+    var xsnx = Math.floor(Math.random()*kW);
+    var xsny = Math.floor(Math.random()*kH);
+    gSet(xsnx,xsny,SAND);
+}
