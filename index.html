@@ -1754,9 +1754,9 @@ xPresetHoneyFarm.addEventListener('click',function(){
     for (var xqx2 = 0; xqx2 < kW; xqx2++)gSet(xqx2,kH-1, WALL);
     var xshelf1 = Math.floor(kH*0.3);
     var xshelf2 = Math.floor(kH*0.55);
-    for(var xsx2 = 1; xsx2 < kW-30;xsx2++)gSet(xsx2,xshelf1,WALL);
-    for(var xsx3 = 30; xsx3 < kW = 1;xsx3++)gSet(xsx3,xshelf2,WALL);
-    for (var hxh = 5; xhx < 25; xhx++){
+    for(var xsx2 = 1; xsx2 < kW-30; xsx2++) gSet(xsx2, xshelf1, WALL);
+    for(var xsx3 = 30; xsx3 < kW - 1; xsx3++) gSet(xsx3, xshelf2, WALL);
+    for (var xhx = 5; xhx < 25; xhx++){
        for(var xhy = 0; xhy < xshelf1; xhy++){
         if(Math.random()<0.15)gSet(xhx,xhy,HONEY);
        }
@@ -1784,18 +1784,18 @@ xPresetVirusLab.addEventListener('click',function(){
     for(var xvy2 = 20;xvy2 < kH - 20;xvy2++)gSet(xmid,xvy2,GLASS);
     for(var xsx4 = 1; xsx4 < xmid; xsx4++){
         for (var xsy2 = 10; xsy2 < 40; xsy2++){
-            if(Math.random()<0.25)getSet(xsx4,xsy2,SAND);
+            if (Math.random() < 0.25) gSet(xsx4, xsy2, SAND);
         }
     }
-    for (var xv2 = xmid + 1; xvx2 < kW - 1; xvx2++){
-        for (var xvy3 = kH - 30; xvy3 < kH - 1;xvy3++)
-        if(Math.random()<0.4)gSet(xvx2,xvy3,VIRUS);
+    for (var xv2 = xmid + 1; xv2 < kW - 1; xv2++){
+        for (var xvy3 = kH - 30; xvy3 < kH - 1; xvy3++){
+            if (Math.random() < 0.4) gSet(xv2, xvy3, VIRUS);
+        }
     }
-}
-for (var xmx2 = xmid + 10; xwx2 < xmid + 30; xwx2++){
-    gSet(xwx2,Math.floor(kH*0.5),WATER);
-}
-gSet(xmid - 5, kH - 2, DRAIN);
+    for (var xmx2 = xmid + 10; xmx2 < xmid + 30; xmx2++){
+        gSet(xmx2, Math.floor(kH*0.5), WATER);
+    }
+    gSet(xmid - 5, kH - 2, DRAIN);
 });
 xRightPanel.appendChild(xPresetVirusLab);
 
@@ -1925,4 +1925,14 @@ var xHeatInterval = setInterval(function(){
     }
 },200);
 
-
+var xDensityRow = document.createElement('div');
+xDensityRow.className = 'sliderRow';
+var xDensityLbl = document.createElement('label');
+var xDensityLblTxt = document.createTextNode('Spawn Rate');
+var xDensitySpan = document.createElement('span');
+xDensitySpan.id = 'xSpawnVal';
+xDensitySpan.textContent = '1';
+xDensityLbl.appendChild(xDensityLblTxt);
+xDensityLbl.appendChild(xDensitySpan);
+var xDensitySlider = document.createElement('input');
+xDensitySlider.type = 'range';
