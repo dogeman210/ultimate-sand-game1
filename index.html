@@ -1936,3 +1936,16 @@ xDensityLbl.appendChild(xDensityLblTxt);
 xDensityLbl.appendChild(xDensitySpan);
 var xDensitySlider = document.createElement('input');
 xDensitySlider.type = 'range';
+xDensitySlider.id = 'xSpawnSlider';
+xDensitySlider.min = '1';
+xDensitySlider.max = '20';
+xDensitySlider.value = '1';
+xDensityRow.appendChild(xDensityLbl);
+xDensityRow.appendChild(xDensitySlider);
+xRightPanel.appendChild(xDensityRow);
+
+var xSpawnMult = 1;
+xDensitySlider.addEventListener('input',function(){
+    xSpawnMult = parseInt(this.value);
+    document.getElementById('xSpawnVal').textContent = xSpawnMult + 'x';
+});
