@@ -1844,3 +1844,32 @@ for(var xsn = 0; xsn < 60; xsn++){
     var xsny = Math.floor(Math.random()*kH);
     gSet(xsnx,xsny,SAND);
 }
+for (var xqx4 = 0; xqx4 < kW; xqx4++){
+    gSet(xqx4,kH - 1, WALL);
+    gSet(xqx4, 0, WALL);
+}
+for (var xwy6 = 0;xwy6 < kH; xwy6++){
+    gSet(0,xwy6,WALL);
+    gSet(kW - 1, xwy6, WALL);
+}
+});
+xRightPanel.appendChild(xPresetMagnetField);
+
+var xPresetCementCity = document.createElement('button');
+xPresetCementCity.className = 'ctrlBtn';
+xPresetCementCity.textContent = 'Cement City';
+xPresetCementCity.addEventListener('click',function(){
+    for (var xii = 0; xii < gGrid.length; xii++) {gGrid[xii] = 0;gTemp[xii] = 0;gLife[xii] = 0; xCementSet[xii] = 0;}
+    for (var xqx5 = 0; xqx5 < kW;xqx5++)gSet(xqx5,kH - 1, WALL);
+    var xbuildingXs = [10,40,70,110,150,190,230,265];
+    for(var xbi2 = 0; xbi2 < xbuildingXs.length;xbi2++){
+        var xbx = xbuildingXs[xbi2];
+        var xbh = 20 + Math.floor(Math.random()*40);
+        var xbw = 12 + Math.floor(Math.random()*12);
+        for (var xbby = kH - 2; xbby >= kH - 2 - xbh;xbby--){
+            for (var xbbx = xbx; xbbx < xbx + xbw && xbbx < kW; xbbx++){
+                gSet(xbbx,xbby,CEMENT);
+            }
+        }
+    }
+}
