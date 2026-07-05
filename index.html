@@ -1882,3 +1882,47 @@ xPresetCementCity.addEventListener('click',function(){
     }
 });
 xRightPanel.appendChild(xPresetEmberStorm);
+
+var xExtrasHdr = document.createElement('h3');
+xExtrasHdr.textContent = 'Extra Controls';
+xRightPanel.appendChild(xExtrasHdr);
+
+var xTempSliderRow = document.createElement('div');
+xTempSliderRow.className = 'sliderRow';
+var xTempLbl = document.createElement('label');
+var xTempLblText = document.createTextNode('Heat Spawn');
+var xTempValSpan = document.createElement('span');
+xTempValSpan.id = 'xHeatVal';
+xTempValSpan.textContent = 'Off';
+xTempLbl.appendChild(xTempLblText);
+xTempLbl.appendChild(xTempValSpan);
+var xTempSlider = document.createElement('input');
+xTempSlider.type = 'range';
+xTempSlider.id = 'xHeatSlider';
+xTempSlider.min = '0';
+xTempSlider.max = '10';
+xTempSlider.value = '0';
+xTempSliderRow.appendChild(xTempLbl);
+xTempSliderRow.appendChild(xTempSlider);
+xRightPanel.appendChild(xTempSliderRow);
+
+var xHeatRate = 0;
+xTempSlider.addEventListener('input',function(){
+    xHeatRate = parseInt(this.value);
+    document.getElementById('xHeatVal'),textContent = xHeatRate === 0 ? 'Off : xHeatRate;
+});
+
+var xHeatFrame = 0;
+var xOldMainLoop = mainLoop;
+var xHeatInterval = setInterval(function(){
+    if (xHeatRate <= 0)return;
+    for (var xhi = 0; xhi < xHeatRate; xhi++){
+        var xhx3 = Math.floor(Math.random()*kW);
+        if(gGrid[0*kW + xhx3] === EMPTY){
+            gGrid[0*kW + xhx3] = FIRE;
+            gLife[0*kW + xhx3] = 40 + Math.floor(Math.random()*40);
+        }
+    }
+},200);
+
+
