@@ -49,9 +49,9 @@ canvas {display: block; cursor: crosshair; border: 1px solid #333; image-renderi
 </div>
 <div id="rightPanel">
 <h3>Canvas Controls</h3>
-<div class=""sliderRow"> 
+<div class="sliderRow">
 <label>Brush Size <span id="szVal">4</span></label>
-<input type="range"id="szSlider" min=""1" max="30" value="4"> 
+<input type="range" id="szSlider" min="1" max="30" value="4">
 </div>
 <div class="sliderRow"> 
 <label>Gravity <span id="gVal">0.15</span></label> 
@@ -68,10 +68,6 @@ canvas {display: block; cursor: crosshair; border: 1px solid #333; image-renderi
 <div class="sliderRow"> 
 <label>Spread<span id="spVal">1.0</span></label>
 <input type="range" id="spSlider" min="1" max="30"value="10">
-</div>
-<div class="sliderRow"> 
-<label>Sim Speed <span id="ssVal">1x</span></label>
-<input type="range" id="ssSlider" min="1" max="30" value="10">
 </div>
 <div class="sliderRow">
 <label>Sim Speed <span id="ssVal">1x</span></label>
@@ -109,7 +105,7 @@ canvas {display: block; cursor: crosshair; border: 1px solid #333; image-renderi
 </div> 
 <script> 
 (function(){
-var KW = 300, kH = 220;
+var kW = 300, kH = 220;
 var gCanvas = document.getElementById('gc');
 gCanvas.width = kW;
 gCanvas.height = kH;
@@ -160,9 +156,9 @@ function gGet(x,y){if(x<0||x>=kW||y<0||y>=kH)return WALL; return gGrid[y*kW+x];}
 function gSet(x,y,t){if(x<0||x>=kW||y<0||y>=kH)return; gGrid[y*kW+x]=t;}
 function gSwap(x1, y1, x2, y2) {
     var i1=y1*kW+x1,i2=y2*kW+x2;
-    var tmp = gGrid[i1];gGrid[i1]=gGrid[i2];gGrid[i2]=tmp;
-    var tmpT = gTemp[i1]; gTemp[i1]=gTemp[i2];gTemp[i2]=tmpT;
-    var tmpL = gLife[i1]; gLife[i1]
+    var tmp = gGrid[i1]; gGrid[i1] = gGrid[i2]; gGrid[i2] = tmp;
+    var tmpT = gTemp[i1]; gTemp[i1] = gTemp[i2]; gTemp[i2] = tmpT;
+    var tmpL = gLife[i1]; gLife[i1] = gLife[i2]; gLife[i2] = tmpL;
 }
 
 var matColorMap = {};
@@ -219,10 +215,10 @@ for (var ci = 0; ci < catOrder.length;ci++){
                 if (mdef2.id ===EMPTY){gDrawMode = 'erase';}else{gDrawMode = 'draw';}
                 document.querySelectorAll('.matBtn').forEach(function(b){b.classList.remove('active');});
                 btn.classList.add('active');
-                document.getElementByld('stSel').textContent = mdef2.nm;
+                document.getElementById('stSel').textContent = mdef2.nm;
             });
             matList.appendChild(btn);
-            if(mdef2.id === SAND) {btn.classList.add('active');document.getElementByld('stSel').textContent = mdef2.nm;}
+            if(mdef2.id === SAND) {btn.classList.add('active');document.getElementById('stSel').textContent = mdef2.nm;}
         })(mdef);
     }
 }
@@ -812,7 +808,6 @@ function runStep() {
                 }
             }
         }
-}
 if(gUpdated[tidx])continue;
 if(isPowder(tcell)){
     var bny = ty + dir;
@@ -1145,14 +1140,14 @@ function xRunNewMaterials() {
                 continue;
             }
             if(xtcell === SPORE){
-                gLife[xtidx]
+                gLife[xtidx]--;
                 if(gLife[xtidx]<=0){
                     if(qRand()<0.4){
                         gGrid[xtidx] = FUNGUS;
                     } else {
                         gGrid[xtidx] = EMPTY;
+                        gUpdated[xtidx]=1;
                     }
-                    gUpdated[xtidx] = 1;
                     continue;
                 }
                 var xspup = xty - gGravDir;
@@ -1388,7 +1383,11 @@ function xRunNewMaterials() {
                     }
                 }
             }
-    continue;
+        
+            continue;
+    
+    }
+    
 }
 
 if(xtcell === HONEY){
@@ -1428,13 +1427,12 @@ if(xtcell === HONEY){
         var xhnnb = gGrid [xhny*kW + xhnx];
         if (xhnnb == FIRE && qRand()< 0.04){
             gGrid[xtidx] = FIRE;
-            gLife[xtidx] = 50 + RandInt(50);
-            gUpdated[xtidx] = 1;
+            gLife[xtidx] =50 + RandInt(50);
+            gUpdated[xtidx] =1;
         }
     }
     continue;
 }
-
 if (xtcell === SLIME){
     var xslby = xty + gGravDir;
     var xslmoved = false;
@@ -1473,20 +1471,19 @@ if (xtcell === SLIME){
             gGrid[xslny*kW + xslnx] = SLIME;
             gUpdated[xslny*kW + xslnx] = 1;
         } else if (xslnnb === ACID){
-            gGrid[xtidx] = EMPTY;
-            gUpdated[xtidx] = 1;
+            gGrid[xtidx] =EMPTY;
+            gUpdated[xtidx] =1;
         }
     }
     continue;
 }
-
 if(xtcell === MIRROR){
     var xmiAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
     for (var xmii = 0; xmii < xmiAdj.length; xmii++){
         var xmix = xmiAdj[xmii][0], xmiy = xmiAdj[xmii][1];
         if(xmix < 0 || xmix >= kW || xmiy < 0 || xmiy >= kH) continue;
         var xminb = gGrid[xmiy*kW + xmix];
-        if(xminb === FIRE && qRand() < 0.005) {
+        if(xminb === FIRE && qRand() < 0.005){
             var xmiox = 2 * xtx - xmix, xmioy = 2 * xty - xmiy;
             if(xmiox >= 0 && xmiox < kW && xmioy >= 0 && xmioy < kH && gGrid[xmioy*kW + xmiox]===EMPTY){
                 gGrid[xmioy*kW + xmiox] = FIRE;
@@ -1526,10 +1523,6 @@ if(xtcell === RUBBER){
         }
     }
     continue;
-}
-
-}
-
 }
 
 
@@ -1960,8 +1953,8 @@ paintBrush = function(cx,cy){
 
 var xRainBtn = document.createElement('button');
 xRainBtn.className = 'ctrlBtn';
-xRainBtn.id = 'xRainBrn';
-xRainBrn.textContent = 'Toggle Rain';
+xRainBtn.id = 'xRainBtn';
+xRainBtn.textContent = 'Toggle Rain';
 var xRaining = false;
 var xRainInterval = null;
 xRainBtn.addEventListener('click',function(){
@@ -1973,9 +1966,9 @@ xRainBtn.addEventListener('click',function(){
             var xrncount = 4 + Math.floor(Math.random()*4);
             for (var xmi = 0; xrni < xrncount; xrni++){
                 var xrnx = Math.floor(Math.random()*kW);
-                if (fGrid[0*kW + xrnx]=== EMPTY){
-                    gGrid[0*kW + xrnx]=WATER;
-                    gLife[0*kW + xnx] = 0;
+                if (gGrid[0*kW + xrnx] === EMPTY){
+                    gGrid[0*kW + xrnx] = WATER;
+                    gLife[0*kW + xrnx] = 0;
                 }
             }
         },80);
@@ -2027,8 +2020,8 @@ xSandRainBtn.addEventListener('click',function(){
     this.style.color = xSandRaining ? '#e8c87a' : '#ccc';
     if(xSandRaining){
         xSandRainInterval = setInterval(function(){
-            var xsrcent = 5 + Math.floor(Math.random()*5)
-            for (var xsri = 0; xsri < xsrcnt; xsri++){
+            var xsrcent = 5 + Math.floor(Math.random()*5);
+            for (var xsri = 0; xsri < xsrcent; xsri++){
                 var xrsx = Math.floor(Math.random()*kW);
                 if(gGrid[0*kW+xsrx]===EMPTY){
                     gGrid[0*kW+xsrx] = SAND;
@@ -2049,8 +2042,8 @@ xSporeBtn.className = 'ctrlBtn';
 xSporeBtn.id = 'xSporeBtn';
 xSporeBtn.textContent = 'Spore Burst';
 xSporeBtn.addEventListener('click',function(){
-    var xsbcx = Math.floor(kW/2);
-    var xsbcy = Math.floor(kW/2);
+    var xncx = Math.floor(kW/2);
+    var xncy = Math.floor(kH/2);
     var xnr = 20;
     for (var xny = xncy - xnr; xny <= xncy + xnr; xny++){
         for (var xnx = xncx - xnr; xnx <= xncx + xnr; xnx++){
@@ -2061,8 +2054,95 @@ xSporeBtn.addEventListener('click',function(){
                     gLife[xny*kW + xnx] = 60 + Math.floor(Math.random()*80);
                 }else{
                     gGrid[xny*kW + xnx] = EMPTY;
+                }
+                gUpdated[xny*kW + xnx] = 1;
             }
-            gGrid[xny*kW + xnx] = 1;
         }
     }
-}
+    for (var xner = xnr; xner <= xnr + 5; xner++){
+        for(var xney = xncy - xner; xney <= xncy + xner; xney++){
+            for(var xnex = xncx - xner; xnex <= xncx + xner; xnex++){
+                var xned = (xnex - xncx)*(xnex - xncx) + (xney - xncy) * (xney - xncy);
+                if (xned >= (xner - 1)*(xner - 1) && xned <= xner * xner){
+                    if(xnex >= 0 && xnex < kW && xney >= 0 && xney < kH){
+                        if(gGrid[xney*kW + xnex]===EMPTY && Math.random()<0.3){
+                            gGrid[xney*kW + xnex] = SMOKE;
+                            gLife[xney*kW + xnex] = 80 + Math.floor(Math.random()*60);
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+xRightPanel.appendChild(xSporeBtn);
+
+var xClearNewBtn = document.createElement('button');
+xClearNewBtn.className = 'ctrlBtn danger';
+xClearNewBtn.id = 'xClearNewBrn';
+xClearNewBtn.textContent = 'Clear New Mats';
+xClearNewBtn.addEventListener('click',function(){
+    for (var xcni = 0; xcni < gGrid.length; xcni++){
+        if(gGrid[xcni]>=xNEWMAT_START){
+            gGrid[xcni] = EMPTY;
+            gLife[xcni] = 0;
+            xCementSet[xcni] = 0;
+        }
+    }
+});
+xRightPanel.appendChild(xClearNewBtn);
+
+var xSepLine = document.createElement('hr');
+xSepLine.className = 'sepLine';
+xRightPanel.appendChild(xSepLine);
+
+var xStatsHdr = document.createElement('h3');
+xStatsHdr.textContent = 'New Mat Stats';
+xRightPanel.appendChild(xStatsHdr);
+
+var xStatsBox = document.createElement('div');
+xStatsBox.id = 'xStatsBox';
+xStatsBox.style.cssText = 'background:#111;border:1px solid #2a2a2a;border-radius:3px;padding:6px 8px;font-size:11px;color:#888;';
+xStatsBox.innerHTML = '<div>Virus: <span id="xstVirus">0</span></div>' +
+    '<div>Fungus: <span id="xstFungus">0</span></div>' +
+    '<div>Crystal: <span id="xstCrystal">0</span></div>' +
+    '<div>Honey: <span id="xstHoney">0</span></div>' +
+    '<div>Slime: <span id="xstSlime">0</span></div>' +
+    '<div>Cement: <span id="xstCement">0</span></div>';
+xRightPanel.appendChild(xStatsBox);
+
+var xStatTimer = 0;
+var xOldUpdateStats = updateStats;
+updateStats = function(now){
+    xStatTimer += now - (xStatTimer === 0 ? now - 16 : xStatTimer);
+    if (xStatTimer > 600) {
+        var xvCnt = 0, xfCnt = 0, xcCnt = 0, xhCnt = 0, xslCnt = 0, xcmCnt = 0;
+        for (var xsi2 = 0; xsi2 < gGrid.length; xsi2++){
+            var xsc = gGrid[xsi2];
+            if (xsc === VIRUS)xvCnt++;
+            else if(xsc === FUNGUS)xfCnt++;
+            else if(xsc === CRYSTAL)xcCnt++;
+            else if(xsc === HONEY)xhCnt++;
+            else if(xsc === SLIME)xslCnt++;
+            else if(xsc === CEMENT)xcmCnt++;
+        }
+        var xvEl = document.getElementById('xstVirus');
+        var xfEl = document.getElementById('xstFungus');
+        var xcEl = document.getElementById('xstCrystal');
+        var xhEl = document.getElementById('xstHoney');
+        var xslEl = document.getElementById('xstSlime');
+        var xcmEl = document.getElementById('xstCement');
+        if(xvEl)xvEl.textContent = xvCnt;
+        if(xfEl)xfEl.textContent = xfCnt;
+        if(xcEl)xcEl.textContent = xcCnt;
+        if(xhEl)xhEl.textContent = xhCnt;
+        if(xslEl)xslEl.textContent = xslCnt;
+        if(xcmEl)xcmEl.textContent = xcmCnt;
+        xStatTimer = 0;
+    }
+};
+
+})();
+</script>
+</body>
+</html>
