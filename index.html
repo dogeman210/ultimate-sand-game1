@@ -2017,3 +2017,43 @@ xSnowBtn.addEventListener('click',function(){
 xRightPanel.appendChild(xSnowBtn);
 
 var xSandRainBtn = document.createElement('button');
+xSandRainBtn.className = 'ctrlBtn';
+xSandRainBtn.id = 'xSandRainBtn';
+xSandRainBtn.textContent = 'Sand Shower';
+var xSandRaining = false;
+var xSandRainInterval = null;
+xSandRainBtn.addEventListener('click',function(){
+    xSandRaining = !xSandRaining;
+    this.style.borderColor = xSandRaining ? '#c2a04a' : '#333';
+    this.style.color = xSandRaining ? '#e8c87a' : '#ccc';
+    if(xSandRaining){
+        xSandRainInterval = setInterval(function(){
+            var xsrcent = 5 + Math.floor(Math.random()*5)
+            for (var xsri = 0; xsri < xsrcnt; xsri++){
+                var xrsx = Math.floor(Math.random()*kW);
+                if(gGrid[0*kW+xsrx]===EMPTY){
+                    gGrid[0*kW+xsrx] = SAND;
+                    gLife[0*kW+xsrx] = 0;
+                }
+            }
+        },60);
+    }else{
+        if(xSandRainInterval)clearInterval(xSandRainInterval);
+        xSandRainInterval = null;
+    }
+});
+xRightPanel.appendChild(xSandRainBtn);
+
+
+var xSporeBtn = document.createElement('button');
+xSporeBtn.className = 'ctrlBtn';
+xSporeBtn.id = 'xSporeBtn';
+xSporeBtn.textContent = 'Spore Burst';
+xSporeBtn.addEventListener('click',function(){
+    var xsbcx = Math.floor(kW/2);
+    var xsbcy = Math.floor(kW/2);
+    var xnr = 20;
+    for (var xny = xncy - xnr; xny <= xncy + xnr; xny++){
+        for (var xnx = )
+    }
+})
