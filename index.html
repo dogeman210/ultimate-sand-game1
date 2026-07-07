@@ -2146,7 +2146,104 @@ updateStats = function(now){
     }
 };
 
-})();
-</script>
-</body>
-</html>
+var zNMS = 40;
+var PLASMA     =40;
+var GLUE      =41;
+var MERCURY    =42;
+var QUICKSAND  =43;
+var CHARCOAL   =44;
+var BRINE    =45;
+var RESIN    =46;
+var NEONGAS    =47;
+var BUBBLE     =48;
+var TAR      =49;
+var PERMAFROST   =50;
+var SPIDERWEB   =51;
+var MAGMA2     =52;
+var NITRO    =53;
+var FORM    =54;
+
+var zDefs = [
+    {id: PLASMA, nm: 'Plasma', col: [220,80,255], cat: 'energy'},
+    {id: GLUE,   nm: 'Glue', col:[210,200,160], cat: 'liquid'},
+    {id: MERCURY, nm: 'Mercury', col:[180,190,200], cat:'liquid'},
+    {id: QUICKSAND, nm: 'Quicksand', col:[185,145,70], cat: 'powder'},
+    {id: CHARCOAL, nm: 'Charcoal', col:[45,40,35], cat: 'powder'},
+    {id: BRINE, nm: 'Brine', col:[50,120,170],cat:'liquid'},
+    {id: RESIN, nm: 'Resin', col:[160,100,20], cat: 'liquid'},
+    {id: NEONGAS, nm: 'Neon Gas', col:[255,80,120], cat: 'gas'},
+    {id: BUBBLE, nm:'Bubble', col:[190,230,255], cat: 'gas'},
+    {id: TAR, nm:'Tar', col: [25, 20, 18], cat: 'liquid'},
+    {id: PERMAFROST, nm:'Permafrost', col: [180, 210, 24], cat: 'solid'},
+    {id: SPIDERWEB, nm: 'Spiderweb', col: [230, 230, 220], cat: 'solid'},
+    {id: MAGMA2, nm:'Magma', col: [200, 40, 0], cat: 'liquid'}
+    {id: NITRO, nm: 'Nitro', col: [100, 200, 220], cat: 'liquid'},
+    {id: FOAM, nm: 'Foam', col:[235, 235, 235], cat: 'powder'},
+];
+
+for (var zdi = 0; zdi < zDefs.length; zdi++){
+    matColorMap[zDefs[zdi].id] = zDefss[zdi].col;
+}
+
+var zGlueSet = new Uint8Array(kW*kH);
+var zResinSet = new Uint8Array(kW*kH);
+var zPulseAge = 0;
+
+function zIsLiq(t) { return t === GLUE || t === MERCURY || t === BRINE || t === RESIN || t === TAR || t === NITRO || t === MAGMA2;}
+function zIsGas(t) { return t === NEONGAS || t === BUBBLE; }
+
+function zRunWave3(){
+    zPulseAge = (zPulseAge + 1) % 120;
+    for (var zty = kH - 1; zty >= 0; zty--){
+        var zxOff = qRand() > 0.5 ? 1 : -1;
+        for (var zPass = 0; zPass < kW; zPass++){
+            var ztx = zxOff > 0 ? zPass : kW - 1 - zPass;
+            var ztidx = zty * kW + ztx;
+            if (gUpdated[ztidx]) continue;
+            var ztc = gGrid[ztidx];
+            if (ztc < zNMS) continue;
+
+            if(ztc === PLASMA) {
+                gLife[ztidx]--;
+                if (gLife[ztidx] <=0){
+                    gGrid[ztidx] = qRand() < 0.5 ? FIRE : EMPTY;
+                    if(gGrid[ztidx]=== FIRE)gLife[ztidx] = 40 + qRandInt(40);
+                    gUpdated[ztidx] = 1; continue;
+                }
+                var zpA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                for (var zpi = 0; zpi < zpA.length; zpi++){
+                    var zpx = zpA[zpi][0],zpy = zpA[zpi][1];
+                    if (zpx < 0 || zpx >= kW||zpy < 0|| zpy >= kH) continue;
+                    var zpnb = gGrid[zpy *kW + zpx];
+                    if (isBurnable(zpnb) && qRand() < 0.18) {
+                        gGrid[zpy*kW + zpx] = FIRE; gLife[zpy*kW + zpx] = 50 + qRandInt(60); gUpdated[zpy*kW + zpx] = 1;    
+                    } else if (zpnb === EMPTY && qRand()< 0.05) {
+                        gGrid[zpy*kW + zpx] = PLASMA; gLife[zpy*kW + zpx] = 20 + qRandInt(25); gUpdated[zpy*kW + zpx] = 1;
+                    } else if (zpnb === ICE && qRand() < 0.2) {
+                        gGrid[zpy*kW + zpx] = WATER; gUpdated[zpy*kW + zpx] = 1;
+                    } else if (zpnb === WATER && qRand() < 0.08) {
+                        gGrid[zpy*kW + zpx] = STEAM; gLife[zpy*kW + zpx] = 100 + qRandInt(60); gUpdated[zpy*kW + zpx] = 1;
+                    }
+                }
+                if (qRand() < 0.35) {
+                    var zpup = zty - gGravDir;
+                    if (zpup >= 0 && zpup < kH && gGrid[zpup * kW + ztx] === EMPTY){
+                        gGrid[zpup * kW + ztx] = PLASMA; gLife[zpup * kW + ztx] = gLife[ztidx];
+                        gGrid[ztidx] = EMPTY; gUpdated[zpup * kW + ztx] = 1; gUpdated[ztidx] = 1;
+                    }
+                }
+                gUpdated[ztidx] = 1; continue;
+            }
+
+            if (ztc === NEONGAS) {
+                gLife[ztidx]--;
+                if(gLife[ztidx] <= 0) {gGrid[ztidx] = EMPTY; gUpdated[ztidx] = 1; continue;}
+                var znA = [[ztx, zty - gGravDir],[ztx-1,zty],[ztx+1,zty]];
+                var znmv = false;
+                for (var zni2 = 0; zni2 < znA.length && !znmv; zni2++){
+                    var znx = znA[zni2][0], zny = znA[zni2][1];
+                }
+            }
+        }
+    }
+}
