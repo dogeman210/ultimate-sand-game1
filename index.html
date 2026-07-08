@@ -2449,6 +2449,47 @@ function zRunWave3(){
                     var zbA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
                     for (var zbai = 0; zbai < zbA.length; zbai++){
                         var zbax = zbA[zbai][0], zbay = zbA[zbai][1];
+                        if(zbax < 0 || zbax >= kW||zbay < 0||zbay >= kH)continue;
+                        var zbanb = gGrid[zbay*kW + zbax];
+                        if(zbanb === ICE && qRand() < 0.015) {gGrid[zbay*kW + zbax] = WATER; gUpdated[zbay*kW + zbax] = 1;}
+                        else if (zbanb === SALT && qRand()<0.03){gGrid[zbay*kW + zbax] = MUD; gUpdated[zbay*kW + zbax] = 1;}
+                    }
+                    if(gUpdated[ztidx])continue;
+                    var zbby = zty + gGravDir;
+                    var zbmv = false;
+                    if(zbby >= 0 && zbby < kH){
+                        var zbbot = gGrid[zbby*kW + ztx];
+                        if(zbbot === EMPTY||isGas(zbbot)){
+                            gGrid[zbby*kW + ztx] = BRINE; gLife[zbby*kW + ztx] = gLife[ztidx];
+                            if(isGas(zbbot)){gGrid[ztidx] = zbbot;} else {gGrid[ztidx] = EMPTY;}
+                            gUpdated[zbby*kW + ztx] = 1; gUpdated[ztidx] = 1; zbmv = true;
+                        }
+                    }
+                    if(!zbmv){
+                        var zblat = qRand() < 0.5 ? -1 : 1;
+                        for (var zbli = 0; zbli < 2 && !zbmv; zbli++, zblat = -zblat){
+                            for(var zbls = 1; zbls <= 4 && !zbmv; zbls++){
+                                var zblx = ztx + zblat*zbls;
+                                if(zblx<0||zblx>=kW)break;
+                                var zblnb = gGrid[zty*kW + zblx];
+                                if(zblnb !== EMPTY && !isGas(zblnb))break;
+                                if(zblnb === EMPTY){
+                                    gGrid[zty*kW + zblx] = BRINE; gLife[zty*kW + zblx] = gLife[ztidx];
+                                    gGrid[ztidx] = EMPTY; gUpdated[zty*kW + zblx] = 1; gUpdated[ztidx] = 1; zbmv = true;
+                                }
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                if (ztc === RESIN){
+                    if(zResinSet[ztidx])continue;
+                    var zrsA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                    for (var zrsi = 0; zrsi < zrsA.length; zrsi++){
+                        var zrsx = zrsA[zrsi][0],zrsy = zrsA[zrsi][1];
+                        if(zrsx < 0||zrsx >= kW|| zrsy < 0|| zrsy >= kH) continue;
+                        var zrsnb = gGrid[zrsy*kW + zrsx];
                         
                     }
                 }
