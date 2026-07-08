@@ -2345,7 +2345,39 @@ function zRunWave3(){
                     var zmbot = gGrid[zmby * kW + ztx];
                     if (zmbot = EMPTY||isGas(zmbot)){
                         gGrid[zmby*kW + ztx] = MERCURY; gLife[zmby*kW + ztx] = gLife[ztidx];
-                        
+                        if(isGas(zmbot)){gGrid[ztidx]=zmbot;}else{gGrid[ztidx] = EMPTY;}
+                        gUpdated[zmby*kW + ztx] = 1; gUpdated[ztidx] = 1; zmmv = true;
+                    }
+                }
+                if (!zmmv){
+                    var zmlat = qRand() < 0.5 ? -1 : 1;
+                    for (var zmli = 0; zmli < 2 && !zmmv; zmli++, zmlat = -zmlat){
+                        for(var zmls = 1; zmls <=3 && !zmmv; zmls++){
+                            var zmlx = ztx + zmlat*zmls;
+                            if(zmlx < 0||zmlx >= kW)break;
+                            var zmlnb = gGrid[zty*kW + zmlx];
+                            if(zmlnb !==EMPTY && !isGas(zmlnb))break;
+                            if(zmlnb === EMPTY){
+                               gGrid[zty*kW + zmlx] = MERCURY; gLife[zty*kW + zmlx] = gLife[ztidx];
+                               gGrid[ztidx] = EMPTY; gUpdated[zty*kW + zmlx] = 1; gUpdated[ztidx] = 1; zmmv = true; 
+                            }
+                        }
+                    }
+                }
+                continue;
+            }
+
+
+            if(ztc === QUICKSAND){
+                var zqA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                for (var zqi = 0; zqi < zqA.length;zqi++){
+                    var zqx = zqA[zqi][0], zqy = zqA[zqi][1];
+                    if(zqx < 0||zqx >= kW|| zqy < 0|| zqy >= kH) continue;
+                    var zqnb = gGrid[zqy*kW + zqx];
+                    if (zqnb === WATER && qRand() < 0.008) {gGrid[zqy*kW + zqx] = SAND; gUpdated[zqy*kW + zqx]=1;}
+                    else if (isPowder(zqnb) && zqy > zty && qRand() < 0.05){
+                        gGrid[zqy*kW + zqx] = QUICKSAND; gGrid[ztidx] = zqnb;
+                        gUpdated[zqy*kW + zqx] = 1; gUpdated[ztidx] = 1;
                     }
                 }
             }
