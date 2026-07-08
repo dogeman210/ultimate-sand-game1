@@ -973,7 +973,7 @@ for(var fy = 0; fy < kH; fy++){
         p += 4;
     }
 }
-gCtx.putImageData(gImgData,0,0);
+gCtx.putImageData(gImg,0,0);
  }
 
 
@@ -1601,7 +1601,7 @@ drawFrame = function() {
             gPix[xfp + 3] = 255;
         }
     }
-    gCtx.putImageData(glmg,0,0);
+    gCtx.putImageData(gImg,0,0);
 };
 
 var xOldPutParticle = putParticle;
@@ -1653,7 +1653,7 @@ for (var xnci2 = 0; xnci2 < xNewCatOrder.length; xnci2++){
             xnbtn.dataset.matid = xnmdef2.id;
             var xnswatch = document.createElement('div')
             xnswatch.className = 'matColor';
-            xnswatch.style.background = 'rgb('+xnmdef2.col[0]+','+xnmdef2.col[1]+','+xndef2.col[2]+')';
+            xnswatch.style.background = 'rgb('+xnmdef2.col[0]+','+xnmdef2.col[1]+','+xnmdef2.col[2]+')';
             xnbtn.appendChild(xnswatch);
             xnbtn.appendChild(document.createTextNode(xnmdef2.nm));
             xnbtn.addEventListener('click',function(){
@@ -2182,7 +2182,7 @@ var zDefs = [
 ];
 
 for (var zdi = 0; zdi < zDefs.length; zdi++){
-    matColorMap[zDefs[zdi].id] = zDefss[zdi].col;
+    matColorMap[zDefs[zdi].id] = zDefs[zdi].col;
 }
 
 var zGlueSet = new Uint8Array(kW*kH);
@@ -2554,6 +2554,64 @@ function zRunWave3(){
 
                 if(ztc === PERMAFROST){
                     var zpfA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                    for (var zpfi = 0; zpfi < zpfA.length;zpfi++){
+                        var zpfx = zpfA[zpfi][0],zpfy = zpfA[zpfi][1];
+                        if(zpfx < 0 || zpfx >= kW || zpfy < 0|| zpfy >= kH)continue;
+                        var zpfnb = gGrid[zpfy*kW + zpfx];
+                        if(zpfnb === WATER && qRand() < 0.008){gGrid[zpfy*kW + zpfx] = PERMAFROST; gUpdated[zpfy*kW + zpfx] = 1;}
+                        else if (zpfnb === LAVA && qRand() < 0.05){gGrid[ztidx] = WATER;gUpdated[ztidx] = 1;}
+                        else if (zpfnb === FIRE && qRand() < 0.008){gGrid[ztidx] = ICE;gUpdated[ztidx] = 1;}
+                        else if (zpfnb === SAND && qRand() < 0.003){gGrid[zpfy*kW + zpfx] = SNOW; gUpdated[zpfy*kW + zpfx] = 1;}
+                    }
+                    continue;
+                }
+
+                if(ztc === SPIDERWEB){
+                    var zswA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                    for (var zswi = 0; zswi < zswA.length; zswi++){
+                        var zswx = zswA[zswi][0],zswy = zswA[zswi][1];
+                        if(zswx < 0 ||zswx >= kW|| zswy < 0 || zswy >= kH)continue;
+                        var zswnb = gGrid[zswy*kW + zswx];
+                        if(zswnb === FIRE && qRand() < 0.15){gGrid[ztidx] = FIRE;gLife[ztidx] = 30 + qRandInt(30);gUpdated[ztidx] = 1; break;}
+                        else if (isPowder(zswnb) && qRand() < 0.04){gGrid[zswy*kW + zswx] = EMPTY; gUpdated[zswy*kW + zswx] = 1;}
+                        else if (isLiquid(zswnb) && qRand() < 0.002){gGrid[ztidx] = EMPTY;gUpdated[ztidx] = 1; break;}
+                    }
+                    continue;
+                }
+
+                if(ztc === MAGMA2){
+                    var zmgA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                    for (var zswi = 0; zswi < zswA.length;zswi++){
+                        var zswx = zswA[zswi][0], zswy = zswA[zswi][1];
+                        if(zmgx < 0 ||zmgx >= kW || zmgy < 0 || zmgy >= kH)continue;
+                        var zmgnb = gGrid[zmgy*kW + zmgx];
+                        if(isBurnable(zmgnb) && qRand() < 0.07){gGrid[zmgy*kW + zmgx] = FIRE;gLife[zmgy*kW + zmgx] = 80 + qRandInt(60);gUpdated[zmgy*kW + zmgx] = 1;}
+                        else if (zmgnb === WATER && qRand() < 0.06){
+                            gGrid[zmgy*kW + zmgx] = STEAM; gLife[zmgy*kW + zmgx] = 120 + qRandInt(60);
+                            gGrid[ztidx] = STONE;gUpdated[ztidx] = 1; gUpdated[zmgy*kW + zmgx] = 1;
+                        } else if(zmgnb === ICE && qRand() < 0.12){gGrid[zmgy*kW + zmgx] = WATER; gUpdated[zmgy*kW + zmgx] = 1;}
+                        else if(zmgnb === SAND && qRand() < 0.008){gGrid[zmgy*kW + zmgx] = OBSIDIAN; gUpdated[zmgy*kW + zmgx] = 1;}
+                        else if(zmgnb === CHARCOAL && qRand() < 0.08){gGrid[zmgy*kW + zmgx] = FIRE; gLife[zmgy*kW + zmgx] = 100 + qRandInt(80);gUpdated[zmgy*kW + zmgx] = 1;}
+                    }
+                    if(gUpdated[ztidx])continue;
+                    var zmgby = zty + gGravDir;
+                    var zmgmv = false;
+                    if (zmgby >= 0 && zmgby < kH) {
+                        var zmgbot = gGrid[zmgby*kW + ztx];
+                        if(zmgbot === EMPTY || isGas(zmgbot)){
+                            gGrid[zmgby*kW + ztx] = MAGMA2; gLife[zmgby*kW + ztx] = gLife[ztidx];
+                            if(isGas(zmgbot)){gGrid[ztidx] = zmgbot;} else {gGrid[ztidx] = EMPTY;}
+                            gUpdated[zmgby*kW + ztx] = 1;gUpdated[ztidx] = 1; zmgmv = true;
+                        }
+                    }
+                    if(!zmgmv){
+                        var zmglat = qRand() < 0.5 ? -1 : 1;
+                        for (var zmgli = 0; zmgli < 2 && !zmgmv; zmgli++, zmglat = -zmglat){
+                            for (var zmgls = 1; zmgls <= 3 && !zmgmv; zmgls++){
+                                var zmglx = ztx + zmglat * zmgls;
+                            }
+                        }
+                    }
                 }
             }
         }
