@@ -2490,8 +2490,36 @@ function zRunWave3(){
                         var zrsx = zrsA[zrsi][0],zrsy = zrsA[zrsi][1];
                         if(zrsx < 0||zrsx >= kW|| zrsy < 0|| zrsy >= kH) continue;
                         var zrsnb = gGrid[zrsy*kW + zrsx];
-                        
+                        if(zrsnb === FIRE && qRand() < 0.07) {gGrid[ztidx] = FIRE;gLife[ztidx] = 60 + qRandInt(60);gUpdated[ztidx] = 1;break;}
+                        else if (zrsnb === WATER && qRand() < 0.004){zResinSet[ztidx] = 1; gUpdated[ztidx] = 1; break;}
                     }
+                    if(zResinSet[ztidx]||gUpdated[ztidx])continue;
+                    var zrsby = zty + gGravDir;
+                    var zrsmv = false;
+                    if(zrsby >= 0 && zrsby < kH){
+                        var zrsbot = Grid[zrsby*kW + ztx];
+                        if(zrsbot === EMPTY||isGas(zrsbot)){
+                            gGrid[zrsby*kW + ztx] = RESIN; gLife[zrsby*kW + ztx] = gLife[ztidx]; zResinSet[zrsby*kW + ztx] = 0;
+                            if(isGas(zrsbot)){gGrid[ztidx] = zrsbot;}else{gGrid[ztidx] = EMPTY;}
+                            gUpdated[zrsby*kW + ztx] = 1; gUpdated[ztidx] = 1; zrsmv = true;
+                        }
+                    }
+                    if(!zrsmv && qRand() < 0.03){
+                        var zrslat = qRand() < 0.5 ? -1 : 1;
+                        for (var zrsli = 0; zrsli < 2 && !zrsli++,zrslat = -zrslat){
+                            var zrsln = ztx + zrslat;
+                            if(zrsln < 0||zrsln >= kW)continue;
+                            if(gGrid[zty*kW + zrsln]=== EMPTY){
+                                gGrid[zty*kW + zrsln] = RESIN; gLife[zty*kW + zrsln] = gLife[ztidx];zResinSet[zty*kW + zrsln] = 0;
+                                gGrid[ztidx] = EMPTY; gUpdated[zty*kW + zrsln] = 1; gUpdated[ztidx] = 1; zrsmv = true;
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                if (ztv === TAR){
+                    var ztaA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
                 }
             }
         }
