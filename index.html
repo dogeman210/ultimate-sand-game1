@@ -2410,6 +2410,47 @@ function zRunWave3(){
 
                 if(ztc === CHARCOAL){
                     var zcA =[[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                    for (var zci = 0; zci < zcA.length;zci++){
+                        var zcx = zcA[zci][0], zcy = zcA[zci][1];
+                        if(zcx < 0||zcx >= kW||zcy<0||zcy >= kH)continue;
+                        var zcnb = gGrid[zcy*kW + zcx];
+                        if(zcnb === FIRE && qRand()< 0.06) {gGrid[ztidx] = FIRE; gLife[ztidx] = 100 + qRandInt(80); gUpdated[ztidx] =1; break;}
+                        else if(zcnb === LAVA && qRand()<0.1){gGrid[ztidx]=FIRE; gLife[ztidx] = 120 + qRandInt(80); gUpdated[ztidx] = 1; break;}
+                        else if(zcnb === WATER && qRand()<0.001){gGrid[ztidx] = ASH; gUpdated[ztidx] = 1; break;}
+                    }
+                    if (gUpdated[ztidx])continue;
+                    var zcby = zty + gGravDir;
+                    var zcmv = false;
+                    if(zcby >= 0 && zcby < kH){
+                        var zcbot = gGrid[zcby*kW + ztx];
+                        if(zcbot === EMPTY || isLiquid(zcbot)){
+                            if(isLiquid(zcbot)){
+                                gGrid[zcby*kW + ztx] = CHARCOAL; gGrid[ztidx] = zcbot;
+                                var zctL = gLife[zcby*kW + ztx]; gLife[zcby*kW + ztx] = gLife[ztidx];gLife[ztidx] = zctL;
+                            } else {gGrid[zcby*kW + ztx] = CHARCOAL; gLife[zcby*kW + ztx] = gLife[ztidx] = EMPTY;}
+                            gUpdated[zcby*kW + ztx] = 1; gUpdated[ztidx] = 1; zcmv = true;
+                        }
+                    }
+                    if(!zcmv) {
+                        var zcsl = qRand() < 0.5 ? -1 : 1;
+                        for (var zcsi = 0; zcsi < 2 && !zcmv; zcsi++,zcsl = -zcsl){
+                            var zcsx = ztx + zcsl, zcsy = zcby;
+                            if(zcsx < 0||zcsx >= kW||zcsy < 0||zcsy >= kH)continue;
+                            if(gGrid[zcsy*kW + zcsx] === EMPTY){
+                                gGrid[zcsy*kW + zcsx] = CHARCOAL; gLife[zcsy*kW + zcsx] = gLife[ztidx];
+                                gGrid[ztidx] = EMPTY; gUpdated[zcsy*kW + zcsx] = 1; gUpdated[ztidx] = 1; zcmv = true;
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                if(ztx === BRINE){
+                    var zbA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                    for (var zbai = 0; zbai < zbA.length; zbai++){
+                        var zbax = zbA[zbai][0], zbay = zbA[zbai][1];
+                        
+                    }
                 }
             }
         }
