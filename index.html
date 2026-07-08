@@ -2176,7 +2176,7 @@ var zDefs = [
     {id: TAR, nm:'Tar', col: [25, 20, 18], cat: 'liquid'},
     {id: PERMAFROST, nm:'Permafrost', col: [180, 210, 24], cat: 'solid'},
     {id: SPIDERWEB, nm: 'Spiderweb', col: [230, 230, 220], cat: 'solid'},
-    {id: MAGMA2, nm:'Magma', col: [200, 40, 0], cat: 'liquid'}
+    {id: MAGMA2, nm:'Magma', col: [200, 40, 0], cat: 'liquid'},
     {id: NITRO, nm: 'Nitro', col: [100, 200, 220], cat: 'liquid'},
     {id: FOAM, nm: 'Foam', col:[235, 235, 235], cat: 'powder'},
 ];
@@ -2506,7 +2506,7 @@ function zRunWave3(){
                     }
                     if(!zrsmv && qRand() < 0.03){
                         var zrslat = qRand() < 0.5 ? -1 : 1;
-                        for (var zrsli = 0; zrsli < 2 && !zrsli++,zrslat = -zrslat){
+                        for (var zrsli = 0; zrsli < 2 && !zrsli++,zrslat = -zrslat){;
                             var zrsln = ztx + zrslat;
                             if(zrsln < 0||zrsln >= kW)continue;
                             if(gGrid[zty*kW + zrsln]=== EMPTY){
@@ -2520,6 +2520,40 @@ function zRunWave3(){
 
                 if (ztv === TAR){
                     var ztaA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                    for (var ztai = 0; ztai < ztaA.length; ztai++){
+                        var ztax = ztaA[ztai][0],ztay = ztaA[ztai][1];
+                        if(ztax < 0 ||ztax >= kW||ztay < 0 ||ztay >=kH)continue;
+                        var ztanb = gGrid[ztay*kW + ztax];
+                        if(ztanb === FIRE && qRand() < 0.09){gGrid[ztidx] = FIRE; gLife[ztidx] = 120 + qRandInt(80);gUpdated[ztidx] = 1; break;}
+                        else if (ztanb === LAVA && qRand()< 0.12){gGrid[ztidx] = FIRE; gLife[ztidx] = 150 + qRandInt(80); gUpdated[ztidx] = 1; break;}
+                        else if (isPowder(ztanb) && qRand() < 0.003){gGrid[ztay*kW + ztax] = TAR; gUpdated[ztay*kW + ztay] = 1;}
+                    }
+                    if(gUpdated[ztidx])continue;
+                    var ztaby = zty + gGravDir;
+                    var ztamv = false;
+                    if(ztaby >= 0 && ztaby < kH){
+                        var ztabot = gGrid[ztaby*kW + ztx];
+                        if(ztabot === EMPTY||isGas(ztabot)){
+                            gGrid[ztaby*kW + ztx] = TAR; gLife[ztaby*kW + ztx] = gLife[ztidx];
+                            if(isGas(ztabot)){gGrid[ztidx] = ztabot;}else{gGrid[ztidx] = EMPTY;}
+                            gUpdated[ztaby*kW + ztx] = 1; gUpdated[ztidx] = 1; ztamv = true;
+                        }
+                    }
+                    if(!ztamv && qRand() < 0.07){
+                        var ztalat = qRand() < 0.5 ? -1 : 1;
+                        for (var ztali = 0; ztali < 2 && !ztamv; ztali++,ztalat = -ztalat){
+                            var ztaln = ztx + ztalat;
+                            if(gGrid[zty*kW + ztaln] === EMPTY){
+                                gGrid[zty*kW + ztaln] = TAR; gLife[zty*kW + ztaln] = gLife[ztidx];
+                                gGrid[ztidx] = EMPTY; gUpdated[zty*kW + ztaln] = 1; gUpdated[ztidx] = 1; ztamv = true;
+                            }
+                        }
+                    }
+                    continue;
+                }
+
+                if(ztc === PERMAFROST){
+                    var zpfA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
                 }
             }
         }
