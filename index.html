@@ -2609,9 +2609,21 @@ function zRunWave3(){
                         for (var zmgli = 0; zmgli < 2 && !zmgmv; zmgli++, zmglat = -zmglat){
                             for (var zmgls = 1; zmgls <= 3 && !zmgmv; zmgls++){
                                 var zmglx = ztx + zmglat * zmgls;
+                                if(zmglx < 0 || zmglx >= kW) break;
+                                var zmglnb = gGrid[zty*kW + zmglx];
+                                if(zmglnb !== EMPTY && !isGas(zmglnb))break;
+                                if(zmglnb === EMPTY){
+                                    gGrid[zty*kW + zmglx] = MAGMA2; gLife[zty*kW + zmglx] = gLife[ztidx];
+                                    gGrid[ztidx] = EMPTY; gUpdated[zty*kW + zmglx] = 1;gUpdated[ztidx] = 1; zmgmv = true;
+                                }
                             }
                         }
                     }
+                    continue;
+                }
+
+                if(ztc === NITRO) {
+                    var zntA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
                 }
             }
         }
