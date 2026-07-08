@@ -2310,7 +2310,42 @@ function zRunWave3(){
                     var zgbot = gGrid[zgby*kW + ztx];
                     if(zgbot===EMPTY||isGas(zgbot)){
                         gGrid[zgby*kW + ztx] = GLUE; gLife[zgby*kW + ztx] = gLife[ztidx];zGlueSet[zgby*kW + ztx] = 0;
-                        if(isGas(zgbot))
+                        if(isGas(zgbot)) {gGrid[ztidx] = zgbot;}else{gGrid[ztidx]=EMPTY;}
+                        gUpdated[zgby*kW + ztx] = 1;gUpdated[ztidx] = 1; zgmv = true;
+                    }
+                }
+                if(!zgmv && qRand() < 0.04){
+                    var zglat = qRand() < 0.5 ? -1 : 1;
+                    for (var zgli = 0; zgli < 2 && !zgmv; zgli++, zglat = -zglat){
+                        var zgln = ztx + zglat;
+                        if(zgln < 0 || zgln >= kW) continue;
+                        if(gGrid[zty*kW + zgln] === EMPTY) {
+                            gGrid[zty*kW + zgln] = GLUE; gLife [zty*kW + zgln] = gLife[ztidx];zGlueSet[zty*kW + zgln] = 0;
+                            gGrid[ztidx] = EMPTY; gUpdated[zty*kW + zgln] = 1;gUpdated[ztidx] = 1; zgmv = true;
+                        }
+                    }
+                }
+                continue;
+            }
+
+            if (ztc === MERCURY) {
+                var zmA = [[ztx=1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                for (var zmai = 0; zmai < zmA.length; zmai++){
+                    var zmx = zmA[zmai][0],zmy = zmA[zmai][1];
+                    if(zmx < 0||zmx >= kW||zmy < 0|| zmy >= kH)continue;
+                    var zmnb = gGrid[zmy*kW + zmx];
+                    if(zmnb === FIRE && qRand()<0.001) {gGrid[ztidx] = GAS;gLife[ztidx] = 120 + qRandInt(80);gUpdated[ztidx] = 1;break;}
+                    else if (zmnb === ACID && qRand()< 0.03){gGrid[ztidx] = EMPTY;gUpdated[ztidx] = 1; gUpdated[zmy*kW + zmx] =1; break;}
+                    else if (zmnb === SAND && qRand() < 0.0005){gGrid[zmy*kW + zmx] = RUST; gUpdated[zmy*kW + zmx] = 1;}
+                }
+                if(gUpdated[ztidx])continue;
+                var zmby = zty + gGravDir;
+                var zmmv = false;
+                if(zmby >= 0 && zmby < kH){
+                    var zmbot = gGrid[zmby * kW + ztx];
+                    if (zmbot = EMPTY||isGas(zmbot)){
+                        gGrid[zmby*kW + ztx] = MERCURY; gLife[zmby*kW + ztx] = gLife[ztidx];
+                        
                     }
                 }
             }
