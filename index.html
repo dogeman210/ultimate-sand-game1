@@ -2717,5 +2717,43 @@ function zRunWave3(){
     var zOldDrawFrame = drawFrame;
     drawFrame = function (){
         zOldDrawFrame();
+        var zNow = Date.now();
+        for (var zfy = 0; zfy < kH; zfy++){
+            for (var zfx = 0; zfx < kW; zfx++){
+                var zfidx = zfy*kW + zfx;
+                var zfc = gGrid[zfidx];
+                if(zfc < zNMS)continue;
+                var zcol = matColorMap[zfc];
+                if(!zcol)continue;
+                var zr = zcol[0],zg = zcol[1], zb = zcol[2];
+                var zvr = gColorVar[zfidx * 3],zvg = gColorVar[zfidx*3 + 1], zbv = gColorVar[zfidx*3 + 2]
+                if(zfc === PLASMA){
+                    var zpp = 0.5 + 0.5 * Math.sin(zNow*0.01 + zfx * 0.4 + zfy * 0.3);
+                    var zpl = gLife[zfidx]/120;
+                    zr = clamp255(Math.floor(180 + 70 * zpp + zvr * 0.2));
+                    zg = clamp255(Math.floor(20 + 60*zpl + zvg * 0.1));
+                    zb = clamp255(Math.floor(220 + 35 * zpp + zvb * 0.2));
+                } else if (zfc === NEONGAS){
+                    var znp = 0.4 + 0.6 * Math.sin(zNow*0.012 + zfx * 0.7 + zfy * 0.5);
+                    var znl = gLife[zfidx]/200;
+                    zr = clamp255(Math.floor(240*znp*znl + zvr));
+                    zg = clamp255(Math.floor(50*znl + zvg));
+                    zb = clamp255(Math.floor(100*znp*znl + zvb));
+                } else if (zfc === BUBBLE){
+                    var zbp = gLife[zfidx]/150;
+                    zr = clamp255(Math.floor(160**zbp + zvr)); zg = clamp255(Math.floor(210*zbp + zvg)); zb = clamp255(Math.floor(240*zbp + zvb));
+                } else if (zfc === MERCURY) {
+                    var zmp = 0.85 + 0.15 * Math.sin(zNow*0.003 + zfx * 0.2);
+                    zr = clamp255(Math.floor(160*zmp + zvr)); zg = clamp255(Math.floor(170 * zmp + zvg)); zb = clamp255(Math.floor(185 * zmp + zvb));
+                } else if (zfc === GLUE) {
+                    if(zGlueSet[zfidx]){zr = clamp255(190 + zvr); zg = clamp255(180 + zvg); zb = clamp255(140 + zvb);}
+                    else {zr = clamp255(210 + zvr); zg = clamp255(200 + zvg); zb = clamp255(160 + zvb);}
+                } else if (zfc === QUICKSAND) {
+                    var zqp = 0.7 + 0.3 * Math.sin(zNow*0.005 + zfx * 0.3 + zfy * 0.4);
+                    zr = clamp255(Math.floor(185*zqp + zvr)); zg = clamp255(Math.floor(145 * zqp + zvg)); zb = clamp255(Math.floor(70*zqp + zvb));
+                } else if (zfc === CHACOAL)
+                
+            }
+        }
     }
 }
