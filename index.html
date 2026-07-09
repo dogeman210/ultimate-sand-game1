@@ -2634,14 +2634,88 @@ function zRunWave3(){
                                 for(var znterx = ztx - zntr; znterx <= ztx + zntr; znterx++){
                                     var zntd = (znterx - ztx)*(znterx - ztx) + (zntery - zty)*(zntery - zty);
                                     if(zntd <= zntr*zntr && znterx >= 0 && znterx < kW && zntery >= 0 && zntery < kH){
-                                        if
+                                        if(qRand()<0.65) {gGrid[zntery*kW + znterx] = FIRE; gLife[zntery*kW + znterx] = 50 + qRandInt(60);gUpdated[zntery*kW + znterx] = 1;}
                                     }
+                                }
+                            }
+                            gGrid[ztidx] = FIRE; gLife[ztidx] = 60 + qRandInt(60); gUpdated[ztidx] = 1; break;
+                        }
+                    }
+                    if(gUpdated[ztidx])continue;
+                    var zntby = zty + gGravDir;
+                    var zntmv = false;
+                    if(zntby >= 0 && zntby < kH) {
+                        var zntbot = gGrid[zntby*kW + ztx];
+                        if(zntbot === EMPTY || isGas(zntbot)){
+                            gGrid[zntby*kW + ztx] = NITRO; gLife[zntby*kW + ztx] = gLife[ztidx];
+                            if(isGas(zntbot)) {gGrid[ztidx] = zntbot;}else{gGrid[ztidx] = EMPTY;}
+                            gUpdated[zntby*kW + ztx] = 1;gUpdated[ztidx] = 1;zntmv = true;
+                        }
+                    }
+                    if(!zntmv){
+                        var zntlat = qRand() < 0.5 ? -1 : 1;
+                        for (var zntli = 0; zntli < 2 && !zntmv; zntli++, zntlat = -zntlat){
+                            for(var zntls = 1; zntls <= 4 && !zntmv;zntls++){
+                                var zntlx = ztx + zntlat * zntls;
+                                if(zntlx < 0 || zntlx >= kW)break;
+                                var zntlnb = gGrid[zty*kW + zntlx];
+                                if(zntlnb !==EMPTY && !isGas(zntlnb))break;
+                                if(zntlnb === EMPTY){
+                                    gGrid[zty*kW + zntlx] = NITRO; gLife[zty*kW + zntlx] = gLife[ztidx];
+                                    gGrid[ztidx] = EMPTY; gUpdated[zty*kW + zntlx] = 1; gUpdated[ztidx] = 1; zntmv = true;
                                 }
                             }
                         }
                     }
+                    continue;
+                }
+
+
+                if(ztc === FOAM){
+                    var zfoA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                    for(var zfoi = 0;zfoi < zfoA.length;zfoi++){
+                        var zfox = zfoA[zfoi][0],zfoy = zfoA[zfoi][1];
+                        if(zfox < 0 ||zfox >= kW|| zfoy < 0|| zfoy >= kH) continue;
+                        var zfonb = gGrid[zfoy*kW + zfox];
+                        if(zfonb === FIRE && qRand() < 0.2){gGrid[ztidx] = EMPTY; gUpdated[ztidx] = 1; break;}
+                        else if (zfonb === WATER && qRand()<0.006){gGrid[zfoy*kW + zfox] = FOAM; gGrid[ztidx] = WATER;gUpdated[zfoy*kW + zfox] = 1; gUpdated[ztidx] = 1; break;}
+                        else if (zfonb === ACID){gGrid[ztidx] = EMPTY; gUpdated[ztidx] = 1; break;}
+                    }
+                    if(gUpdated[ztidx])continue;
+                    var zfoby = zty + gGravDir;
+                    var zfomv = false;
+                    if(zfoby >= 0 && zfoby < kH){
+                        var zfobot = gGrid[zfoby*kW + ztx];
+                        if(zfobot === EMPTY || isLiquid(zfobot)){
+                            if(isLiquid(zfobot)){
+                                gGrid[zfoby*kW + ztx] = FOAM; gGrid[ztidx] = zfobot;
+                                var zfotL = gLife[zfoby*kW + ztx]; gLife[zfoby*kW + ztx] = gLife[ztidx]; gLife[ztidx] = zfotL;
+                            } else { gGrid[zfoby*kW + ztx] = FOAM; gLife[zfoby*kW + ztx] = gLife[ztidx]; gGrid[ztidx] = EMPTY;}
+                            gUpdated[zfoby*kW + ztx] = 1; gUpdated[ztidx] = 1; zfomv = true;
+                        }
+                    }
+                    if (!zfomv){
+                        var zfosl = qRand() < 0.5 ? -1 : 1
+                        for (var zfosi = 0; zfosi < 2 && !zfomv; zfosi++, zfosl = -zfosl){
+                            var zfosx = ztx + zfosl, zfosy = zfoby;
+                            if(zfosx < 0 || zfosx >= kW || zfosy < 0 || zfosy >= kH) continue;
+                            if(gGrid[zfosy*kW + zfosx] === EMPTY){
+                                gGrid[zfosy*kW + zfosx] = FOAM; gLife[zfosy*kW + zfosx] = gLife[ztidx];
+                                gGrid[ztidx] = EMPTY; gUpdated[zfosy*kW + zfosx] = 1;gUpdated[ztidx] = 1; zfomv = true;
+                            }
+                        }
+                    }
+                    continue;
                 }
             }
         }
+    }
+
+    var zOldRunStep = runStep;
+    runStep = function() {zOldRunStep(); zRunWave3();};
+
+    var zOldDrawFrame = drawFrame;
+    drawFrame = function (){
+        zOldDrawFrame();
     }
 }
