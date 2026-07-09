@@ -2624,6 +2624,22 @@ function zRunWave3(){
 
                 if(ztc === NITRO) {
                     var zntA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                    for(var znti = 0; znti < antA.length; znti++){
+                        var zntx = zntA[znti][0],znty = zntA[znti][1];
+                        if(zntx < 0 || zntx >= kW || znty < 0 || znty >= kH)continue;
+                        var zntnb = gGrid[znty*kW + zntx];
+                        if((zntnb === FIRE || zntnb === LAVA || zntnb === EMBER)&&qRand()<0.6){
+                            var zntr = 12;
+                            for (var zntery = zty - zntr; zntery <= zty + zntr; zntery++){
+                                for(var znterx = ztx - zntr; znterx <= ztx + zntr; znterx++){
+                                    var zntd = (znterx - ztx)*(znterx - ztx) + (zntery - zty)*(zntery - zty);
+                                    if(zntd <= zntr*zntr && znterx >= 0 && znterx < kW && zntery >= 0 && zntery < kH){
+                                        if
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
