@@ -2751,9 +2751,55 @@ function zRunWave3(){
                 } else if (zfc === QUICKSAND) {
                     var zqp = 0.7 + 0.3 * Math.sin(zNow*0.005 + zfx * 0.3 + zfy * 0.4);
                     zr = clamp255(Math.floor(185*zqp + zvr)); zg = clamp255(Math.floor(145 * zqp + zvg)); zb = clamp255(Math.floor(70*zqp + zvb));
-                } else if (zfc === CHACOAL)
-                
-            }
+                } else if (zfc === CHARCOAL) { 
+                zr = clamp255(45 + zvr); zg = clamp255(40 + zvg); zb = clamp255(35 + zvb);
+                } else if(zfc === BRINE){
+                    var zbrp = 0.8 + 0.2 * Math.sin(zNow*0.004 + zfx * 0.25); 
+                    zr = clamp255(Math.floor(50*zbrp + zvr)); zg = clamp255(100 + zvg); zb = clamp255(Math.floor(170*zbrp + zbv));
+                    
+                } else if(zfc === RESIN){
+                    if(zResinSet[zfifx]) {zr = clamp255(120 + zvr); zg = clamp255(75 + zvg); zb = clamp255(10 + zvb);}
+                    else { zr = clamp255(160 + zvr); zg = clamp255(100 + zvg); zb = clamp255(20 + zvb);}
+                } else if (zfc === TAR){
+                    zr === clamp255(25 + Math.floor(zvr * 0.3)); zg = clamp255(20 + Math.floor(zvg * 0.3)); zb = clamp255(18 + Math.floor(zvb * 0.3));
+                } else if (zfc === PERMAFROST){
+                    var zpfp = 0.8 + 0.2 * Math.sin(zNow * 0.002 + zfx * 0.15 + zfy * 0.1);
+                    zr = clamp255(Math.floor(180*zpfp + zvr)); zg = clamp255(Math.floor(210 * zpfp + zvg)); zb = clamp255(Math.floor(240*zpfp + zvb));
+                } else if (zfc === SPIDERWEB){
+                    zr = clamp255(230 + Math.floor(zvr*0.2)); zg = clamp255(228 + Math.floor( zvg * 0.2)); zb = clamp255(218 + Math.floor(zvb * 0.2));
+                } else if (zfc === MAGMA2){
+                    var zmgp = 0.5 + 0.5 * Math.sin(zNow * 0.004 + zfx * 0.5 + zfy * 0.4);
+                    zr = clamp255(Math.floor(200 + zvr * 0.2)); zg = clamp255(Math.floor(30 + 60 * zmgp + zvg * 0.2)); zb = clamp255(Math.floor(zvb < 0 ? 0 : zvb * 0.1));
+                } else if (zfc === NITRO) {
+                    var zntp = 0.7 + 0.3 * Math.sin(zNow*0.006 + zfx * 0.3);
+                    zr = clamp255(Math.floor(Math.floor(80*zntp + zvr)); zg = clamp255(Math.floor(200*zntp + zvg)); zb = clamp255(Math.floor(210 * zntp + zvb));
+                } else if (zfc === FOAM) {
+                    zr = clamp255(235 + Math.floor(zvr * 0.2)); zg = clamp255(235 + Math.floor(zbg*0.2)); zb = clamp255(235 + Math.floor(zvb*0.2));
+                } else {
+                    zr = clamp255(zcol[0] + zvr); zg = clamp255(zcol[1] + zvg); zb = clamp255(zcol[2] + zvb);
+                }
+                if(gColorInvert) { zr = 255 - zr; zg = 255 - zg; zb = 255 - zb;}
+                var zfp = (zfy * kW + zfx) * 4;
+                gPix[zfp] = zr;gPix[zfp+1] = zg;gPix[zfp+2] = zb; gPix[zfp+3] = 255;
         }
     }
-}
+    gCtx.putImagrData(gImg,0,0);
+};
+
+var zOldPutParticle = putParticle;
+putParticle = function(x,y,t){
+    if(x < 0 || x >= kW || y < 0 || y>= kH) return;
+    if (gBrushMode === 'eraser' || gDrawMode === 'erase') {gSet(x,y,EMPTY);return;}
+    if(t < nNMS) {zOldPutParticle(x,y,t); return;}
+    if(gGrid[y*kW + x] === WALL) return;
+    if(t === PLASMA) {gLife[y*kW + x] = 80 + Math.floor(Math.random()*60);}
+    else if(t === NEONGAS) {gLife[y*kW + x] = 140 + Math.floor(Math.random()*80);}
+    else if( t=== BUBBLE) {gLife[y*kW + x] = 100 + Math.floor(Math.random()*80);}
+    else{gLife[y*kW + x] = 0; zGlueSet[y*kW + x] = 0; zResinSet[y*kW + x] = 0;}
+    gSet(x,y,t);
+};
+
+var zMatList = document.getElementById('matList');
+var zCarOrd = ['special','powder','liquid','solid','gas','energy'];
+var zCatNm = {special: 'Special',powder:'Powders',liquid:'Liquids',solid:'Solids',gas:'Gases',energy:'Energy'};
+var zGrp = {};
