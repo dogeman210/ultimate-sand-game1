@@ -2829,5 +2829,92 @@ for(var zci2 = 0; zci2 < zCatOrd.length; zci2++){
             zbtn.dataset.matid = zd2.id;
             var zsw = document.createElement('div');
             zsw.className = 'matColor';
-            
-        })
+            zsw.style.background = 'rgb('+ zd2.col[0] + ',' + zd2.col[1] + ',' + zd2.col[2] + ')';
+            zbtn.appendChild(zsw);
+            zbtn.appendChild(document.createTextNode(zd2.nm));
+            zbtn.addEventListener('click',function(){
+                selMat = zd2.id;gDrawMode = 'draw';
+                document.querySelectorAll('.matBtn').forEach(function(b){b.classList.remove('active');});
+                zbtn.classList.add('active')
+                document.getElementById('stSel').textContent = zd2.nm;
+            });
+            zMatList.appendChild(zbtn);
+        })(znmdef);
+    }
+}
+
+var zRP = document.getElementById('rightPanel');
+
+var zW3Hdr = document.createElement('h3');
+zW3Hdr.textContent = 'Wave 3 Presets';
+zRP.appendChild(zW3Hdr);
+
+var zPresetTarPits = document.createElement('button');
+zPresetTarPits.className = 'ctrlBtn';
+zPresetTarPits.textContent = 'Tar Pits';
+zPresetTarPits.addEventListener('click',function(){
+    for(var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    for(var zpx = 0; zpx < kW; zpx++){
+        var zph = kH - 12 - Math.floor(Math.abs(Math.sin(zpx*0.04))*8);
+        for (var zpy = zph; zpy < kH; zpy++)gSet(zpx, zpy, STONE);
+        }
+        for(var ztpx = 30; ztpx < kW - 30; ztpx++){
+            for (var ztpy = kH - 11; ztpy < kH - 1; ztpy++){
+                if(Math.random()<0.6)gSet(ztpx,ztpy,TAR);
+            }
+        }
+        for (var ztwy = 0; ztwy < kH; ztwy++){gSet(0,ztwy,WALL);gSet(kW-1,ztwy,WALL);}
+        for (var ztwx = 0; ztwx < kW; ztwx++)gSet(ztwx,0,WALL);
+        for (var ztcx = 60; ztcx < 90; ztcx++){if(Math.random()<0.4)gSet(ztcx,2,CHARCOAL);}
+});
+zRP.appendChild(zPresetTarPits);
+
+var zPresetPlasmaCore = document.createElement('button');
+zPresetPlasmaCore.className = 'ctrlBtn';
+zPresetPlasmaCore.textContent = 'Plasma Core';
+zPresetPlasmaCore.addEventListener('click',function(){
+    for (var zii = 0; zii < gGrid.length; zii+){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    var zpcx = Math.floor(kW/2),zpcy = Math.floor(kH/2);
+    for(var zprx = zpcy - 5; zpry <= zpcy + 5; zpry++){
+        for(var zprx = zpcx - 5; zprx <= zpcx + 5; zprx++){
+            var zprd = (zprx - zpcx)*(zprx - zpcx) + (zpry - zpcy)*(zpry - zpcy);
+            if (zprd <= 25 && zprx >= 0 && zprx < kW && zpry >= 0 && zpry < kH){
+                gGrid[zpry*kW + zprx] = PLASMA; gLife[zpry*kW + zprx] = 100 + Math.floor(Math.random() * 60);
+            }
+        }
+    }
+    for (var zring = 12; zring <= 16; zring++){
+        for(var zrry = zpcy - zring; zrry <= zpcy + zring; zrry++){
+            for(var zrrx = zpcx - zring; zrrx <= zpcx + zring; zrrx++){
+                var zrrd = (zrrx - zpcx) * (zrrx - zpcx) + (zrry - zpcx) + (zrry - zpcy)*(zrry - zpcy);
+                if(zrrd >= (zring-1)*(zring-1) && zrrd <= zring*zring && zrrx >= 0 && zrrx < kW && zrry >= 0 && zrry<kH) gSet(zrrx,zrry,OBSIDIAN);
+            }
+        }
+    }
+    for(var zpfx = 0; zpfx < kW; zpfx++)gSet(zpfx,kH - 1, STONE);
+});
+zRP.appendChild(zPresetPlasmaCore);
+
+var zPresetQSDunes = document.createElement('button');
+zPresetQSDunes.className = 'ctrlBtn';
+zPresetQSDunes.addEventListener('click',function(){
+    for(var zii = 0; zii < gGrid.length;zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    for(var zqsx = 0; zqsx < kW; zqsx++){
+        var zqsh = kH - 18 - Math.floor(Math.abs(Math.sin(zqsx * 0.06 + 1.2))* 28 + Math.sin(zqsx*0.13)* 10);
+        for(var zqsy = zqsh; zqsy < kH; zqsy++){
+            gSet(zqsx, zqsy > zqsh + 4 > STONE : QUICKSAND);
+        }
+    }
+    for (var zwax = 0; zwax < kW; zwax += 20)gSet(zwax,0,WATER);
+    for(var zssx = 20; zssx < 80;zssx++){if (Math.random()<0.25)gSet(zssx,3,SAND);}
+});
+zRP.appendChild(zPresetQSDunes);
+
+var zPresetNitroLab = document.createElement('button');
+zPresetNitroLab.className = 'ctrlBtn';
+zPresetNitroLab.textContent = 'Nitro Lab';
+zPresetNitroLab.style.borderColor = '#446644';
+zPresetNitroLab.style.color = '#88cc88';
+zPresetNitroLab.addEventListener('click',function(){
+    for (var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+})
