@@ -2803,3 +2803,26 @@ var zMatList = document.getElementById('matList');
 var zCarOrd = ['special','powder','liquid','solid','gas','energy'];
 var zCatNm = {special: 'Special',powder:'Powders',liquid:'Liquids',solid:'Solids',gas:'Gases',energy:'Energy'};
 var zGrp = {};
+for (var zci = 0; zci < zCatOrd.length; zci++)zGrp[zCatOrd[zci]] = [];
+for (var zmi = 0; zmi < zDefs.length; zmi++){
+    var zmd = zDefs[zmi];
+    if(!zGrp[zmd.cat])zGrp[zmd.cat] = [];
+    zGrp[zmd.cat].push(zmd);
+}
+var zExHdrs = {};
+zMatList.querySelectorAll('div').forEach(function(d){zExHdrs[d.textContent.trim().toUpperCase()] = d;});
+for(var zci2 = 0; zci2 < zCatOrd.length; zci2++){
+    var zncat = zCatOrd[zci2];
+    if(!zGrp[zncat]||zGrp[zncat].length === 0)continue;
+    if(!zExHdrs[zCatNm[zncat].toUpperCase()]){
+        var znhdr = document.createElement('div');
+        znhdr.style.cssTest = 'font-size:10px;color:#555;margin:5px 0 2px 0;text-transform:uppercase;letter-spacing:1px;';
+        znhdr.textContent = zCatNm[zncat];
+        zMatList.appendChild(znhdr);
+        zExHdrs[zCatNm[zncat].toUpperCase()] = znhdr;
+    }
+    for (var zbi = 0; zbi < zGrp[zncat].length; zbi++){
+    }
+    for(var zbi = 0; zbi < zGrp[zncat].length; zbi++){
+        var znmdef = zGrp[zncat][zbi];
+    }
