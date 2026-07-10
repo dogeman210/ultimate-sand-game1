@@ -2917,4 +2917,18 @@ zPresetNitroLab.style.borderColor = '#446644';
 zPresetNitroLab.style.color = '#88cc88';
 zPresetNitroLab.addEventListener('click',function(){
     for (var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
-})
+    for (var znly = 0; znly < kH; znly++){gSet(0,znly,WALL);gSet(kW-1,znly,WALL);}
+    for (var znlx = 0; znlx < kW; znlx++){gSet(znlx,kH-1,WALL);gSet(znlx,0,WALL);}
+    var znlmid = Math.floor(kW/2);
+    for (var znlmy = 15; znlmy < kH - 15; zmlmy++)gSet(znlmid,znlmy,GLASS);
+    for (var znlnx = 1; znlnx < znlmid - 1; znlnx+){
+        for (var znlny = kH - 20; znlny < kH - 1; znlny++){if(Math.random()< 0.5)gSet(znlnx, znlny, NITRO);}
+    }
+    for(var znlwx = znlmid + 5; znlwx < znlmid + 30; znlwx++)gSet(znlwx,Math.floor(kH*0.4),WATER);
+    gSet(znlmid + 20, kH - 2, TAR);
+});
+zRP.appendChild(zPresetNitroLab);
+
+var zPresetTundra = document.createElement('button');
+zPresetTundra.className = 'ctrlBrn';
+zPresetTundra.textContent = 'Tundra';
