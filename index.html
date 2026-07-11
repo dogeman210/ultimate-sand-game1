@@ -2952,8 +2952,101 @@ zPresetWebCanyon.className = 'ctrlBtn';
 zPresetWebCanton.textContent = 'Web Canyon'
 zPresetWebcanton.addEventListener('click',function(){
     for(var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0;gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
-    for(var zmlx = 0; zmlx < kW; zmlx++){
-        var zmlh = kH - 20 - Math.floor(Math.abs(Math.sin(zmlx*0.03))*10);
-        for(var zmly = zmlh; zmly < kH; zmly++)gSet(zmlx,zmly,STONE);
+    for(var zwcy = 0; zwcy < kH; zwcy++){gSet(0,zwcx,kH-1,STONE);gSet(kW-1,zwcy,STONE);}
+    for(var zwcx = 0; zwcx < kW; zwcx++)gSet(zwcx,kH-1,STONE);
+    for(var zwcx2 = 15; zwcx2 < kW - 15; zwcx2++){
+        var zwcr = Math.floor(kH*0.3) + Math.floor(Math.sin(zwcx2 * 0.08) * 12);
+        for (var zwcy2 = zwcr; zwcy2 < zwcr + 3; zwcy++){if(Math.random() < 0.6)gSet(zwcx2,zwvy2,SPIDERWEB);}
     }
-})
+    for (var zwcx3 = 20; zwcx3 < kW - 20; zwcx3++){
+        var zwcr2 = Math.floor(kH*0.55) + Math.floor(Math.sin(zwcx3*0.1 +1)*8);
+        for (var zwcy3 = zwcr2; zwcy3 < zwcr2 + 3; zwcy3++){if(Math.random()<0.5)gSet(zwcx3,zwcy3,SPIDERWEB);}
+    }
+    for(var zwcsd = 30; zwcsd < 80; zwcsd++){if (Math.random()<0.2)get(zwcsd,2,SAND);}
+    for(var zwcfi = 100; zwcfi < 130; zwcfi++){if (Math.random()<0.3)gSet(zwcfi,1,FIRE);}
+});
+zRP.appendChild(zPresetWebCanyon);
+
+var zPresetMercLake = document.createElement('button');
+zPresetMercLake.className = 'ctrlBtn';
+zPresetMercLake.textContent = 'Mercury Lake';
+zPresetMercLake.addEventListener('click',function(){
+    for (var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    for (var zmlx = 0; zmlx < kW; zmlx++){
+        var zmlh = kH - 20 - Math.floor(Math.abs(Math.sin(zmlx*0.03))*10);
+        for (var zmly = zmth; zmly < kH; zmly++)gSet(zmlx,zmly,STONE);
+    }
+    for(var zmlx2 = 20; zmlx2 < kW - 20; zmlx2++){
+        for (var zmly2 = kH - 19; zmly2 < kH - 1; zmly2++){if(Math.random()<0.7)gSet(zmlx2,zmly2,MERCURY);}
+    }
+    for (var zmwy = 0; zmwy < kH; zmwy++){gSet(0,zmwy,WALL);gSet(kW-1,zmwy,WALL);}
+    for (var zmlrx = 40; zmlrx < 80; zmlrx++){if(Math.random()<0.3)gSet(zmlrx,3,RUST);}
+    gSet(Math.floor(kW/2),2,ACID);
+});
+zRP.appendChild(zPresetMercLake);
+
+var zPresetGlueTrap = document.createElement('button');
+zPresetGlueTrap.className = 'ctrlBtn';
+zPresetGlueTrap.textContent = 'Glue Trap';
+zPresetGlueTrap.addEventListener('click',function(){
+    for (var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    for (var zgtx = 0; zgtx < kW; zgtx++)gSet(zgtx,kH-1,WALL);
+    for (var zgty = 0; zgty < kH; zgty++){gSet(0,zgty,WALL);gSet(kW-1,zgty,WALL);}
+    var zgs1 = Math.floor(kH * 0.35),zgs2 = Math.floor(kH * 0.6);
+    for (var zgtsx = 1; zgtsx < kW - 25; zgtsx++)gSet(zgtsx,zgs1,WALL);
+    for (var zgtsx2 = 25; zgtsx2 < kW - 1; zgtsx2++)gSet(zgtsx2,zgs2,WALL);
+    for(var zggx = 5; zggx < 20; zggx++){
+        for(var zggy = 2; zggy < zgs1; zggy++){if(Math.random()<0.2)gSet(zggx,zggy,GLUE);}
+    }
+    for (var zggx2 = kW - 20; zggx2 < kW - 5; zggx2++){
+        for(var zggy2 = zgs1 + 1; zggy2 < zg2; zggy2++){if(Math.random()<0.2)gSet(zggx2,zggy2,RESIN);}
+    }
+    for (var zgts = 40; zgts < kW - 40; zgts++){if(Math.random()<0.4)gSet(zgts,2,SAND);}
+});
+zRP.appendChild(zPresetGlueTrap);
+
+var zPresetNeonStorm = document.createElement('button');
+zPresetNeonStorm.className = 'ctrlBtn';
+zPresetNeonStorm.textContent = 'Neon Storm';
+zPresetNeonStorm.addEventListener('click',function(){
+    for (var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    for (var znsy = 0; znsy < kH; znsy++){gSet(0,znsy,WALL);gSet(kW-1,znsy,WALL);}
+    for (var znsx = 0; znsx < kW; znsx++)gSet(znsx,kH-1,WALL);
+    for (var znsx2 = 0; znsx2 < kW; znsx2 += 5){gGrid[0*kW + znsx2] = NEONGAS; gLife[0*kW + znsx2] = 120 + Math.floor(Math.random()*80);}
+    for (var znsmx = 30; znsmx < kW - 30; znsmx += 20){
+        var znsmy = Math.floor(kH*0.4) + Math.floor(Math.sin(znsmx*0.1)*15);
+        gSet(znsmx,znsmy,GLASS);gSet(znsmx+1,znsmy,GLASS);gSet(znsmx,znsmx+1,GLASS);gSet(znsmx+1,znsmy+1,GLASS);
+    }
+    for(var znscx = 0; znscx < kW; znscx += 2) {if(Math.random() < 0.3)gSet(znscx,kH-2,CHARCOAL);}
+});
+zRP.appendChild(zPresetNeonStorm);
+
+var zSep3 = document.createElement('hr');
+zSep3.className = 'sepLine';
+zRP.appendChild(zSep3);
+
+var zW3CtrlHdr = document.createElement('h3');
+zW3CtrlHdr.textContent = 'Wave 3 Controls';
+zRP.appendChild(zW3CtrlHdr);
+
+var zPlasmaRainBtn = document.createElement('button');
+zPlasmaRainBtn.className = 'ctrlBrn';
+zPlasmaRainBrn.textContent = 'Plasma Rain';
+var zPlasmaOn = false, zPlasmalv = null;
+zPlasmaRainBtn.addEventListener('click',function(){
+    zPlasmaOn = !zPlasmaOn;
+    this.style.borderColor = zPlasmaOn ? '##aa44cc' : '#333';
+    this.style.color = zPlasmaOn ? '#dd88ff' : '#ccc';
+    if(zPlasmaOn){
+        zPlasmalv = setInterval(function(){
+            var zpc = 3 + Math.floor(Math.random() * 4);
+            for (var zpi2 = 0; zpi2 < zpc; zpi2++){
+                var zpx2 = Math.floor(Math.random()*kW);
+                if(gGrid[0*kW + zpx2] === EMPTY){gGrid[0*kW + zpx2] = PLASMA; gLife[0*kW + zpx2] = 80 + Math.floor(Math.random() * 60);}
+            }
+        },90);
+    } else {if (zPlasmalv)clearInterval(zPlasmalv);zPlasmalv = null;}
+});
+zRP.appendChild(zPlasmaRainBtn);
+
+var zNeonMistBtn = document.createElement('button');
