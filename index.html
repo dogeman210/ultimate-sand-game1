@@ -2948,3 +2948,11 @@ zPresetTundra.addEventListener('click',function(){
 zRP.appendChild(zPresetTundra);
 
 var zPresetWebCanyon = document.createElement('button');
+zPresetTarPits.className = 'ctrlBtn';
+zPresetTarPits.textContent = 'Tar Pits';
+zPresetTarPits.addEventListener('click',function(){
+    for(var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    for(var zpy = 0; zpx < kW; zpx++){
+        var zph = kH - 12 - Math.floor(Math.abs(Math.sin(zpx*0.04))*8);
+    }
+})
