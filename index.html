@@ -2949,3 +2949,11 @@ zRP.appendChild(zPresetTundra);
 
 var zPresetWebCanyon = document.createElement('button');
 zPresetWebCanyon.className = 'ctrlBtn';
+zPresetWebCanton.textContent = 'Web Canyon'
+zPresetWebcanton.addEventListener('click',function(){
+    for(var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0;gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    for(var zmlx = 0; zmlx < kW; zmlx++){
+        var zmlh = kH - 20 - Math.floor(Math.abs(Math.sin(zmlx*0.03))*10);
+        for(var zmly = zmlh; zmly < kH; zmly++)gSet(zmlx,zmly,STONE);
+    }
+})
