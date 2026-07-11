@@ -3050,3 +3050,24 @@ zPlasmaRainBtn.addEventListener('click',function(){
 zRP.appendChild(zPlasmaRainBtn);
 
 var zNeonMistBtn = document.createElement('button');
+zNeonMistBtn.className = 'ctrlBtn';
+zNeonMistBtn.textContent = 'Neon Mist';
+var zNeonOn = false,zNeonlv = null;
+zNeonMistBtn.addEventListener('click',function(){
+    zNeonOn = !zNeonOn;
+    this.style.borderColor = zNeonOn ? '##cc2244' : '#333';
+    this.style.color = zNeonOn ? '#ff6688' : '#ccc';
+    if(zNeonOn){
+        zNeonlv = setInterval(function(){
+            var znc = 4 + Math.floor(Math.random()*4);
+            for (var zni3 = 0; zni3 < znc; zni3++){
+                var znx2 = Math.floor(Math.random()*kW);
+                if(gGrid[0*kW + znx2] === EMPTY) {gGrid[0*kW + znx2] = NEONGAS; gLife[0*kW + znx2] = 100 + Math.floor(Math.random()*80);}
+            }
+        },110);
+    }else{ if(zNeonlv)clearInterval(zNeonlv);zNeonlv = null;}
+});
+zRP.appendChild(zNeonMistBtn);
+
+var zBubbleBtn = document.createElement('button');
+zBubbleBtn.className = 'ctrlBtn';
