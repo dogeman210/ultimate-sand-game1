@@ -2932,3 +2932,19 @@ zRP.appendChild(zPresetNitroLab);
 var zPresetTundra = document.createElement('button');
 zPresetTundra.className = 'ctrlBrn';
 zPresetTundra.textContent = 'Tundra';
+zPresetTundra.addEventListener('click',function(){
+    for (var zii = 0; zii < gGrid.length; zii++) {gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    for ( var ztux = 0; ztux < kW; ztux++){
+        var ztuh = kH - 10 - Math.floor(Math.abs(Math.sin(ztux*0.035))*6);
+        for (var ztuy = ztuh; ztuy < kH; ztuy++)gSet(ztux,ztuy,ztuy > ztuh + 2 ? PERMAFROST : SNOW);
+    }
+    for (var ztsx = 0; ztsx < kW; ztsx += 4){gSet(ztsx,0,SNOW);gSet(ztsx+1,0,SNOW);}
+    for (var ztix = 10; ztix < kW - 10; ztix += 18) {
+        var ztih = 6 + Math.floor(Math.random()*8);
+        for (var ztiy = kH - 10 - 1; ztiy >= kH - 10 - ztih; ztiy--)gSet(ztix,ztiy,ICE);
+    }
+    gSet(Math.floor(kW/2),3,WATER);
+});
+zRP.appendChild(zPresetTundra);
+
+var zPresetWebCanyon = document.createElement('button');
