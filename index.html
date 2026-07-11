@@ -2948,21 +2948,4 @@ zPresetTundra.addEventListener('click',function(){
 zRP.appendChild(zPresetTundra);
 
 var zPresetWebCanyon = document.createElement('button');
-zPresetTarPits.className = 'ctrlBtn';
-zPresetTarPits.textContent = 'Tar Pits';
-zPresetTarPits.addEventListener('click',function(){
-    for(var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
-    for(var zpy = 0; zpx < kW; zpx++){
-        var zph = kH - 12 - Math.floor(Math.abs(Math.sin(zpx*0.04))*8);
-        for (var zpy = zph; zpy < kH; zpy++)gSet(zpx,zpy,STONE);
-    }
-    for (var ztpx = 30; ztpx < kW - 30; ztpx++){
-        for (var ztpy = kH - 11; ztpy < kH - 1; ztpy++){
-            if(Math.random()<0.06)gSet(ztpx,ztpy,TAR);
-        }
-    }
-    for (var ztwy = 0; ztwy < kH; ztwy++){gSet(0,ztwy,WALL);gSet(kW-1,ztwy,WAKK);}
-    for (var ztwx = 0; ztwx < kW; ztwx++)gSet(ztwx,0,WALL);
-    for (var ztcs = 60; ztcx < 90; ztcx++){if(Math.random()<0.4)gSet(ztcx,2,CHARCOAL);}
-});
-zRP.appendChild(zPresetTarPits);
+zPresetWebCanyon.className = 'ctrlBtn';
