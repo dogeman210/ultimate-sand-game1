@@ -495,7 +495,7 @@ var gRandldx = 0;
 function qRand() { gRandldx = (gRandldx + 1)& 8191; return gRandTable[gRandldx];}
 function qRandInt(n) {return Math.floor(qRand()*n);}
 
-function runStep() {
+function runStep() {}
     gUpdated.fill(0);
     var dir = gGravDir;
     var startY = dir > 0 ? kH - 1 : 0;
@@ -2506,7 +2506,7 @@ function zRunWave3(){
                     }
                     if(!zrsmv && qRand() < 0.03){
                         var zrslat = qRand() < 0.5 ? -1 : 1;
-                        for (var zrsli = 0; zrsli < 2 && !zrsli++,zrslat = -zrslat){;
+                        for (var zrsli = 0; zrsli < 2 && !zrsmv; zrsli++, zrslat = -zrslat){
                             var zrsln = ztx + zrslat;
                             if(zrsln < 0||zrsln >= kW)continue;
                             if(gGrid[zty*kW + zrsln]=== EMPTY){
@@ -2761,7 +2761,7 @@ function zRunWave3(){
                     if(zResinSet[zfifx]) {zr = clamp255(120 + zvr); zg = clamp255(75 + zvg); zb = clamp255(10 + zvb);}
                     else { zr = clamp255(160 + zvr); zg = clamp255(100 + zvg); zb = clamp255(20 + zvb);}
                 } else if (zfc === TAR){
-                    zr === clamp255(25 + Math.floor(zvr * 0.3)); zg = clamp255(20 + Math.floor(zvg * 0.3)); zb = clamp255(18 + Math.floor(zvb * 0.3));
+                    zr = clamp255(25 + Math.floor(zvr * 0.3)); zg = clamp255(20 + Math.floor(zvg * 0.3)); zb = clamp255(18 + Math.floor(zvb * 0.3));
                 } else if (zfc === PERMAFROST){
                     var zpfp = 0.8 + 0.2 * Math.sin(zNow * 0.002 + zfx * 0.15 + zfy * 0.1);
                     zr = clamp255(Math.floor(180*zpfp + zvr)); zg = clamp255(Math.floor(210 * zpfp + zvg)); zb = clamp255(Math.floor(240*zpfp + zvb));
@@ -2772,7 +2772,7 @@ function zRunWave3(){
                     zr = clamp255(Math.floor(200 + zvr * 0.2)); zg = clamp255(Math.floor(30 + 60 * zmgp + zvg * 0.2)); zb = clamp255(Math.floor(zvb < 0 ? 0 : zvb * 0.1));
                 } else if (zfc === NITRO) {
                     var zntp = 0.7 + 0.3 * Math.sin(zNow*0.006 + zfx * 0.3);
-                    zr = clamp255(Math.floor(Math.floor(80*zntp + zvr)); zg = clamp255(Math.floor(200*zntp + zvg)); zb = clamp255(Math.floor(210 * zntp + zvb));
+                    zr = clamp255(Math.floor(80*zntp + zvr)); zg = clamp255(Math.floor(200*zntp + zvg)); zb = clamp255(Math.floor(210 * zntp + zvb));
                 } else if (zfc === FOAM) {
                     zr = clamp255(235 + Math.floor(zvr * 0.2)); zg = clamp255(235 + Math.floor(zbg*0.2)); zb = clamp255(235 + Math.floor(zvb*0.2));
                 } else {
@@ -2873,7 +2873,7 @@ var zPresetPlasmaCore = document.createElement('button');
 zPresetPlasmaCore.className = 'ctrlBtn';
 zPresetPlasmaCore.textContent = 'Plasma Core';
 zPresetPlasmaCore.addEventListener('click',function(){
-    for (var zii = 0; zii < gGrid.length; zii+){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
+    for (var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
     var zpcx = Math.floor(kW/2),zpcy = Math.floor(kH/2);
     for(var zprx = zpcy - 5; zpry <= zpcy + 5; zpry++){
         for(var zprx = zpcx - 5; zprx <= zpcx + 5; zprx++){
@@ -2902,7 +2902,7 @@ zPresetQSDunes.addEventListener('click',function(){
     for(var zqsx = 0; zqsx < kW; zqsx++){
         var zqsh = kH - 18 - Math.floor(Math.abs(Math.sin(zqsx * 0.06 + 1.2))* 28 + Math.sin(zqsx*0.13)* 10);
         for(var zqsy = zqsh; zqsy < kH; zqsy++){
-            gSet(zqsx, zqsy > zqsh + 4 > STONE : QUICKSAND);
+            gSet(zqsx, zqsy, zqsy > zqsh + 4 ? STONE : QUICKSAND);
         }
     }
     for (var zwax = 0; zwax < kW; zwax += 20)gSet(zwax,0,WATER);
@@ -2920,8 +2920,8 @@ zPresetNitroLab.addEventListener('click',function(){
     for (var znly = 0; znly < kH; znly++){gSet(0,znly,WALL);gSet(kW-1,znly,WALL);}
     for (var znlx = 0; znlx < kW; znlx++){gSet(znlx,kH-1,WALL);gSet(znlx,0,WALL);}
     var znlmid = Math.floor(kW/2);
-    for (var znlmy = 15; znlmy < kH - 15; zmlmy++)gSet(znlmid,znlmy,GLASS);
-    for (var znlnx = 1; znlnx < znlmid - 1; znlnx+){
+    for (var znlmy = 15; znlmy < kH - 15; znlmy++)gSet(znlmid,znlmy,GLASS);
+    for (var znlnx = 1; znlnx < znlmid - 1; znlnx++){
         for (var znlny = kH - 20; znlny < kH - 1; znlny++){if(Math.random()< 0.5)gSet(znlnx, znlny, NITRO);}
     }
     for(var znlwx = znlmid + 5; znlwx < znlmid + 30; znlwx++)gSet(znlwx,Math.floor(kH*0.4),WATER);
@@ -2930,7 +2930,7 @@ zPresetNitroLab.addEventListener('click',function(){
 zRP.appendChild(zPresetNitroLab);
 
 var zPresetTundra = document.createElement('button');
-zPresetTundra.className = 'ctrlBrn';
+zPresetTundra.className = 'ctrlBtn';
 zPresetTundra.textContent = 'Tundra';
 zPresetTundra.addEventListener('click',function(){
     for (var zii = 0; zii < gGrid.length; zii++) {gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
@@ -2949,20 +2949,20 @@ zRP.appendChild(zPresetTundra);
 
 var zPresetWebCanyon = document.createElement('button');
 zPresetWebCanyon.className = 'ctrlBtn';
-zPresetWebCanton.textContent = 'Web Canyon'
-zPresetWebcanton.addEventListener('click',function(){
+zPresetWebCanyon.textContent = 'Web Canyon';
+zPresetWebCanyon.addEventListener('click',function(){
     for(var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0;gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
-    for(var zwcy = 0; zwcy < kH; zwcy++){gSet(0,zwcx,kH-1,STONE);gSet(kW-1,zwcy,STONE);}
+    for(var zwcy = 0; zwcy < kH; zwcy++){gSet(0,zwcy,STONE);gSet(kW-1,zwcy,STONE);}
     for(var zwcx = 0; zwcx < kW; zwcx++)gSet(zwcx,kH-1,STONE);
     for(var zwcx2 = 15; zwcx2 < kW - 15; zwcx2++){
         var zwcr = Math.floor(kH*0.3) + Math.floor(Math.sin(zwcx2 * 0.08) * 12);
-        for (var zwcy2 = zwcr; zwcy2 < zwcr + 3; zwcy++){if(Math.random() < 0.6)gSet(zwcx2,zwvy2,SPIDERWEB);}
+        for (var zwcy2 = zwcr; zwcy2 < zwcr + 3; zwcy2++){if(Math.random() < 0.6)gSet(zwcx2,zwcy2,SPIDERWEB);}
     }
     for (var zwcx3 = 20; zwcx3 < kW - 20; zwcx3++){
         var zwcr2 = Math.floor(kH*0.55) + Math.floor(Math.sin(zwcx3*0.1 +1)*8);
         for (var zwcy3 = zwcr2; zwcy3 < zwcr2 + 3; zwcy3++){if(Math.random()<0.5)gSet(zwcx3,zwcy3,SPIDERWEB);}
     }
-    for(var zwcsd = 30; zwcsd < 80; zwcsd++){if (Math.random()<0.2)get(zwcsd,2,SAND);}
+    for(var zwcsd = 30; zwcsd < 80; zwcsd++){if (Math.random()<0.2)gSet(zwcsd,2,SAND);}
     for(var zwcfi = 100; zwcfi < 130; zwcfi++){if (Math.random()<0.3)gSet(zwcfi,1,FIRE);}
 });
 zRP.appendChild(zPresetWebCanyon);
@@ -2974,7 +2974,7 @@ zPresetMercLake.addEventListener('click',function(){
     for (var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
     for (var zmlx = 0; zmlx < kW; zmlx++){
         var zmlh = kH - 20 - Math.floor(Math.abs(Math.sin(zmlx*0.03))*10);
-        for (var zmly = zmth; zmly < kH; zmly++)gSet(zmlx,zmly,STONE);
+        for (var zmly = zmlh; zmly < kH; zmly++)gSet(zmlx,zmly,STONE);
     }
     for(var zmlx2 = 20; zmlx2 < kW - 20; zmlx2++){
         for (var zmly2 = kH - 19; zmly2 < kH - 1; zmly2++){if(Math.random()<0.7)gSet(zmlx2,zmly2,MERCURY);}
@@ -2999,7 +2999,7 @@ zPresetGlueTrap.addEventListener('click',function(){
         for(var zggy = 2; zggy < zgs1; zggy++){if(Math.random()<0.2)gSet(zggx,zggy,GLUE);}
     }
     for (var zggx2 = kW - 20; zggx2 < kW - 5; zggx2++){
-        for(var zggy2 = zgs1 + 1; zggy2 < zg2; zggy2++){if(Math.random()<0.2)gSet(zggx2,zggy2,RESIN);}
+        for(var zggy2 = zgs1 + 1; zggy2 < zgs2; zggy2++){if(Math.random()<0.2)gSet(zggx2,zggy2,RESIN);}
     }
     for (var zgts = 40; zgts < kW - 40; zgts++){if(Math.random()<0.4)gSet(zgts,2,SAND);}
 });
@@ -3030,12 +3030,12 @@ zW3CtrlHdr.textContent = 'Wave 3 Controls';
 zRP.appendChild(zW3CtrlHdr);
 
 var zPlasmaRainBtn = document.createElement('button');
-zPlasmaRainBtn.className = 'ctrlBrn';
-zPlasmaRainBrn.textContent = 'Plasma Rain';
+zPlasmaRainBtn.className = 'ctrlBtn';
+zPlasmaRainBtn.textContent = 'Plasma Rain';
 var zPlasmaOn = false, zPlasmalv = null;
 zPlasmaRainBtn.addEventListener('click',function(){
     zPlasmaOn = !zPlasmaOn;
-    this.style.borderColor = zPlasmaOn ? '##aa44cc' : '#333';
+    this.style.borderColor = zPlasmaOn ? '#aa44cc' : '#333';
     this.style.color = zPlasmaOn ? '#dd88ff' : '#ccc';
     if(zPlasmaOn){
         zPlasmalv = setInterval(function(){
@@ -3055,7 +3055,7 @@ zNeonMistBtn.textContent = 'Neon Mist';
 var zNeonOn = false,zNeonlv = null;
 zNeonMistBtn.addEventListener('click',function(){
     zNeonOn = !zNeonOn;
-    this.style.borderColor = zNeonOn ? '##cc2244' : '#333';
+    this.style.borderColor = zNeonOn ? '#cc2244' : '#333';
     this.style.color = zNeonOn ? '#ff6688' : '#ccc';
     if(zNeonOn){
         zNeonlv = setInterval(function(){
@@ -3072,7 +3072,7 @@ zRP.appendChild(zNeonMistBtn);
 var zBubbleBtn = document.createElement('button');
 zBubbleBtn.className = 'ctrlBtn';
 zBubbleBtn.textContent = 'Bubble Spawn';
-var zBubOn = false,zBublc = null;
+var zBubOn = false,zBublv = null;
 zBubbleBtn.addEventListener('click',function(){
     zBubOn = !zBubOn;
     this.style.borderColor = zBubOn ? '#5599bb' : '#333';
@@ -3109,7 +3109,7 @@ zTarDripBtn.addEventListener('click',function(){
 });
 zRP.appendChild(zTarDripBtn);
 
-var zNitroBlastBrn = document.createElement('button');
+var zNitroBlastBtn = document.createElement('button');
 zNitroBlastBtn.className = 'ctrlBtn';
 zNitroBlastBtn.textContent = 'Nitro Blast';
 zNitroBlastBtn.style.borderColor = '#335533';
@@ -3139,14 +3139,14 @@ zFoamBurstBtn.addEventListener('click',function(){
         if(zfbx >= 0 && zfbx < kW && zfby >= 0 && zfby < kH && gGrid[zfby*kW + zfbx] === EMPTY){gGrid[zfby*kW + zfbx] = FOAM; gLife[zfby*kW + zfbx] = 0;}
     }
 });
-zRP.appendChild(zFoamBrustBtn);
+zRP.appendChild(zFoamBurstBtn);
 
 var zFreezeLiqBtn = document.createElement('button');
 zFreezeLiqBtn.className = 'ctrlBtn';
 zFreezeLiqBtn.textContent = 'Freeze Liquids';
-zFreezeLiqBrn.addEventListener('click',function(){
+zFreezeLiqBtn.addEventListener('click',function(){
     for(var zfi2 = 0; zfi2 < gGrid.length; zfi2++){
-        if(gGrid[zfi2] = WATER && Math.random() < 0.5) {gGrid[zfi2] = ICE; gLife[zfi2] = 0;}
+        if(gGrid[zfi2] === WATER && Math.random() < 0.5) {gGrid[zfi2] = ICE; gLife[zfi2] = 0;}
         else if (gGrid[zfi2] === BRINE && Math.random() < 0.3) {gGrid[zfi2] = PERMAFROST; gLife[zfi2] = 0;}
         else if (gGrid[zfi2] === MERCURY && Math.random()<0.2){gGrid[zfi2] = GLASS;gLife[zfi2] = 0;}
     }
@@ -3154,7 +3154,7 @@ zFreezeLiqBrn.addEventListener('click',function(){
 zRP.appendChild(zFreezeLiqBtn);
 
 var zVaporizeBtn = document.createElement('button');
-zVaporizeBtn.classsName = 'ctrlBtn';
+zVaporizeBtn.className = 'ctrlBtn';
 zVaporizeBtn.textContent = 'Vaporize All';
 zVaporizeBtn.style.borderColor = '#664422';
 zVaporizeBtn.style.color = '#cc8844';
@@ -3169,3 +3169,57 @@ zRP.appendChild(zVaporizeBtn);
 
 var zClearW3Btn = document.createElement('button');
 zClearW3Btn.className = 'ctrlBtn danger';
+zClearW3Btn.textContent = 'Clear Wave 3';
+zClearW3Btn.addEventListener('click',function(){
+    for(var zcwi = 0; zcwi < gGrid.length; zcwi++){
+        if(gGrid[zcwi] >=zNMS){gGrid[zcwi] = EMPTY; gLife[zcwi] = 0; zGlueSet[zcwi] = 0; zResinSet[zcwi] = 0;}
+    }
+});
+zRP.appendChild(zClearW3Btn);
+
+var zSep4 = document.createElement('hr');
+zSep4.className = 'sepLine';
+zRP.appendChild(zSep4);
+
+var zW3StatsHdr = document.createElement('h3');
+zW3StatsHdr.textContent = 'Wave 3 Stats';
+zRP.appendChild(zW3StatsHdr);
+
+var zW3StatsBox = document.createElement('div');
+zW3StatsBox.style.cssText = 'background:#111;border:1px solid #2a2a2a;border-radius:3px;padding:6px 8px;font-size:11px;color:#888;';
+zW3StatsBox.innerHTML = '<div>Plasma: <span id="zstPl">0</span></div></div>Nitro: <span id="zstNt">0</span></div><div>Mercury: <spanid="zstMc">0</span></div><div>Tar:<span id="zstTr">0</span></div><div>Foam: <span id="zstFm">0</span></div><div>Neon:<spanid="zstNn">0</span</div>';
+zRP.appendChild(zW3StatsBox);
+
+var zStatTmr = 0;
+var zOldStats = updateStats;
+updateStats = function(now){
+    zOldStats(now);
+    zStatTmr += now - (zStatTmr === 0 ? now - 16 : zStatTmr);
+    if (zStatTmt > 700){
+        var zplc = 0, zntc = 0, zmcc = 0, ztrc = 0, zfmc = 0, znnc = 0;
+        for (var zsi2 = 0; zsi2 < gGrid.length; zsi2++){
+            var zsc = gGrid[zsi2];
+            if(zsc = PLASMA) zplc++;
+            else if (zsc === NITRO) zntc++;
+            else if (zsc === MERCURY) zmcc++;
+            else if (zsc === TAR) ztrc++;
+            else if (zsc === FOAM) zfmc++;
+            else if (zsc === NEONGAS) znnc++;
+            
+        }
+        var zplEl = document.getElementById('zstPl'); if(zplEl) zplEl.textContent = zplc;
+        var zntEl = document.getElementById('zstNt'); if(zntEl) zntEl.textContent = zntc;
+        var zmcEl = document.getElementById('zstMc'); if(zmcEl) zmcEl.textContent = zmcc;
+        var ztrEl = document.getElementById('zstTr'); if(ztrEl) ztrEl.textContent = ztrc;
+        var zfmEl = document.getElementById('zstFm'); if(zfmEl) zfmEl.textContent = zfmc;
+        var znnEl = document.getElementById('zstNn'); if(znnEl) znnEl.textContent = znnc;
+        zStatTmr = 0;
+    }
+};
+
+
+}();
+
+</script>
+</body>
+</html>
