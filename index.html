@@ -3140,3 +3140,32 @@ zFoamBurstBtn.addEventListener('click',function(){
     }
 });
 zRP.appendChild(zFoamBrustBtn);
+
+var zFreezeLiqBtn = document.createElement('button');
+zFreezeLiqBtn.className = 'ctrlBtn';
+zFreezeLiqBtn.textContent = 'Freeze Liquids';
+zFreezeLiqBrn.addEventListener('click',function(){
+    for(var zfi2 = 0; zfi2 < gGrid.length; zfi2++){
+        if(gGrid[zfi2] = WATER && Math.random() < 0.5) {gGrid[zfi2] = ICE; gLife[zfi2] = 0;}
+        else if (gGrid[zfi2] === BRINE && Math.random() < 0.3) {gGrid[zfi2] = PERMAFROST; gLife[zfi2] = 0;}
+        else if (gGrid[zfi2] === MERCURY && Math.random()<0.2){gGrid[zfi2] = GLASS;gLife[zfi2] = 0;}
+    }
+});
+zRP.appendChild(zFreezeLiqBtn);
+
+var zVaporizeBtn = document.createElement('button');
+zVaporizeBtn.classsName = 'ctrlBtn';
+zVaporizeBtn.textContent = 'Vaporize All';
+zVaporizeBtn.style.borderColor = '#664422';
+zVaporizeBtn.style.color = '#cc8844';
+zVaporizeBtn.addEventListener('click',function(){
+    for(var zvi = 0; zvi < gGrid.length; zvi++){
+        if(isLiquid(gGrid[zvi])||zIsLiq(gGrid[zvi])){
+            if(Math.random() < 0.6){gGrid[zvi] = STEAM; gLife[zvi] = 100 + Math.floor(Math.random()*80);}
+        }
+    }
+});
+zRP.appendChild(zVaporizeBtn);
+
+var zClearW3Btn = document.createElement('button');
+zClearW3Btn.className = 'ctrlBtn danger';
