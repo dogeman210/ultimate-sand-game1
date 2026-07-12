@@ -3071,3 +3071,72 @@ zRP.appendChild(zNeonMistBtn);
 
 var zBubbleBtn = document.createElement('button');
 zBubbleBtn.className = 'ctrlBtn';
+zBubbleBtn.textContent = 'Bubble Spawn';
+var zBubOn = false,zBublc = null;
+zBubbleBtn.addEventListener('click',function(){
+    zBubOn = !zBubOn;
+    this.style.borderColor = zBubOn ? '#5599bb' : '#333';
+    this.style.color = zBubOn ? '#aaddff' : '#ccc';
+    if(zBubOn){
+        zBublv = setInterval(function(){
+            var zbc = 5 + Math.floor(Math.random()*5);
+            for (var zbi2 = 0; zbi2 < zbc; zbi2++){
+                var zbx2 = Math.floor(Math.random()*kW);
+                if(gGrid[(kH-1)*kW + zbx2] === EMPTY) {gGrid[(kH-1)*kW + zbx2] = BUBBLE; gLife[(kH-1)*kW + zbx2] = 120 + Math.floor(Math.random()*60);}    
+            }
+        }, 70);
+    } else {if (zBublv)clearInterval(zBublv);zBublv = null;}
+});
+zRP.appendChild(zBubbleBtn);
+
+var zTarDripBtn = document.createElement('button');
+zTarDripBtn.className = 'ctrlBtn';
+zTarDripBtn.textContent = 'Tar Drip';
+var zTarOn = false,zTarlv = null;
+zTarDripBtn.addEventListener('click',function(){
+    zTarOn = !zTarOn;
+    this.style.borderColor = zTarOn ? '#333311' : '#333';
+    this.style.color = zTarOn ? '#887722' : '#ccc';
+    if(zTarOn){
+        zTarlv = setInterval(function(){
+            var ztc = 2 + Math.floor(Math.random()*3);
+            for (var zti2 = 0; zti2 < ztc; zti2++){
+                var ztx2 = Math.floor(Math.random()*kW);
+                if(gGrid[0*kW + ztx2] === EMPTY){gGrid[0*kW + ztx2] = TAR; gLife[0*kW + ztx2] = 0;}
+            }
+        },120);
+    } else {if (zTarlv) clearInterval(zTarlv); zTarlv = null;}
+});
+zRP.appendChild(zTarDripBtn);
+
+var zNitroBlastBrn = document.createElement('button');
+zNitroBlastBtn.className = 'ctrlBtn';
+zNitroBlastBtn.textContent = 'Nitro Blast';
+zNitroBlastBtn.style.borderColor = '#335533';
+zNitroBlastBtn.style.color = '#66cc66';
+zNitroBlastBtn.addEventListener('click',function(){
+    var znbcx = Math.floor(kW/2),znbcy = Math.floor(kH/2),znbr = 8;
+    for (var znby = znbcy - znbr; znby <= znbcy + znbr; znby++){
+        for(var znbx = znbcx - znbr; znbx <= znbcx + znbr; znbx++){
+            var znbd = (znbx - znbcx)*(znbx - znbcx) + (znby - znbcy) * (znby - znbcy);
+            if(znbd <= znbr * znbr && znbx >= 0 && znbx < kW && znby >= 0 && znby < kH){gGrid[znby*kW + znbx] = NITRO; gLife[znby*kW + znbx] = 0; gUpdated[znby*kW + znbx] = 0;}
+        }
+    }
+    var znbfx = znbcx + Math.floor((Math.random()- 0.5)*4);
+    var znbfy = znbcy + Math.floor((Math.random() - 0.5)*4);
+    if (znbfx >= 0 && znbfx < kW && znbfy >= 0 && znbfy < kH) {gGrid[znbfy*kW + znbfx] = FIRE; gLife[znbfy*kW + znbfx] = 60 + Math.floor(Math.random()*40);}
+});
+zRP.appendChild(zNitroBlastBtn);
+
+var zFoamBurstBtn = document.createElement('button');
+zFoamBurstBtn.className = 'ctrlBtn';
+zFoamBurstBtn.textContent = 'Foam Burst';
+zFoamBurstBtn.addEventListener('click',function(){
+    var zfbcx = Math.floor(kW/2),zfbcy = Math.floor(kH/2);
+    for (var zfbi = 0; zfbi < 40; zfbi++) {
+        var zfbx = zfbcx + Math.floor((Math.random() - 0.5)*50);
+        var zfby = zfbcy + Math.floor((Math.random() - 0.5)*50);
+        if(zfbx >= 0 && zfbx < kW && zfby >= 0 && zfby < kH && gGrid[zfby*kW + zfbx] === EMPTY){gGrid[zfby*kW + zfbx] = FOAM; gLife[zfby*kW + zfbx] = 0;}
+    }
+});
+zRP.appendChild(zFoamBrustBtn);
