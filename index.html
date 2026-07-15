@@ -2164,7 +2164,7 @@ var PERMAFROST   =50;
 var SPIDERWEB   =51;
 var MAGMA2     =52;
 var NITRO    =53;
-var FORM    =54;
+var FOAM    =54;
 
 var zDefs = [
     {id: PLASMA, nm: 'Plasma', col: [220,80,255], cat: 'energy'},
@@ -2253,7 +2253,7 @@ function zRunWave3(){
                 }
                 var znfA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
                 for (var znfi = 0; znfi < znfA.length; znfi++){
-                    var znfx = znfA[znfi][0],znfu = znfA[znfi][1];
+                    var znfx = znfA[znfi][0],znfy = znfA[znfi][1];
                     if(znfx < 0||znfx >= kW||znfy < 0||znfy >= kH)continue;
                     if(gGrid[znfy*kW + znfx] === FIRE){
                         for (var znbx = ztx-4; znbx <= ztx+4; znbx++)for(var znby = zty-4; znby <= zty+4; znby++){
@@ -2287,7 +2287,7 @@ function zRunWave3(){
                     }
                 }
                 var zbA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
-                for (var zbai = 0; zbai < zaA.length; zbai++){
+                for (var zbai = 0; zbai < zbA.length; zbai++){
                     var zbax = zbA[zbai][0], zbay = zbA[zbai][1];
                     if(zbax < 0|| zbax >= kW||zbay < 0|| zbay >=kH)continue;
                     if(gGrid[zbay*kW + zbax]===FIRE){gGrid[ztidx]=EMPTY;gUpdated[ztidx]=1;break;}
@@ -2332,7 +2332,7 @@ function zRunWave3(){
             }
 
             if (ztc === MERCURY) {
-                var zmA = [[ztx=1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
+                var zmA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
                 for (var zmai = 0; zmai < zmA.length; zmai++){
                     var zmx = zmA[zmai][0],zmy = zmA[zmai][1];
                     if(zmx < 0||zmx >= kW||zmy < 0|| zmy >= kH)continue;
@@ -2346,7 +2346,7 @@ function zRunWave3(){
                 var zmmv = false;
                 if(zmby >= 0 && zmby < kH){
                     var zmbot = gGrid[zmby * kW + ztx];
-                    if (zmbot = EMPTY||isGas(zmbot)){
+                    if (zmbot === EMPTY||isGas(zmbot)){
                         gGrid[zmby*kW + ztx] = MERCURY; gLife[zmby*kW + ztx] = gLife[ztidx];
                         if(isGas(zmbot)){gGrid[ztidx]=zmbot;}else{gGrid[ztidx] = EMPTY;}
                         gUpdated[zmby*kW + ztx] = 1; gUpdated[ztidx] = 1; zmmv = true;
@@ -2386,7 +2386,7 @@ function zRunWave3(){
                 if(gUpdated[ztidx])continue;
                 var zqby = zty + gGravDir;
                 var zqmv = false;
-                if (zqby >= 0 && zqb < kH){
+                if (zqby >= 0 && zqby < kH){
                     var zqbot = gGrid[zqby*kW + ztx];
                     if(zqbot === EMPTY||isLiquid(zqbot)){
                         if(isLiquid(zqbot)){
@@ -2448,7 +2448,7 @@ function zRunWave3(){
                     continue;
                 }
 
-                if(ztx === BRINE){
+                if(ztc === BRINE){
                     var zbA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
                     for (var zbai = 0; zbai < zbA.length; zbai++){
                         var zbax = zbA[zbai][0], zbay = zbA[zbai][1];
@@ -2521,7 +2521,7 @@ function zRunWave3(){
                     continue;
                 }
 
-                if (ztv === TAR){
+                if (ztc === TAR){
                     var ztaA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
                     for (var ztai = 0; ztai < ztaA.length; ztai++){
                         var ztax = ztaA[ztai][0],ztay = ztaA[ztai][1];
@@ -2761,7 +2761,7 @@ function zRunWave3(){
                     zr = clamp255(Math.floor(50*zbrp + zvr)); zg = clamp255(100 + zvg); zb = clamp255(Math.floor(170*zbrp + zbv));
                     
                 } else if(zfc === RESIN){
-                    if(zResinSet[zfifx]) {zr = clamp255(120 + zvr); zg = clamp255(75 + zvg); zb = clamp255(10 + zvb);}
+                    if(zResinSet[zfidx]) {zr = clamp255(120 + zvr); zg = clamp255(75 + zvg); zb = clamp255(10 + zvb);}
                     else { zr = clamp255(160 + zvr); zg = clamp255(100 + zvg); zb = clamp255(20 + zvb);}
                 } else if (zfc === TAR){
                     zr = clamp255(25 + Math.floor(zvr * 0.3)); zg = clamp255(20 + Math.floor(zvg * 0.3)); zb = clamp255(18 + Math.floor(zvb * 0.3));
@@ -2777,7 +2777,7 @@ function zRunWave3(){
                     var zntp = 0.7 + 0.3 * Math.sin(zNow*0.006 + zfx * 0.3);
                     zr = clamp255(Math.floor(80*zntp + zvr)); zg = clamp255(Math.floor(200*zntp + zvg)); zb = clamp255(Math.floor(210 * zntp + zvb));
                 } else if (zfc === FOAM) {
-                    zr = clamp255(235 + Math.floor(zvr * 0.2)); zg = clamp255(235 + Math.floor(zbg*0.2)); zb = clamp255(235 + Math.floor(zvb*0.2));
+                    zr = clamp255(235 + Math.floor(zvr * 0.2)); zg = clamp255(235 + Math.floor(zvg*0.2)); zb = clamp255(235 + Math.floor(zvb*0.2));
                 } else {
                     zr = clamp255(zcol[0] + zvr); zg = clamp255(zcol[1] + zvg); zb = clamp255(zcol[2] + zvb);
                 }
@@ -2793,7 +2793,7 @@ var zOldPutParticle = putParticle;
 putParticle = function(x,y,t){
     if(x < 0 || x >= kW || y < 0 || y>= kH) return;
     if (gBrushMode === 'eraser' || gDrawMode === 'erase') {gSet(x,y,EMPTY);return;}
-    if(t < nNMS) {zOldPutParticle(x,y,t); return;}
+    if(t < zNMS) {zOldPutParticle(x,y,t); return;}
     if(gGrid[y*kW + x] === WALL) return;
     if(t === PLASMA) {gLife[y*kW + x] = 80 + Math.floor(Math.random()*60);}
     else if(t === NEONGAS) {gLife[y*kW + x] = 140 + Math.floor(Math.random()*80);}
