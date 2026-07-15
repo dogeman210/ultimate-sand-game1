@@ -699,7 +699,6 @@ function runStep() {
                         }
                     }
                 }
-            }
                 if (tcell === ICE){
                    var icCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
                    for (var ici = 0; ici < icCol.length;ici++){
@@ -808,7 +807,6 @@ function runStep() {
                     }
                 }
             }
-        }
 if(gUpdated[tidx])continue;
 if(isPowder(tcell)){
     var bny = ty + dir;
@@ -892,6 +890,10 @@ if (isLiquid(tcell)){
         }
     }
     continue;
+}
+
+}
+
 }
 
 if (Math.abs(gWindX)>0.01||Math.abs(gWindY)>0.01){
