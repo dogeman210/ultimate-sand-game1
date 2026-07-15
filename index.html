@@ -3177,6 +3177,7 @@ zClearW3Btn.addEventListener('click',function(){
 });
 zRP.appendChild(zClearW3Btn);
 
+(function(){
 var zSep4 = document.createElement('hr');
 zSep4.className = 'sepLine';
 zRP.appendChild(zSep4);
@@ -3187,7 +3188,7 @@ zRP.appendChild(zW3StatsHdr);
 
 var zW3StatsBox = document.createElement('div');
 zW3StatsBox.style.cssText = 'background:#111;border:1px solid #2a2a2a;border-radius:3px;padding:6px 8px;font-size:11px;color:#888;';
-zW3StatsBox.innerHTML = '<div>Plasma: <span id="zstPl">0</span></div></div>Nitro: <span id="zstNt">0</span></div><div>Mercury: <spanid="zstMc">0</span></div><div>Tar:<span id="zstTr">0</span></div><div>Foam: <span id="zstFm">0</span></div><div>Neon:<spanid="zstNn">0</span</div>';
+zW3StatsBox.innerHTML = '<div>Plasma: <span id="zstPl">0</span></div><div>Nitro: <span id="zstNt">0</span></div><div>Mercury: <span id="zstMc">0</span></div><div>Tar: <span id="zstTr">0</span></div><div>Foam: <span id="zstFm">0</span></div><div>Neon: <span id="zstNn">0</span></div>';
 zRP.appendChild(zW3StatsBox);
 
 var zStatTmr = 0;
@@ -3195,11 +3196,11 @@ var zOldStats = updateStats;
 updateStats = function(now){
     zOldStats(now);
     zStatTmr += now - (zStatTmr === 0 ? now - 16 : zStatTmr);
-    if (zStatTmt > 700){
+    if (zStatTmr > 700){
         var zplc = 0, zntc = 0, zmcc = 0, ztrc = 0, zfmc = 0, znnc = 0;
         for (var zsi2 = 0; zsi2 < gGrid.length; zsi2++){
             var zsc = gGrid[zsi2];
-            if(zsc = PLASMA) zplc++;
+            if(zsc === PLASMA) zplc++;
             else if (zsc === NITRO) zntc++;
             else if (zsc === MERCURY) zmcc++;
             else if (zsc === TAR) ztrc++;
@@ -3217,8 +3218,7 @@ updateStats = function(now){
     }
 };
 
-
-}();
+})();
 
 </script>
 </body>
