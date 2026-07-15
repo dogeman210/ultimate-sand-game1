@@ -699,6 +699,7 @@ function runStep() {}
                         }
                     }
                 }
+            }
                 if (tcell === ICE){
                    var icCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
                    for (var ici = 0; ici < icCol.length;ici++){
@@ -718,7 +719,6 @@ function runStep() {}
 
                 }
                 continue;
-
             }  
             if(tcell === PLANT){
                 var plCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
