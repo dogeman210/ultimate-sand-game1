@@ -1095,7 +1095,7 @@ function xRunNewMaterials() {
             if (xtcell === VIRUS){
                 var xdAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
                 for (var xdi = 0; xdi < xdAdj.length; xdi++){
-                    var vxv = xdAdj[xdi][0], xvy = xdAdj[xdi][1];
+                    var xvx = xdAdj[xdi][0], xvy = xdAdj[xdi][1];
                     if (xvx < 0 || xvx >= kW || xvy < 0 || xvy >= kH) continue;
                     var xvnb = gGrid[xvy*kW + xvx];
                     if (xvnb !== EMPTY && xvnb !== WALL && xvnb !== VOID && xvnb !== VIRUS && qRand() <0.015){
@@ -1119,7 +1119,7 @@ function xRunNewMaterials() {
                     gUpdated[xtidx] = 1;
                     continue;
                 }
-                var xeAdj = [[xtx-1, xty],[xtx+1,xty],[xtx,xty-1],[xtx+1]];
+                var xeAdj = [[xtx-1, xty],[xtx+1,xty],[xtx,xty-1],[xtx, xty+1]];
                 for (var xei = 0; xei < xeAdj.length; xei++){
                     var xex = xeAdj[xei][0], xey = xeAdj[xei][1];
                     if(xex < 0 || xex >= kW ||xey < 0||xey >= kH) continue;
@@ -1127,7 +1127,7 @@ function xRunNewMaterials() {
                     if(isBurnable(xenb)&&qRand()<0.12){
                         gGrid[xey*kW+xex] = SMOKE;
                         gLife[xey*kW+xex] = 60 + qRandInt(40);
-                        qUpdated[xey*kW+xex] = 1;
+                        gUpdated[xey*kW+xex] = 1;
                     }
                 }
                 if (qRand()<0.25){
@@ -1423,7 +1423,7 @@ if(xtcell === HONEY){
         }
     }
     var xhAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
-    for (xhni = 0; xhni < xhAdj.length; xhni++){
+    for (var xhni = 0; xhni < xhAdj.length; xhni++){
         var xhnx = xhAdj[xhni][0], xhny = xhAdj[xhni][1];
         if (xhnx < 0 || xhnx >= kW||xhny<0||xhny >=kH)continue;
         var xhnnb = gGrid [xhny*kW + xhnx];
@@ -1674,7 +1674,7 @@ for (var xnci2 = 0; xnci2 < xNewCatOrder.length; xnci2++){
 var xRightPanel = document.getElementById('rightPanel')
 
 var xPresetsHdr = document.createElement('h3');
-xPresetsHdr.text.Content = 'More Presets';
+xPresetsHdr.textContent = 'More Presets';
 xRightPanel.appendChild(xPresetsHdr);
 
 var xPresetCrystalCave = document.createElement('button');
@@ -1866,7 +1866,7 @@ xPresetCementCity.addEventListener('click',function(){
             }
         }
     }
-    for (var xw3 = 30; xwx3 < 60; xwx3++){
+    for (var xwx3 = 30; xwx3 < 60; xwx3++){
         for (var xwy7 = 5;xwy7<15;xwy7++){
             if(Math.random()<0.4)gSet(xwx3,xwy7,WATER);
         }
@@ -1966,7 +1966,7 @@ xRainBtn.addEventListener('click',function(){
     if(xRaining){
         xRainInterval = setInterval(function(){
             var xrncount = 4 + Math.floor(Math.random()*4);
-            for (var xmi = 0; xrni < xrncount; xrni++){
+            for (var xrni = 0; xrni < xrncount; xrni++){
                 var xrnx = Math.floor(Math.random()*kW);
                 if (gGrid[0*kW + xrnx] === EMPTY){
                     gGrid[0*kW + xrnx] = WATER;
@@ -2500,7 +2500,7 @@ function zRunWave3(){
                     var zrsby = zty + gGravDir;
                     var zrsmv = false;
                     if(zrsby >= 0 && zrsby < kH){
-                        var zrsbot = Grid[zrsby*kW + ztx];
+                        var zrsbot = gGrid[zrsby*kW + ztx];
                         if(zrsbot === EMPTY||isGas(zrsbot)){
                             gGrid[zrsby*kW + ztx] = RESIN; gLife[zrsby*kW + ztx] = gLife[ztidx]; zResinSet[zrsby*kW + ztx] = 0;
                             if(isGas(zrsbot)){gGrid[ztidx] = zrsbot;}else{gGrid[ztidx] = EMPTY;}
@@ -2729,7 +2729,7 @@ function zRunWave3(){
                 var zcol = matColorMap[zfc];
                 if(!zcol)continue;
                 var zr = zcol[0],zg = zcol[1], zb = zcol[2];
-                var zvr = gColorVar[zfidx * 3],zvg = gColorVar[zfidx*3 + 1], zbv = gColorVar[zfidx*3 + 2]
+                var zvr = gColorVar[zfidx * 3],zvg = gColorVar[zfidx*3 + 1], zvb = gColorVar[zfidx*3 + 2]
                 if(zfc === PLASMA){
                     var zpp = 0.5 + 0.5 * Math.sin(zNow*0.01 + zfx * 0.4 + zfy * 0.3);
                     var zpl = gLife[zfidx]/120;
@@ -2758,7 +2758,7 @@ function zRunWave3(){
                 zr = clamp255(45 + zvr); zg = clamp255(40 + zvg); zb = clamp255(35 + zvb);
                 } else if(zfc === BRINE){
                     var zbrp = 0.8 + 0.2 * Math.sin(zNow*0.004 + zfx * 0.25); 
-                    zr = clamp255(Math.floor(50*zbrp + zvr)); zg = clamp255(100 + zvg); zb = clamp255(Math.floor(170*zbrp + zbv));
+                    zr = clamp255(Math.floor(50*zbrp + zvr)); zg = clamp255(100 + zvg); zb = clamp255(Math.floor(170*zbrp + zvb));
                     
                 } else if(zfc === RESIN){
                     if(zResinSet[zfidx]) {zr = clamp255(120 + zvr); zg = clamp255(75 + zvg); zb = clamp255(10 + zvb);}
@@ -2819,7 +2819,7 @@ for(var zci2 = 0; zci2 < zCatOrd.length; zci2++){
     if(!zGrp[zncat]||zGrp[zncat].length === 0)continue;
     if(!zExHdrs[zCatNm[zncat].toUpperCase()]){
         var znhdr = document.createElement('div');
-        znhdr.style.cssTest = 'font-size:10px;color:#555;margin:5px 0 2px 0;text-transform:uppercase;letter-spacing:1px;';
+        znhdr.style.cssText = 'font-size:10px;color:#555;margin:5px 0 2px 0;text-transform:uppercase;letter-spacing:1px;';
         znhdr.textContent = zCatNm[zncat];
         zMatList.appendChild(znhdr);
         zExHdrs[zCatNm[zncat].toUpperCase()] = znhdr;
@@ -2878,7 +2878,7 @@ zPresetPlasmaCore.textContent = 'Plasma Core';
 zPresetPlasmaCore.addEventListener('click',function(){
     for (var zii = 0; zii < gGrid.length; zii++){gGrid[zii] = 0; gTemp[zii] = 0; gLife[zii] = 0; zGlueSet[zii] = 0; zResinSet[zii] = 0;}
     var zpcx = Math.floor(kW/2),zpcy = Math.floor(kH/2);
-    for(var zprx = zpcy - 5; zpry <= zpcy + 5; zpry++){
+    for(var zpry = zpcy - 5; zpry <= zpcy + 5; zpry++){
         for(var zprx = zpcx - 5; zprx <= zpcx + 5; zprx++){
             var zprd = (zprx - zpcx)*(zprx - zpcx) + (zpry - zpcy)*(zpry - zpcy);
             if (zprd <= 25 && zprx >= 0 && zprx < kW && zpry >= 0 && zpry < kH){
@@ -2889,7 +2889,7 @@ zPresetPlasmaCore.addEventListener('click',function(){
     for (var zring = 12; zring <= 16; zring++){
         for(var zrry = zpcy - zring; zrry <= zpcy + zring; zrry++){
             for(var zrrx = zpcx - zring; zrrx <= zpcx + zring; zrrx++){
-                var zrrd = (zrrx - zpcx) * (zrrx - zpcx) + (zrry - zpcx) + (zrry - zpcy)*(zrry - zpcy);
+                var zrrd = (zrrx - zpcx) * (zrrx - zpcx) + (zrry - zpcy)*(zrry - zpcy);
                 if(zrrd >= (zring-1)*(zring-1) && zrrd <= zring*zring && zrrx >= 0 && zrrx < kW && zrry >= 0 && zrry<kH) gSet(zrrx,zrry,OBSIDIAN);
             }
         }
