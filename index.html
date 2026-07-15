@@ -711,14 +711,14 @@ function runStep() {
                         }
                     }
                 }
-                if (tcell === ICE){
+                if (tcell === ICE) {
                    var icCol = [[tx-1,ty],[tx+1,ty],[tx,ty-1],[tx,ty+1]];
-                   for (var ici = 0; ici < icCol.length;ici++){
+                   for (var ici = 0; ici < icCol.length; ici++) {
                     var icx = icCol[ici][0], icy = icCol[ici][1];
-                    if (icx < 0||icx >=kW||icy<0||icy>=kH)continue;
+                    if (icx < 0 || icx >= kW || icy < 0||icy >= kH) continue;
                     var icnb = gGrid[icy*kW+icx];
 
-                   }
+    
                    if(icnb===WATER && qRand()<0.05){
                     gGrid[icy*kW+icx] = ICE;
                     gUpdated[icy*kW+icx] = 1;
@@ -1506,16 +1506,19 @@ if(xtcell === RUBBER){
                 gUpdated[xrbpoy*kW + xrbpox] = 1;
                 gUpdated[xrby2*kW + xrbx] = 1;
 
-       
-                    }
+             
                 }
-                continue;
+                
             }
             
         }
+        continue;
     }
-
+            
+        }
+    }
 }
+
 
 
 var xOldRunStepRef = runStep;
