@@ -729,7 +729,7 @@ function runStep() {
                         gGrid[ply*kW+ply]=PLANT;
                         gUpdated[ply*kW+plx] = 1;
                     }
-                    if(icnb === LAVA && qRand()<0.05){
+                    if(plnb === LAVA && qRand()<0.05){
                         gGrid[tidx]=WATER;
                         gUpdated[tidx]=1;
                     }
@@ -1292,16 +1292,12 @@ function xRunNewMaterials() {
                         }
                     }
                     continue;
-                } else if (xwnb === LAVA && qRand() < 0.1){
-                    gGrid[xtidx] = FIRE;
-                    gLife[xtidx] = 60 + qRandInt(60);
-                    gUpdated[xtidx] = 1;
                 }
             }
             continue;
         }
 
-        if(txcell === RUST){
+        if(tcell === RUST){
             var xrAdj = [[xtx-1,xty],[xtx+1,xty],[xtx, xty-1],[xtx,xty+1]];
             for (var xri = 0; xri < xrAdj.length; xri ++){
                 var xrx = xrAdj[xri][0], xry = xrAdj[xri][1];
@@ -2025,9 +2021,9 @@ xSandRainBtn.addEventListener('click',function(){
             var xsrcent = 5 + Math.floor(Math.random()*5);
             for (var xsri = 0; xsri < xsrcent; xsri++){
                 var xrsx = Math.floor(Math.random()*kW);
-                if(gGrid[0*kW+xsrx]===EMPTY){
-                    gGrid[0*kW+xsrx] = SAND;
-                    gLife[0*kW+xsrx] = 0;
+                if(gGrid[0*kW+xrsx]===EMPTY){
+                    gGrid[0*kW+xrsx] = SAND;
+                    gLife[0*kW+xrsx] = 0;
                 }
             }
         },60);
