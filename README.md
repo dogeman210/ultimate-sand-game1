@@ -13,7 +13,6 @@ An interactive, browser-based falling sand physics simulation game. Experience p
 - Logic: JavaScript (Embedded)
 
 ## How to Play Locally
-
 Since this game is built entirely with vanilla web technologies, you do not need to install any external packages.
 
 1. Clone the repository:
@@ -29,8 +28,5 @@ Since this game is built entirely with vanilla web technologies, you do not need
 3. Open the game:
    Open the `index.html` file in any modern web browser (such as Chrome, Firefox, Edge, or Safari) to start playing.
 
-## Contributing
-Contributions, issues, and feature requests are welcome. Feel free to check the repository issues page if you want to contribute.
-
-## License
-This project is open-source. Feel free to use, modify, and share it.
+## Development Process
+Building this game was a wild ride, especially when it came to nailing down the sand physics. At first, the particles were just flying all over the place or getting stuck in weird patterns because of some silly logic and syntax errors in my collision routines. Every time I fixed one bug, the whole simulation seemed to break in a new, creative way! It took tons of tedious debugging to finally get the grid updates running smoothly. After the code was stable, I spent hours manually tweaking the acceleration and friction variables just by trial and error until the sand finally felt completely right and natural when it piles up.
