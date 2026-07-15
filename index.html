@@ -495,7 +495,7 @@ var gRandldx = 0;
 function qRand() { gRandldx = (gRandldx + 1)& 8191; return gRandTable[gRandldx];}
 function qRandInt(n) {return Math.floor(qRand()*n);}
 
-function runStep() {}
+function runStep() {
     gUpdated.fill(0);
     var dir = gGravDir;
     var startY = dir > 0 ? kH - 1 : 0;
@@ -909,6 +909,7 @@ if (Math.abs(gWindX)>0.01||Math.abs(gWindY)>0.01){
 
     }
 }
+}
 
  var gColorVar = new Uint8Array(kW * kH * 3);
  for (var cvi = 0; cvi < kW * kH; cvi++){
@@ -977,7 +978,7 @@ gCtx.putImageData(gImg,0,0);
  }
 
 
- var gFpsArr = [], gLastT = 0, gFrameCount = 0, gFPSTimer = 0;
+ var gFpsArr = [], gLastT = 0, gFrameCount = 0, gFpsTimer = 0;
  var gPartCount = 0, gPartTimer = 0;
  function updateStats(now){
     gFrameCount++;
@@ -986,7 +987,7 @@ gCtx.putImageData(gImg,0,0);
     gFpsTimer += dt;
     if(gFpsTimer >= 500){
         var fps = Math.round(gFrameCount / gFpsTimer * 1000);
-        document.getElementById('stFps').textContent = fps;
+        document.getElementById('stFPS').textContent = fps;
         gFrameCount = 0;
         gFpsTimer = 0;
     }
@@ -1092,7 +1093,7 @@ function xRunNewMaterials() {
             if (xtcell === VIRUS){
                 var xdAdj = [[xtx-1,xty],[xtx+1,xty],[xtx,xty-1],[xtx,xty+1]];
                 for (var xdi = 0; xdi < xdAdj.length; xdi++){
-                    var vxv = xvAdj[xdi][0], xvy = xvAdj[xdi][1];
+                    var vxv = xdAdj[xdi][0], xvy = xdAdj[xdi][1];
                     if (xvx < 0 || xvx >= kW || xvy < 0 || xvy >= kH) continue;
                     var xvnb = gGrid[xvy*kW + xvx];
                     if (xvnb !== EMPTY && xvnb !== WALL && xvnb !== VOID && xvnb !== VIRUS && qRand() <0.015){
@@ -1158,7 +1159,7 @@ function xRunNewMaterials() {
                     var xspnx = xtx + xspdirs[xspsi],xspny = xspup;
                     if (xspnx < 0 || xspnx >= kW || xspny < 0||xspny >= kH)continue;
                     if(gGrid[xspny*kW+xspnx]===EMPTY && qRand()<0.6){
-                        gGrid[xspny*kW+xspnx]===SPORE;
+                        gGrid[xspny*kW+xspnx]=SPORE;
                         gLife[xspny*kW+xspnx] = gLife[xtidx];
                         gGrid[xtidx] = EMPTY
                         gUpdated[xspny*kW+xspnx] = 1;
@@ -1170,12 +1171,12 @@ function xRunNewMaterials() {
                     var xsplat = qRand() < 0.5 ? -1 : 1;
                     for (var xspli = 0; xspli < 2 && !xspmoved; xspli++,xsplat = -xsplat){
                         var xspin = xtx + xsplat;
-                        if (xspln < 0 || xspln >= kW) continue;
-                        if(gGrid[xty*kW + xspln]===EMPTY){
-                            gGrid[xty*kW+xspln] = SPORE;
-                            gLife[xty*kW + xspln] = gLife[xtidx];
+                        if (xspin < 0 || xspin >= kW) continue;
+                        if(gGrid[xty*kW + xspin]===EMPTY){
+                            gGrid[xty*kW+xspin] = SPORE;
+                            gLife[xty*kW + xspin] = gLife[xtidx];
                             gGrid[xtidx] = EMPTY
-                            gUpdated[xty*kW+xspln] = 1;
+                            gUpdated[xty*kW+xspin] = 1;
                             gUpdated[xtidx] = 1;
                             xspmoved = true;
                         }
@@ -1426,7 +1427,7 @@ if(xtcell === HONEY){
         var xhnnb = gGrid [xhny*kW + xhnx];
         if (xhnnb == FIRE && qRand()< 0.04){
             gGrid[xtidx] = FIRE;
-            gLife[xtidx] =50 + RandInt(50);
+            gLife[xtidx] =50 + qRandInt(50);
             gUpdated[xtidx] =1;
         }
     }
@@ -1790,7 +1791,7 @@ xPresetVirusLab.addEventListener('click',function(){
 });
 xRightPanel.appendChild(xPresetVirusLab);
 
-var xPresetFungaiForest = document.createElement('button');
+var xPresetFungalForest = document.createElement('button');
 xPresetFungalForest.className = 'ctrlBtn';
 xPresetFungalForest.textContent = 'Fungal Forest';
 xPresetFungalForest.addEventListener('click', function(){
@@ -1820,8 +1821,8 @@ xRightPanel.appendChild(xPresetFungalForest);
 
 var xPresetMagnetField = document.createElement('button');
 xPresetMagnetField.className = 'ctrlBtn';
-xPresetMagentField.textContent = 'Magnet Field';
-xPresetMagentField.addEventListener('click',function(){
+xPresetMagnetField.textContent = 'Magnet Field';
+xPresetMagnetField.addEventListener('click',function(){
     for(var xii = 0; xii < gGrid.length; xii++) {gGrid[xii] = 0;gTemp[xii] = 0;gLife[xii] = 0;xCementSet[xii]=0;}
 var xmcx = Math.floor(kW/2);
 var xmcy = Math.floor(kH/2);
@@ -1872,7 +1873,7 @@ xPresetCementCity.addEventListener('click',function(){
         if(Math.random()<0.5)gSet(xfx3,5,FIRE);
     }
 });
-xRightPanel.appendChild(xPresetEmberStorm);
+xRightPanel.appendChild(xPresetCementCity);
 
 var xExtrasHdr = document.createElement('h3');
 xExtrasHdr.textContent = 'Extra Controls';
@@ -2046,7 +2047,7 @@ xSporeBtn.addEventListener('click',function(){
     for( var xsbi = 0; xsbi < 30; xsbi++){
         var xsbx = xsbcx + Math.floor((Math.random()-0.5)*40);
         var xsby = xsbcy + Math.floor((Math.random()-0.5)*40);
-        if (xbsx >= 0 && xsbx < kW && xsby >= 0 && xsby < kH && gGrid[xsby*kW+xsbx]===EMPTY){
+        if (xsbx >= 0 && xsbx < kW && xsby >= 0 && xsby < kH && gGrid[xsby*kW+xsbx]===EMPTY){
             gGrid[xsby*kW+xsbx] = SPORE;
             gLife[xsby*kW+xsbx] = 120 + Math.floor(Math.random()*80);
         }
@@ -2094,7 +2095,7 @@ xBombBtn.addEventListener('click',function(){
         }
     }
 });
-xRightPanel.appendChild(xClearNewBtn);
+xRightPanel.appendChild(xBombBtn);
 
 var xSepLine = document.createElement('hr');
 xSepLine.className = 'sepLine';
@@ -2245,7 +2246,7 @@ function zRunWave3(){
                     if(znx < 0|| znx >= kW||zny < 0||zny >= kH)continue;
                     if(gGrid[zny*kW + znx] === EMPTY && qRand()<0.55){
                         gGrid[zny*kW+znx] = NEONGAS; gLife[zny*kW + znx] = gLife[ztidx];
-                        gGrid[ztidx] = EMPTY; gUpdated[zny*kW + znx] =1; gUpdayed[ztidx] = 1; znmv = true;
+                        gGrid[ztidx] = EMPTY; gUpdated[zny*kW + znx] =1; gUpdated[ztidx] = 1; znmv = true;
                     }
                 }
                 var znfA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
@@ -2258,7 +2259,7 @@ function zRunWave3(){
                                 gGrid[znby*kW + znbx] = PLASMA; gLife[znby*kW + znbx] = 40 + qRandInt(40); gUpdated[znby*kW + znbx] = 1;
                             }
                         }
-                        gGrid[ztidx] = PLASMA; gLifr[ztidx] = 60 + qRandInt(40); gUpdated[ztidx] = 1; breal;
+                        gGrid[ztidx] = PLASMA; gLife[ztidx] = 60 + qRandInt(40); gUpdated[ztidx] = 1; break;
                     }
                 }
                 continue;
@@ -2624,7 +2625,7 @@ function zRunWave3(){
 
                 if(ztc === NITRO) {
                     var zntA = [[ztx-1,zty],[ztx+1,zty],[ztx,zty-1],[ztx,zty+1]];
-                    for(var znti = 0; znti < antA.length; znti++){
+                    for(var znti = 0; znti < zntA.length; znti++){
                         var zntx = zntA[znti][0],znty = zntA[znti][1];
                         if(zntx < 0 || zntx >= kW || znty < 0 || znty >= kH)continue;
                         var zntnb = gGrid[znty*kW + zntx];
@@ -2783,7 +2784,7 @@ function zRunWave3(){
                 gPix[zfp] = zr;gPix[zfp+1] = zg;gPix[zfp+2] = zb; gPix[zfp+3] = 255;
         }
     }
-    gCtx.putImagrData(gImg,0,0);
+    gCtx.putImageData(gImg,0,0);
 };
 
 var zOldPutParticle = putParticle;
@@ -2800,7 +2801,7 @@ putParticle = function(x,y,t){
 };
 
 var zMatList = document.getElementById('matList');
-var zCarOrd = ['special','powder','liquid','solid','gas','energy'];
+var zCatOrd = ['special','powder','liquid','solid','gas','energy'];
 var zCatNm = {special: 'Special',powder:'Powders',liquid:'Liquids',solid:'Solids',gas:'Gases',energy:'Energy'};
 var zGrp = {};
 for (var zci = 0; zci < zCatOrd.length; zci++)zGrp[zCatOrd[zci]] = [];
