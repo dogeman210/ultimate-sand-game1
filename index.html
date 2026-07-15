@@ -2522,7 +2522,7 @@ function zRunWave3(){
                         var ztanb = gGrid[ztay*kW + ztax];
                         if(ztanb === FIRE && qRand() < 0.09){gGrid[ztidx] = FIRE; gLife[ztidx] = 120 + qRandInt(80);gUpdated[ztidx] = 1; break;}
                         else if (ztanb === LAVA && qRand()< 0.12){gGrid[ztidx] = FIRE; gLife[ztidx] = 150 + qRandInt(80); gUpdated[ztidx] = 1; break;}
-                        else if (isPowder(ztanb) && qRand() < 0.003){gGrid[ztay*kW + ztax] = TAR; gUpdated[ztay*kW + ztay] = 1;}
+                        else if (isPowder(ztanb) && qRand() < 0.003){gGrid[ztay*kW + ztax] = TAR; gUpdated[ztay*kW + ztax] = 1;}
                     }
                     if(gUpdated[ztidx])continue;
                     var ztaby = zty + gGravDir;
@@ -3173,7 +3173,6 @@ zClearW3Btn.addEventListener('click',function(){
 });
 zRP.appendChild(zClearW3Btn);
 
-(function(){
 var zSep4 = document.createElement('hr');
 zSep4.className = 'sepLine';
 zRP.appendChild(zSep4);
